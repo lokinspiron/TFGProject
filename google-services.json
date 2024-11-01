@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "811126392247",
+    "firebase_url": "https://trackly-3c2d7-default-rtdb.firebaseio.com",
+    "project_id": "trackly-3c2d7",
+    "storage_bucket": "trackly-3c2d7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811126392247:android:ce6fbc944737324f71d432",
+        "android_client_info": {
+          "package_name": "com.example.tfgproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUPFxFGR7MhIVGi9RdTDn2WlfNY1speOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
