@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.tfgproject"
-    compileSdk = 33
+    namespace = "com.inventory.tfgproject"
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.tfgproject"
+        applicationId = "com.inventory.tfgproject"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -34,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -41,11 +44,19 @@ dependencies {
     //Fire Base
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-analytics")
-    //Fire Base
+    //Lottie
+    val lottieVersion = "6.0.0"
+    implementation("com.airbnb.android:lottie-compose:$lottieVersion")
+    //Timber
+    implementation ("com.jakewharton.timber:timber:5.0.1")
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
+    implementation("androidx.compose.animation:animation-core-android:1.7.5")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")

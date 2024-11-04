@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:811126392247:android:ce6fbc944737324f71d432",
+        "mobilesdk_app_id": "1:811126392247:android:85efc62dff870f7d71d432",
         "android_client_info": {
-          "package_name": "com.example.tfgproject"
+          "package_name": "com.inventory.tfgproject"
         }
       },
       "oauth_client": [],
