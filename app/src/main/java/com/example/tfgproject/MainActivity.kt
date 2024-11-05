@@ -19,17 +19,11 @@ class MainActivity : AppCompatActivity() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main)
 
-        val animacion1: Animation = AnimationUtils.loadAnimation(this, R.anim.desplazamiento_arriba)
-        val animacion2: Animation = AnimationUtils.loadAnimation(this, R.anim.desplazamiento_abajo)
-
         val dstockTextView: TextView = findViewById(R.id.txtNombre)
         val logoImageView: ImageView = findViewById(R.id.imgLogo)
 
-        dstockTextView.animation = animacion2
-        logoImageView.animation = animacion1
-
-        dstockTextView.setAnimation(animacion2);
-        logoImageView.setAnimation(animacion1);
+        AnimationUtil.UpAnimation(this, logoImageView, R.anim.desplazamiento_arriba)
+        AnimationUtil.DownAnimation(this, dstockTextView, R.anim.desplazamiento_abajo)
 
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this,LoginActivity::class.java)
