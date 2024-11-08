@@ -1,9 +1,6 @@
 <resources>
-    <string name="app_name">TFGProject</string>
+    <string name="app_name">DStock</string>
     <string name="title_activity_login">LoginActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -45,4 +42,9 @@
     </string>
     <string name="email" font="@font/convergence">Email</string>
     <string name="password" font="@font/convergence">Contraseña</string>
+    <string name="surname" font="@font/convergence">Apellido</string>
+    <string name="name" font="@font/convergence">Nombre</string>
+    <string name="phone" font="@font/convergence">Movil</string>
+    <string name="address" font="@font/convergence">Dirección</string>
+    <string name="birthday" font="@font/convergence">Fecha de nacimiento</string>
 </resources>

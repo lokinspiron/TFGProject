@@ -19,20 +19,17 @@
         app:srcCompat="@drawable/logo_dstock" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bkgIniciarSesion"
-        android:layout_constraintVertical_bias="1"
+        android:id="@+id/bkgLogin"
         android:layout_width="414dp"
         android:layout_height="623dp"
-        android:layout_marginTop="280dp"
         android:background="@drawable/roundrectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".78"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imgLogo4"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <Button
             android:id="@+id/btnLogin"
@@ -45,11 +42,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtBienvenido"
+            app:layout_constraintTop_toBottomOf="@+id/txtInformation"
             app:layout_constraintVertical_bias="0.578" />
 
         <TextView
-            android:id="@+id/txtBienvenido"
+            android:id="@+id/txtInformation"
             android:layout_width="395dp"
             android:layout_height="55dp"
             android:layout_marginTop="32dp"
@@ -78,7 +75,7 @@
             android:paddingEnd="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtBienvenido" />
+            app:layout_constraintTop_toBottomOf="@+id/txtInformation" />
 
         <EditText
             android:id="@+id/edtPassword"
@@ -88,11 +85,12 @@
             android:background="@drawable/custom_input"
             android:drawableStart="@drawable/ic_lock"
             android:drawablePadding="12dp"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:hint="@string/password"
+            android:password="true"
             app:layout_constraintBottom_toTopOf="@+id/btnLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
@@ -119,11 +117,14 @@
             android:layout_width="70dp"
             android:layout_height="58dp"
             android:src="@drawable/circle"
-            tools:layout_editor_absoluteX="172dp"
-            tools:layout_editor_absoluteY="518dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtO"
+            app:layout_constraintVertical_bias="0.389" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imgGoogle"
             android:layout_width="50dp"
             android:layout_height="72dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -144,7 +145,6 @@
         android:text="DStock"
         android:textAlignment="center"
         android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/bkgBienvenido"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imgLogo4"
