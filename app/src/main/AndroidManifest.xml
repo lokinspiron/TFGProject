@@ -13,7 +13,10 @@
         android:theme="@style/Theme.TFGProject"
         tools:targetApi="31">
         <activity
-            android:name="com.example.tfgproject.RegisterScreen2"
+            android:name="com.example.tfgproject.view.RegisterLoadingScreen"
+            android:exported="false" />
+        <activity
+            android:name="com.example.tfgproject.RegisterScreenInfo"
             android:exported="false" />
         <activity
             android:name="com.example.tfgproject.RegisterScreen"
@@ -22,12 +25,12 @@
             android:name="com.example.tfgproject.LoginScreen"
             android:exported="false" />
         <activity
-            android:name="com.example.tfgproject.LoginActivity"
+            android:name="com.example.tfgproject.view.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.TFGProject" />
         <activity
-            android:name="com.example.tfgproject.MainActivity"
+            android:name="com.example.tfgproject.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

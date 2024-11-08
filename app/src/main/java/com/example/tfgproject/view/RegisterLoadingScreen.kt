@@ -1,12 +1,14 @@
-package com.example.tfgproject
+package com.example.tfgproject.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.inventory.tfgproject.R
 
-class RegisterScreen2 : AppCompatActivity() {
+class RegisterLoadingScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register_screen2)
+        setContentView(R.layout.activity_register_loading_screen)
     }
+
+
 }

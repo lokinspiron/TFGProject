@@ -39,6 +39,7 @@ android {
     }
 }
 
+
 dependencies {
 
     //Fire Base
@@ -49,6 +50,12 @@ dependencies {
     implementation("com.airbnb.android:lottie-compose:$lottieVersion")
     //Timber
     implementation ("com.jakewharton.timber:timber:5.0.1")
+    //Fragment
+    implementation("androidx.fragment:fragment-ktx:1.8.5")
+    //Activity
+    implementation("androidx.activity:activity-ktx:1.9.3")
+    //ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
