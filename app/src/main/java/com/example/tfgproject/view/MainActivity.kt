@@ -11,6 +11,7 @@ import android.os.Handler
 import android.os.Looper
 import com.airbnb.lottie.BuildConfig
 import com.example.tfgproject.AnimationUtil
+import com.inventory.tfgproject.databinding.ActivityMainBinding
 import timber.log.Timber
 
 

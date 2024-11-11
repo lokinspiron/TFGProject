@@ -45,6 +45,9 @@ dependencies {
     //Fire Base
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.1")
     //Lottie
     val lottieVersion = "6.0.0"
     implementation("com.airbnb.android:lottie-compose:$lottieVersion")
@@ -56,6 +59,8 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.3")
     //ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    //LiveData
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0")

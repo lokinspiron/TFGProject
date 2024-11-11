@@ -12,8 +12,10 @@ import com.example.tfgproject.AnimationUtil
 import com.example.tfgproject.LoginScreen
 import com.example.tfgproject.RegisterScreen
 import com.inventory.tfgproject.R
+import com.inventory.tfgproject.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -21,19 +23,17 @@ class LoginActivity : AppCompatActivity() {
         val backLayout: ConstraintLayout = findViewById(R.id.bkgBienvenido)
         AnimationUtil.UpAnimation(this, backLayout, R.anim.desplazamiento_arriba)
 
-        val btnLogin = findViewById<Button>(R.id.btnLogin)
-        btnLogin.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, LoginScreen::class.java))
         }
 
-        val txtRegistrate2 = findViewById<TextView>(R.id.txtRegistrate2)
-        txtRegistrate2.setOnClickListener {
+
+        binding.txtRegistrate2.setOnClickListener {
             startActivity(Intent(this, RegisterScreen::class.java))
         }
-        val rSpannableString = SpannableString(txtRegistrate2.text)
+        val rSpannableString = SpannableString(binding.txtRegistrate2.text)
         rSpannableString.setSpan(UnderlineSpan(),0,rSpannableString.length,0)
-        txtRegistrate2.text = rSpannableString
-
+        binding.txtRegistrate2.text = rSpannableString
 
     }
 }
