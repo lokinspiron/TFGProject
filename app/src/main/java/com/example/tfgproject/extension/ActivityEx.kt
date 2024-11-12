@@ -1,10 +1,12 @@
-package com.example.tfgproject
+package com.example.tfgproject.extension
 
 import android.app.Activity
 import android.content.Context
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.inventory.tfgproject.R
 
 
 fun Activity.toast(text: String,length: Int = Toast.LENGTH_SHORT){
@@ -15,13 +17,23 @@ fun Activity.span(unselectedPart: String, selectedPart: String): SpannableString
     val context: Context = this
     val completedText = SpannableStringBuilder("$unselectedPart $selectedPart")
 
-    completedText.apply{
+    val start = unselectedPart.length + 1
+    val end = start + selectedPart.length
+
+    completedText.apply {
         setSpan(
             android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
-            0,
-            unselectedPart.length,
-            (unselectedPart + selectedPart).length,
+            start,
+            end,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        setSpan(
+            android.text.style.ForegroundColorSpan(ContextCompat.getColor(context, R.color.white)),
+            start,
+            end,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
     }
+    return completedText
 }

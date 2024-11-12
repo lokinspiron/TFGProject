@@ -11,14 +11,16 @@ import javax.inject.Inject
 class FirebaseAuthClient() {
     private val auth = FirebaseAuth.getInstance()
 
-    fun loginUser(email:String,password:String){
+    fun loginUser(email:String,password:String,callback: (Boolean) -> Unit){
         auth.signInWithEmailAndPassword(email,password)
             .addOnCompleteListener{ task ->
                 if(task.isSuccessful) {
                     val user = auth.currentUser
                     Timber.tag("Login").d("Login correcto: %s", user?.email)
+                    callback(true)
                 }else {
                     Timber.tag("Login").d ("Error: ${task.exception?.message}")
+                    callback(false)
                 }
 
             }

@@ -31,6 +31,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
+
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="307dp"
@@ -47,62 +48,18 @@
 
         <TextView
             android:id="@+id/txtInformation"
-            android:layout_width="395dp"
+            android:layout_width="390dp"
             android:layout_height="55dp"
             android:layout_marginTop="32dp"
             android:fontFamily="@font/convergence"
             android:text="Iniciar Sesión"
             android:textAlignment="center"
             android:textColor="@color/backgroundColor2"
-            android:textSize="48sp"
+            android:textSize="45sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.64"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/edtEmail"
-            android:layout_width="306dp"
-            android:layout_height="57dp"
-            android:layout_marginTop="44dp"
-            android:background="@drawable/custom_input"
-            android:drawableStart="@drawable/ic_email"
-            android:drawablePadding="12dp"
-            android:ems="10"
-            android:fontFamily="@font/convergence"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textColor="@color/letters"
-            android:textColorHint="@color/letters"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtInformation" />
-
-        <EditText
-            android:id="@+id/edtPassword"
-            android:layout_width="306dp"
-            android:layout_height="57dp"
-            android:layout_marginTop="52dp"
-            android:background="@drawable/custom_input"
-            android:drawableStart="@drawable/ic_lock"
-            android:drawablePadding="12dp"
-            android:ems="10"
-            android:fontFamily="@font/convergence"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:password="true"
-            android:textColor="@color/letters"
-            android:textColorHint="@color/letters"
-            app:layout_constraintBottom_toTopOf="@+id/btnLogin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtEmail"
-            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/txtO"
@@ -139,6 +96,73 @@
             app:layout_constraintTop_toBottomOf="@+id/txtO"
             app:layout_constraintVertical_bias="0.365"
             app:srcCompat="@drawable/logo_google" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edtEmails"
+            android:theme="@style/TextInputLayoutStyle"
+            android:layout_width="368dp"
+            android:layout_height="66dp"
+            android:hint="@string/email"
+            android:textColorHint="@color/backgroundColor3"
+            app:boxBackgroundColor="@color/backgroundColor1"
+            app:boxStrokeColor="@color/buttons"
+            app:boxStrokeWidthFocused="4dp"
+            app:hintTextColor="@color/buttons"
+            app:layout_constraintBottom_toTopOf="@+id/edtPasswords"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInformation"
+            app:layout_constraintVertical_bias="0.567"
+            app:startIconDrawable="@drawable/ic_email"
+            app:startIconTint="@color/backgroundColor3">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/convergence"
+                android:inputType="text|textEmailAddress"
+                android:paddingStart="48dp"
+                android:shadowColor="@color/color_Focused"
+                android:textColor="@color/color_Focused"
+                android:textColorHighlight="@color/buttons"
+                android:textColorHint="@color/buttons"
+                android:textColorLink="@color/color_Focused"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edtPasswords"
+            android:layout_width="368dp"
+            android:layout_height="66dp"
+            android:hint="@string/password"
+            android:textColorHint="@color/backgroundColor3"
+            app:boxBackgroundColor="@color/backgroundColor1"
+            app:boxStrokeColor="@color/buttons"
+            app:cursorColor="@color/color_Focused"
+            app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInformation"
+            app:layout_constraintVertical_bias="0.663"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:startIconTint="@color/backgroundColor3">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/convergence"
+                android:paddingStart="48dp"
+                android:password="true"
+                android:shadowColor="@color/backgroundColor1"
+                android:textColor="@color/backgroundColor3"
+                android:textColorHighlight="@color/buttons"
+                android:textColorHint="@color/backgroundColor3"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -16,12 +16,6 @@ class RegisterScreen : AppCompatActivity() {
         binding = ActivityRegisterScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnContinue.setOnClickListener {
-            startActivity(Intent(this,RegisterScreenInfo::class.java))
-        }
+        binding.btnContinue.setOnClickListener { startActivity(Intent(this,RegisterScreenInfo::class.java)) }
     }
-
-
-
-
 }
