@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor2"
-    tools:context="com.example.tfgproject.LoginScreen">
+    tools:context="com.example.tfgproject.view.LoginScreen">
 
     <ImageView
         android:id="@+id/imgLogo4"
@@ -21,7 +21,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bkgLogin"
         android:layout_width="414dp"
-        android:layout_height="623dp"
+        android:layout_height="0dp"
         android:background="@drawable/roundrectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,14 +99,14 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edtEmails"
-            android:theme="@style/TextInputLayoutStyle"
             android:layout_width="368dp"
             android:layout_height="66dp"
             android:hint="@string/email"
             android:textColorHint="@color/backgroundColor3"
-            app:boxBackgroundColor="@color/backgroundColor1"
-            app:boxStrokeColor="@color/buttons"
+            android:theme="@style/TextInputLayoutStyle"
+            app:boxStrokeColor="@color/backgroundColor2"
             app:boxStrokeWidthFocused="4dp"
+            app:counterTextColor="@color/color_Focused"
             app:hintTextColor="@color/buttons"
             app:layout_constraintBottom_toTopOf="@+id/edtPasswords"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,6 +140,7 @@
             android:textColorHint="@color/backgroundColor3"
             app:boxBackgroundColor="@color/backgroundColor1"
             app:boxStrokeColor="@color/buttons"
+            app:counterTextColor="@color/color_Focused"
             app:cursorColor="@color/color_Focused"
             app:layout_constraintBottom_toTopOf="@+id/btnLogin"
             app:layout_constraintEnd_toEndOf="parent"

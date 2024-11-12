@@ -22,7 +22,7 @@
             android:name="com.example.tfgproject.RegisterScreen"
             android:exported="false" />
         <activity
-            android:name="com.example.tfgproject.LoginScreen"
+            android:name="com.example.tfgproject.view.LoginScreen"
             android:exported="false" />
         <activity
             android:name="com.example.tfgproject.view.LoginActivity"

@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxStrokeColor">#AD6FFF</item>
-        <item name="boxStrokeWidth">3dp</item>
+    <style name="Theme.DStock" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/backgroundColor1</item>
+        <item name="colorPrimaryVariant">@color/backgroundColor2</item>
+        <item name="colorOnPrimary">@color/backgroundColor3</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/color_Focused</item>
+
+    </style>
+    <style name="FormTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:gravity">center_vertical</item>
+        <item name="errorEnabled">true</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+
     </style>
 </resources>

@@ -50,4 +50,12 @@
     <string name="phone" font="@font/convergence">Movil</string>
     <string name="address" font="@font/convergence">Dirección</string>
     <string name="birthday" font="@font/convergence">Fecha de nacimiento</string>
+
+    <string name="signin_form_email">El email no es válido</string>
+    <string name="signin_error_realname">Debe contener al menos 6 caracteres</string>
+    <string name="signin_form_password">Las 2 contraseñas deben ser iguales</string>
+    <string name="signin_error_dialog_body">No hemos podido crear tu cuenta, intentálo de nuevo más tarde</string>
+
+    <string name="verification_check_email">Para acceder a la aplicación verifica tu correo electrónico(recuerda mirar en SPAM)</string>
+
 </resources>

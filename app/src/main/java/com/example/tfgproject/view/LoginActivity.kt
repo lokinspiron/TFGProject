@@ -6,7 +6,6 @@ import android.content.Intent;
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.tfgproject.AnimationUtil
-import com.example.tfgproject.LoginScreen
 import com.example.tfgproject.RegisterScreen
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ActivityLoginBinding
