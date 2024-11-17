@@ -1,5 +1,6 @@
 package com.example.tfgproject.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
@@ -23,6 +24,7 @@ class LoginScreen : AppCompatActivity() {
         binding = ActivityLoginScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         binding.btnLogin.setOnClickListener {
             val email = binding.edtEmail.text.toString()
             val password = binding.edtPassword.text.toString()
@@ -30,6 +32,7 @@ class LoginScreen : AppCompatActivity() {
             authenticator.loginUser(email,password){isSuccess ->
                 if(isSuccess){
                     toast("Login exitoso", Toast.LENGTH_SHORT)
+                    startActivity(Intent(this,MainMenu::class.java))
                 }else {
                     toast("Error al iniciar sesión", Toast.LENGTH_SHORT)
                 }
@@ -46,10 +49,7 @@ class LoginScreen : AppCompatActivity() {
         binding.edtPassword.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
         binding.edtEmail.onTextChanged { onFieldChanged() }
 
-        binding.btnLogin.setOnClickListener{
-            it.dismissKeyboard()
-            loginViewModel.onLoginSelected(binding.edtEmail.text.toString(), binding.edtPassword.text.toString())
-        }
+
     }
 
     private fun onFieldChanged() {

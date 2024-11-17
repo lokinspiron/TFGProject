@@ -103,7 +103,6 @@
             android:layout_height="66dp"
             android:hint="@string/email"
             android:textColorHint="@color/backgroundColor3"
-            android:theme="@style/TextInputLayoutStyle"
             app:boxStrokeColor="@color/backgroundColor2"
             app:boxStrokeWidthFocused="4dp"
             app:counterTextColor="@color/color_Focused"

@@ -1,9 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.TFGProject" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+      <item name="windowActionBar">false</item>
+      <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.TFGProject" parent="Base.Theme.TFGProject" />
+    <style name="BottomNavigation">
+        <item name="android:background">@color/navigation_color</item>
+        
+    </style>
 </resources>

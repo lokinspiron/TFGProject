@@ -57,5 +57,15 @@
     <string name="signin_error_dialog_body">No hemos podido crear tu cuenta, intentálo de nuevo más tarde</string>
 
     <string name="verification_check_email">Para acceder a la aplicación verifica tu correo electrónico(recuerda mirar en SPAM)</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="navigation_drawer_home">Menú Principal</string>
+    <string name="navigation_drawer_scan">Escaneo</string>
+    <string name="navigation_drawer_settings">Ajustes</string>
+    <string name="navigation_drawer_about">Acerca de nosotros</string>
+    <string name="navigation_drawer_share">Compartir</string>
+    <string name="navigation_drawer_logout">Cerrar sesión</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

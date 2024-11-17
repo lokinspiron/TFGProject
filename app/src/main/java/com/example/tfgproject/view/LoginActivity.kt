@@ -37,8 +37,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initListeners(){
         with(binding){
-            btnLogin.setOnClickListener {loginViewModel.onLoginSelected()}
-            txtRegistrate.setOnClickListener {loginViewModel.onRegisterSelected()}
+
 
 
 

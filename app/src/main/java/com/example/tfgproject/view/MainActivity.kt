@@ -12,16 +12,11 @@ import android.os.Looper
 import com.airbnb.lottie.BuildConfig
 import com.example.tfgproject.AnimationUtil
 import com.inventory.tfgproject.databinding.ActivityMainBinding
-import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if(BuildConfig.DEBUG){
-            Timber.plant(Timber.DebugTree())
-        }
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main)

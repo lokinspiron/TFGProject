@@ -15,6 +15,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -47,11 +48,10 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
+    implementation("androidx.activity:activity:1.8.0")
     //Lottie
     val lottieVersion = "6.0.0"
     implementation("com.airbnb.android:lottie-compose:$lottieVersion")
-    //Timber
-    implementation ("com.jakewharton.timber:timber:5.0.1")
     //Fragment
     implementation("androidx.fragment:fragment-ktx:1.8.5")
     //Activity
