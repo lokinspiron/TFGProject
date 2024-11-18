@@ -41,10 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:backgroundTint="@color/navigation"
-        app:fabAlignmentMode="center"
         app:fabCradleMargin="8dp"
         app:fabCradleRoundedCornerRadius="50dp"
-        app:fabCradleVerticalOffset="6dp">
+        app:fabCradleVerticalOffset="6dp">>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,6 +85,18 @@
                 android:orientation="vertical"
                 android:visibility="visible">
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/desc_floating"
+                    android:src="@drawable/logo_icono"
+                    app:backgroundTint="@color/white"
+                    app:elevation="8dp"
+                    app:maxImageSize="50dp"
+                    app:tint="@null" />
+
                 <ImageView
                     android:id="@+id/imgOption2"
                     android:layout_width="20dp"
@@ -126,20 +137,6 @@
 
         </LinearLayout>
     </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/desc_floating"
-        android:src="@drawable/logo_icono"
-        app:backgroundTint="@color/white"
-        app:elevation="8dp"
-        app:layout_anchor="@id/bottomAppBar"
-        app:layout_anchorGravity="center"
-        app:maxImageSize="50dp"
-        app:tint="@null" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
