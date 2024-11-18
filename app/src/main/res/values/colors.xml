@@ -3,11 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="letters">#484554</color>
-    <color name="buttons">#ff6750a4</color>
+    <color name="buttons_purple">#ff6750a4</color>
     <color name="color_Focused">#AD6FFF</color>
     <color name="backgroundColor1">#312D4A</color>
     <color name="backgroundColor2">#FBF7FF</color>
     <color name="backgroundColor3">#938BB7</color>
 
-    <color name="navigation_color">#D9D9D9</color>
+    <color name="navigation">#D9D9D9</color>
+    <color name="btn_gray">#969392</color>
+
 </resources>

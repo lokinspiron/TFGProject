@@ -66,8 +66,14 @@
     <string name="navigation_drawer_share">Compartir</string>
     <string name="navigation_drawer_logout">Cerrar sesión</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="desc_floating">Descripciçon Floating</string>
+    <string name="desc_floating">Description Floating</string>
     <string name="nav_inventory">Inventario</string>
     <string name="nav_providers">Proveedores</string>
+
+    <string name="btn_add_category">Añadir Categoría</string>
+    <string name="btn_add_subcategory">Añadir Subcategoría</string>
+    <string name="btn_add_provider">Añadir Proveedor</string>
+
+
 
 </resources>

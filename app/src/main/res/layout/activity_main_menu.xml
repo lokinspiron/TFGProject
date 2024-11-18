@@ -1,10 +1,14 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.tfgproject.view.MainMenu">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="857dp" />
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerlt"
@@ -13,15 +17,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="600dp"
             android:orientation="vertical">
 
             <include layout="@layout/activity_menumain_content" />
 
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView
@@ -29,9 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header"
-            app:menu="@menu/nav_menu"
-            android:fitsSystemWindows="true" />
+            app:menu="@menu/nav_menu" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
@@ -40,19 +40,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/navigation_color"
+        android:backgroundTint="@color/navigation"
         app:fabAlignmentMode="center"
+        app:fabCradleMargin="8dp"
         app:fabCradleRoundedCornerRadius="50dp"
-        app:fabCradleVerticalOffset="6dp"
-        app:fabCradleMargin="8dp">
+        app:fabCradleVerticalOffset="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="16dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
@@ -60,19 +61,22 @@
 
                 <ImageView
                     android:id="@+id/imgOption1"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:layout_marginStart="4dp"
                     app:srcCompat="@drawable/ic_inventory" />
 
                 <TextView
                     android:id="@+id/txtOption1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/nav_inventory"
                     android:fontFamily="@font/convergence"
-                    android:textAlignment="center" />
+                    android:text="@string/nav_inventory"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -87,31 +91,13 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                     />
+                    android:layout_marginTop="8dp" />
 
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <ImageView
-                    android:id="@+id/imgOption3"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                     />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="45dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
@@ -119,19 +105,22 @@
 
                 <ImageView
                     android:id="@+id/imgOption4"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+
                     app:srcCompat="@drawable/ic_providers" />
 
                 <TextView
                     android:id="@+id/txtOption4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/nav_providers"
                     android:fontFamily="@font/convergence"
-                    android:textAlignment="center" />
+                    android:text="@string/nav_providers"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
 
@@ -144,12 +133,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/desc_floating"
+        android:src="@drawable/logo_icono"
+        app:backgroundTint="@color/white"
+        app:elevation="8dp"
         app:layout_anchor="@id/bottomAppBar"
         app:layout_anchorGravity="center"
-        app:backgroundTint="@color/white"
-        android:src="@drawable/logo_icono"
         app:maxImageSize="50dp"
-        app:elevation="8dp"
         app:tint="@null" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

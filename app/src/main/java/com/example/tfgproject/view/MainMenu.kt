@@ -20,8 +20,6 @@ class MainMenu : AppCompatActivity(),NavigationView.OnNavigationItemSelectedList
     private lateinit var binding:ActivityMainMenuBinding
     private lateinit var toggle: ActionBarDrawerToggle
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
