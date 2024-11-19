@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/backgroundColor2"
-    tools:context="com.example.tfgproject.RegisterScreen">
+    tools:context="com.inventory.tfgproject.RegisterScreen">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bkgLogin"

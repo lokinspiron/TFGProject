@@ -13,28 +13,28 @@
         android:theme="@style/Theme.TFGProject"
         tools:targetApi="31">
         <activity
-            android:name="com.example.tfgproject.view.MainMenu"
+            android:name="com.inventory.tfgproject.view.MainMenu"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/AppTheme"/>
         <activity
-            android:name="com.example.tfgproject.view.RegisterLoadingScreen"
+            android:name="com.inventory.tfgproject.view.RegisterLoadingScreen"
             android:exported="false" />
         <activity
-            android:name="com.example.tfgproject.RegisterScreenInfo"
+            android:name="com.inventory.tfgproject.RegisterScreenInfo"
             android:exported="false" />
         <activity
-            android:name="com.example.tfgproject.RegisterScreen"
+            android:name="com.inventory.tfgproject.RegisterScreen"
             android:exported="false" />
         <activity
-            android:name="com.example.tfgproject.view.LoginScreen"
+            android:name="com.inventory.tfgproject.view.LoginScreen"
             android:exported="false" />
         <activity
-            android:name="com.example.tfgproject.view.LoginActivity"
+            android:name="com.inventory.tfgproject.view.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.TFGProject" />
         <activity
-            android:name="com.example.tfgproject.view.MainActivity"
+            android:name="com.inventory.tfgproject.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

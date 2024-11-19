@@ -73,7 +73,9 @@
     <string name="btn_add_category">Añadir Categoría</string>
     <string name="btn_add_subcategory">Añadir Subcategoría</string>
     <string name="btn_add_provider">Añadir Proveedor</string>
+    <string name="flbtn_add_product">Añadir Producto</string>
 
+    <string name="text_empty_state">Estado Vacío</string>
 
 
 </resources>

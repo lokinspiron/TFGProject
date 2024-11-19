@@ -6,25 +6,27 @@
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:background="@color/backgroundColor1">
+
         <ImageButton
             android:id="@+id/btnDrawerToggle"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:contentDescription="@string/navigation_drawer_open"
-            android:src="@drawable/ic_menu"
             android:background="@android:color/transparent"
-            android:padding="2dp" />
+            android:contentDescription="@string/navigation_drawer_open"
+            android:padding="2dp"
+            android:src="@drawable/ic_menu" />
 
         <TextView
             android:id="@+id/txtWave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
             android:fontFamily="@font/convergence"
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="@color/backgroundColor2"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
     </androidx.appcompat.widget.Toolbar>
 </LinearLayout>

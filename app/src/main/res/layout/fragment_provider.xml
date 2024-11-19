@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbrMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/backgroundColor1">
@@ -26,11 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="130dp"
             android:fontFamily="@font/convergence"
-            android:paddingRight="95dp"
+            android:paddingEnd="95dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="@color/backgroundColor2"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="RtlSymmetry" />
 
         <ImageView
             android:layout_width="48dp"
@@ -43,7 +46,8 @@
     </androidx.appcompat.widget.Toolbar>
 
     <Button
-        android:id="@+id/btnAddCategory"
+        android:id="@+id/btnAddProvider"
+
         android:layout_width="361dp"
         android:layout_height="64dp"
         android:layout_marginStart="10dp"
@@ -52,52 +56,9 @@
         android:background="@null"
         android:backgroundTint="@color/navigation"
         android:fontFamily="@font/convergence"
-        android:text="@string/btn_add_category"
+        android:text="@string/btn_add_provider"
         android:textColor="@color/letters"
         android:textSize="35sp"
         app:cornerRadius="0dp" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabEditProducts"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="495dp"
-        android:layout_marginEnd="20dp"
-        android:clickable="true"
-        android:layout_gravity="bottom|end"
-        android:contentDescription="@string/flbtn_add_product"
-        android:focusable="true"
-        android:backgroundTint="@color/navigation"
-        android:visibility="invisible"
-        app:fabCustomSize="55dp"
-        app:srcCompat="@drawable/ic_edit" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddProducts"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:clickable="true"
-        android:layout_gravity="bottom|end"
-        android:contentDescription="@string/flbtn_add_product"
-        android:focusable="true"
-        android:backgroundTint="@color/navigation"
-        android:visibility="invisible"
-        app:fabCustomSize="55dp"
-        app:srcCompat="@drawable/ic_add" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabProducts"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="15dp"
-        android:clickable="true"
-        android:contentDescription="@string/flbtn_add_product"
-        android:focusable="true"
-        app:fabCustomSize="65dp"
-        app:srcCompat="@drawable/ic_option_tools" />
 </LinearLayout>
-
