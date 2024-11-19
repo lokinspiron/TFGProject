@@ -61,7 +61,7 @@
         android:id="@+id/fabEditProducts"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_marginTop="495dp"
+        android:layout_marginTop="465dp"
         android:layout_marginEnd="20dp"
         android:clickable="true"
         android:layout_gravity="bottom|end"
@@ -99,5 +99,7 @@
         android:focusable="true"
         app:fabCustomSize="65dp"
         app:srcCompat="@drawable/ic_option_tools" />
+
+    <include layout="@layout/activity_menu_footer"/>
 </LinearLayout>
 

@@ -61,4 +61,6 @@
         android:textSize="35sp"
         app:cornerRadius="0dp" />
 
+    <include layout="@layout/activity_menu_footer"/>
+
 </LinearLayout>
