@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_weight="2">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/babMenu"
@@ -15,13 +14,7 @@
         app:fabAlignmentMode="center"
         app:fabCradleMargin="8dp"
         app:fabCradleRoundedCornerRadius="50dp"
-        app:fabCradleVerticalOffset="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.997">
+        app:fabCradleVerticalOffset="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,6 +49,7 @@
                     android:fontFamily="@font/convergence"
                     android:text="@string/nav_inventory"
                     android:textAlignment="center"
+                    android:textColor="@color/letters"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -103,6 +97,7 @@
                     android:fontFamily="@font/convergence"
                     android:text="@string/nav_providers"
                     android:textAlignment="center"
+                    android:textColor="@color/letters"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>

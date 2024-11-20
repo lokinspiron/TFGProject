@@ -63,6 +63,10 @@ class Inventory_Fragment : Fragment() {
             Toast.makeText(requireContext(),"Editar Productos",Toast.LENGTH_SHORT).show()
         }
 
+        binding.btnAddCategory.setOnClickListener{
+
+        }
+
 
     }
 

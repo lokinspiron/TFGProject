@@ -16,9 +16,6 @@
             android:name=".view.AddProviderActivity"
             android:exported="false" />
         <activity
-            android:name=".view.AddProvider"
-            android:exported="false" />
-        <activity
             android:name=".view.AddProductActivity"
             android:exported="false" />
         <activity

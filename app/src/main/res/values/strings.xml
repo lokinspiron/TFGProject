@@ -85,9 +85,15 @@
     <string name="category_product" font="@font/convergence">Categoría:</string>
     <string name="subcategory_product" font="@font/convergence">Subcategoría:</string>
 
+    <string name="address_provider" font="@font/convergence">Dirección:</string>
+    <string name="phone_provider" font="@font/convergence">Teléfono:</string>
+    <string name="email_provider" font="@font/convergence">Correo:</string>
+    <string name="orders_provider" font="@font/convergence">Pedidos:</string>
+
     <string name="delete" font="@font/convergence">Eliminar</string>
     <string name="save_change" font="@font/convergence">Guardar Cambios</string>
     <string name="cancelar" font="@font/convergence">Cancelar</string>
+    <string name="add" font="@font/convergence">Añadir</string>
 
 
 </resources>

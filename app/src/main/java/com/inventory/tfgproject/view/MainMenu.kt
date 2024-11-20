@@ -1,6 +1,7 @@
 package com.inventory.tfgproject.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -14,7 +15,6 @@ import com.inventory.tfgproject.databinding.ActivityMainMenuBinding
 
 class MainMenu : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding:ActivityMainMenuBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,13 +45,13 @@ class MainMenu : AppCompatActivity(),NavigationView.OnNavigationItemSelectedList
             inventory_transaction.commit()
         }
 
-        val fragment_provider = ProviderFragment()
+        /*val fragment_provider = ProviderFragment()
         lltProvider.setOnClickListener{
             val provider_transaction = supportFragmentManager.beginTransaction()
             provider_transaction.replace(R.id.fcvProviders,fragment_provider)
             provider_transaction.addToBackStack(null)
             provider_transaction.commit()
-        }
+        }*/
 
     }
 

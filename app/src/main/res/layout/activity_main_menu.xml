@@ -8,32 +8,17 @@
 
     <include layout="@layout/activity_menu_header"/>
 
-
-
     <include layout="@layout/activity_menu_footer"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcvInventory"
-        android:layout_width="415dp"
-        android:layout_height="777dp"
+        android:layout_width="416dp"
+        android:layout_height="747dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.503"
-        tools:layout="@layout/fragment_inventory_"/>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fcvProviders"
-        android:layout_width="415dp"
-        android:layout_height="777dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.503"
-        tools:layout="@layout/fragment_provider"/>
-
+        app:layout_constraintVertical_bias="0.688"
+        tools:layout="@layout/fragment_inventory_" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,8 @@
         <item name="colorOnPrimary">@color/backgroundColor3</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/color_Focused</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 
     </style>
     <style name="FormTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
