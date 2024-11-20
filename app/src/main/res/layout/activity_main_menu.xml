@@ -1,4 +1,4 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.inventory.tfgproject.view.MainMenu"
@@ -8,6 +8,32 @@
 
     <include layout="@layout/activity_menu_header"/>
 
+
+
     <include layout="@layout/activity_menu_footer"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcvInventory"
+        android:layout_width="415dp"
+        android:layout_height="777dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.503"
+        tools:layout="@layout/fragment_inventory_"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcvProviders"
+        android:layout_width="415dp"
+        android:layout_height="777dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.503"
+        tools:layout="@layout/fragment_provider"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

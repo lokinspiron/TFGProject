@@ -6,17 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.inventory.tfgproject.R
-import com.inventory.tfgproject.databinding.ActivityAddProductBinding
 
-class AddProductActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityAddProductBinding
-
+class AddProviderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityAddProductBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_add_provider)
         supportActionBar?.hide()
-
     }
 }

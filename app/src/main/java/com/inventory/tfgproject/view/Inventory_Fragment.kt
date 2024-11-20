@@ -62,6 +62,8 @@ class Inventory_Fragment : Fragment() {
         binding.fabEditProducts.setOnClickListener {
             Toast.makeText(requireContext(),"Editar Productos",Toast.LENGTH_SHORT).show()
         }
+
+
     }
 
     private fun onAddButtonClicked() {

@@ -77,5 +77,17 @@
 
     <string name="text_empty_state">Estado Vacío</string>
 
+    <string name="name_product" font="@font/convergence">Nombre:</string>
+    <string name="quantity_product" font="@font/convergence">Cantidad:</string>
+    <string name="weight_product" font="@font/convergence">Peso:</string>
+    <string name="price_product" font="@font/convergence">Precio Unidad:</string>
+    <string name="provider_product" font="@font/convergence">Proveedor:</string>
+    <string name="category_product" font="@font/convergence">Categoría:</string>
+    <string name="subcategory_product" font="@font/convergence">Subcategoría:</string>
+
+    <string name="delete" font="@font/convergence">Eliminar</string>
+    <string name="save_change" font="@font/convergence">Guardar Cambios</string>
+    <string name="cancelar" font="@font/convergence">Cancelar</string>
+
 
 </resources>

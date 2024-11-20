@@ -11,7 +11,8 @@
         android:id="@+id/tbrMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backgroundColor1">
+        android:background="@color/backgroundColor1"
+        android:visibility="invisible">
 
         <ImageButton
             android:id="@+id/btnDrawerToggle"
@@ -61,6 +62,8 @@
         android:textSize="35sp"
         app:cornerRadius="0dp" />
 
-    <include layout="@layout/activity_menu_footer"/>
+    <include
+        layout="@layout/activity_menu_footer"
+        android:visibility="invisible" />
 
 </LinearLayout>
