@@ -67,8 +67,8 @@
     <string name="navigation_drawer_logout">Cerrar sesión</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="desc_floating">Description Floating</string>
-    <string name="nav_inventory">Inventario</string>
-    <string name="nav_providers">Proveedores</string>
+    <string name="nav_inventory" font="@font/convergence">Inventario</string>
+    <string name="nav_providers" font="@font/convergence">Proveedores</string>
 
     <string name="btn_add_category">Añadir Categoría</string>
     <string name="btn_add_subcategory">Añadir Subcategoría</string>

@@ -5,8 +5,7 @@
     android:id="@+id/drawerlt"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.inventory.tfgproject.view.MainMenu">
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,34 +13,32 @@
         android:fitsSystemWindows="true"
         android:background="@color/backgroundColor2">
 
-        <include
-            layout="@layout/activity_menu_header"
-            android:elevation="10dp" />
-
-        <include layout="@layout/activity_menu_footer"
-            android:elevation="5dp" />
+        <include layout="@layout/activity_menu_header"/>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcvInventory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/babMenu"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout="@layout/fragment_inventory_" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcvProviders"
             android:layout_width="409dp"
             android:layout_height="799dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.504"
-            android:name="com.inventory.tfgproject.view.ProviderFragment"
             tools:layout="@layout/fragment_provider" />
+
+        <include layout="@layout/activity_menu_footer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

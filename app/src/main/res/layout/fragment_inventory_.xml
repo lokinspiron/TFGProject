@@ -81,7 +81,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.184">
+        app:layout_constraintVertical_bias="0.194">
 
     </View>
 
@@ -96,6 +96,7 @@
         android:focusable="true"
         android:visibility="invisible"
         app:fabCustomSize="55dp"
+        android:tint="@color/backgroundColor1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.943"
@@ -114,6 +115,7 @@
         android:contentDescription="@string/flbtn_add_product"
         android:focusable="true"
         android:visibility="invisible"
+        android:tint="@color/backgroundColor1"
         app:fabCustomSize="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

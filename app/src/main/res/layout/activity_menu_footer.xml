@@ -1,121 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/flt"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/babMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/babMenu"
         android:layout_gravity="bottom"
         android:backgroundTint="@color/navigation"
-        app:fabAlignmentMode="center"
-        app:fabCradleMargin="8dp"
-        app:fabCradleRoundedCornerRadius="50dp"
-        app:fabCradleVerticalOffset="6dp">
+        app:tint="@color/backgroundColor1"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="50dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:baselineAligned="false"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bnvMenu"
+            android:layout_marginEnd="20dp"
+            app:labelVisibilityMode="labeled"
+            android:background="@android:color/transparent"
+            app:itemIconTint="@color/backgroundColor1"
+            app:itemTextColor="@color/backgroundColor1"
+            app:menu="@menu/bottom_menu">
 
-            <LinearLayout
-                android:id="@+id/lltInventory"
-                android:layout_width="16dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="visible"
-                tools:ignore="UseCompoundDrawables">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="165dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/desc_floating"
+                android:src="@drawable/logo_dstock"
+                app:maxImageSize="50dp"
+                app:tint="@null" />
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-                <ImageView
-                    android:id="@+id/imgOption1"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="8dp"
-                    app:srcCompat="@drawable/ic_inventory" />
-
-                <TextView
-                    android:id="@+id/txtOption1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/convergence"
-                    android:text="@string/nav_inventory"
-                    android:textAlignment="center"
-                    android:textColor="@color/letters"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <ImageView
-                    android:id="@+id/imgOption2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:contentDescription="@string/desc_floating" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lltProvider"
-                android:layout_width="45dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="visible"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:id="@+id/imgOption4"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:contentDescription="@string/nav_providers"
-                    app:srcCompat="@drawable/ic_providers" />
-
-                <TextView
-                    android:id="@+id/txtOption4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/convergence"
-                    android:text="@string/nav_providers"
-                    android:textAlignment="center"
-                    android:textColor="@color/letters"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
     </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/desc_floating"
-        android:src="@drawable/logo_icono"
-        app:backgroundTint="@color/white"
-        app:elevation="8dp"
-        app:layout_anchor="@id/babMenu"
-        app:layout_anchorGravity="center"
-        app:maxImageSize="50dp"
-        app:tint="@null" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
