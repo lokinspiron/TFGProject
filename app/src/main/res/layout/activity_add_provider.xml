@@ -7,7 +7,6 @@
     tools:context=".view.AddProductActivity">
 
     <include
-        android:id="@+id/include"
         layout="@layout/activity_menu_header"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -122,10 +121,10 @@
         android:textColor="@color/letters"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.86"
+        app:layout_constraintHorizontal_bias="0.865"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.642" />
+        app:layout_constraintVertical_bias="0.653" />
 
     <TextView
         android:id="@+id/txtEmailProvider"
@@ -140,7 +139,7 @@
         app:layout_constraintHorizontal_bias="0.196"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.64" />
+        app:layout_constraintVertical_bias="0.65" />
 
     <TextView
         android:id="@+id/txtAddressProvider"
@@ -191,7 +190,7 @@
         android:id="@+id/btnCancel"
         android:layout_width="133dp"
         android:layout_height="52dp"
-        android:text="@string/cancelar"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.197"
