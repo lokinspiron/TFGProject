@@ -45,13 +45,13 @@ class MainMenu : AppCompatActivity(),NavigationView.OnNavigationItemSelectedList
             inventory_transaction.commit()
         }
 
-        /*val fragment_provider = ProviderFragment()
+        val fragment_provider = ProviderFragment()
         lltProvider.setOnClickListener{
             val provider_transaction = supportFragmentManager.beginTransaction()
             provider_transaction.replace(R.id.fcvProviders,fragment_provider)
             provider_transaction.addToBackStack(null)
             provider_transaction.commit()
-        }*/
+        }
 
     }
 

@@ -64,7 +64,13 @@ class Inventory_Fragment : Fragment() {
         }
 
         binding.btnAddCategory.setOnClickListener{
+            val dialog = CreateCategoryDialogFragment()
+            dialog.show(parentFragmentManager,"CreateCategoryDialog")
+        }
 
+        parentFragmentManager.setFragmentResultListener("createCategoryRequest",this){
+            _,bundle ->
+            val categoryName = bundle.getString("categoryName")
         }
 
 

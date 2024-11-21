@@ -76,6 +76,7 @@
     <string name="flbtn_add_product">Añadir Producto</string>
 
     <string name="text_empty_state">Estado Vacío</string>
+    <string name="areu_sure">¿Estas segur@?</string>
 
     <string name="name_product" font="@font/convergence">Nombre:</string>
     <string name="quantity_product" font="@font/convergence">Cantidad:</string>
@@ -92,8 +93,17 @@
 
     <string name="delete" font="@font/convergence">Eliminar</string>
     <string name="save_change" font="@font/convergence">Guardar Cambios</string>
-    <string name="cancelar" font="@font/convergence">Cancelar</string>
+    <string name="cancel" font="@font/convergence">Cancelar</string>
     <string name="add" font="@font/convergence">Añadir</string>
+
+    <string name="new_order" font="@font/convergence">Nuevo Pedido</string>
+    <string name="date_order" font="@font/convergence">Fecha de llegada:</string>
+    <string name="make_order" font="@font/convergence">Realizar Pedido</string>
+
+    <string name="gmail" font="@font/convergence">Gmail</string>
+    <string name="call" font="@font/convergence">Llamada</string>
+
+
 
 
 </resources>
