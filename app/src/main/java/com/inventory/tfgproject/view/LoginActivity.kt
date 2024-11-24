@@ -6,7 +6,6 @@ import android.content.Intent;
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.inventory.tfgproject.AnimationUtil
-import com.inventory.tfgproject.RegisterScreen
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ActivityLoginBinding
 import com.inventory.tfgproject.extension.span
@@ -37,10 +36,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initListeners(){
         with(binding){
-
-
-
-
 
         }
     }

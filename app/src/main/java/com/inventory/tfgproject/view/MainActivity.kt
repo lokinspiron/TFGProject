@@ -9,6 +9,8 @@ import android.widget.TextView
 import com.inventory.tfgproject.R
 import android.os.Handler
 import android.os.Looper
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.inventory.tfgproject.AnimationUtil
 
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/backgroundColor2"
-    tools:context="com.inventory.tfgproject.RegisterScreen">
+    tools:context="com.inventory.tfgproject.view.RegisterScreen">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bkgLogin"
@@ -128,14 +128,14 @@
             android:paddingEnd="12dp"
             android:textColor="@color/letters"
             android:textColorHint="@color/letters"
-            app:layout_constraintBottom_toTopOf="@+id/edtEmail2"
+            app:layout_constraintBottom_toTopOf="@+id/edtEmail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtSurname"
             app:layout_constraintTop_toBottomOf="@+id/txtInformation"
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
-            android:id="@+id/edtEmail2"
+            android:id="@+id/edtEmail"
             android:layout_width="244dp"
             android:layout_height="48dp"
             android:layout_marginTop="184dp"
@@ -171,7 +171,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txtSurname" />
 
         <EditText
-            android:id="@+id/edtContraseña"
+            android:id="@+id/edtPassword"
             android:layout_width="244dp"
             android:layout_height="48dp"
             android:layout_marginTop="20dp"
@@ -191,7 +191,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.193"
             app:layout_constraintStart_toEndOf="@+id/txtPassword"
-            app:layout_constraintTop_toBottomOf="@+id/edtEmail2"
+            app:layout_constraintTop_toBottomOf="@+id/edtEmail"
             app:layout_constraintVertical_bias="0.036" />
 
         <EditText
@@ -216,7 +216,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/txtConfirmPassword"
-            app:layout_constraintTop_toBottomOf="@+id/edtContraseña"
+            app:layout_constraintTop_toBottomOf="@+id/edtPassword"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView

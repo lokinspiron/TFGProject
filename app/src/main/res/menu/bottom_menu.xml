@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/btnInventory"
-        android:title="@string/nav_inventory"
-        android:icon="@drawable/ic_inventory"/>
+        android:id="@+id/btnHome"
+        android:title="@string/navigation_drawer_home"
+        android:icon="@drawable/ic_home"
+        android:enabled="true"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/fab"
         android:title=""
@@ -13,6 +15,8 @@
     <item
         android:id="@+id/btnProviders"
         android:title="@string/nav_providers"
-        android:icon="@drawable/ic_providers" />
+        android:icon="@drawable/ic_providers"
+        android:enabled="true"
+        app:showAsAction="ifRoom"/>
 
 </menu>

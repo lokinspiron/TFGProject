@@ -103,5 +103,6 @@
     <string name="gmail" font="@font/convergence">Gmail</string>
     <string name="call" font="@font/convergence">Llamada</string>
 
+    <string name="Used_Products" font="@font/convergence">Productos más usados</string>
 
 </resources>

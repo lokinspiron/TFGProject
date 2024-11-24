@@ -29,6 +29,20 @@
         app:srcCompat="@drawable/ic_arrow_back" />
 
     <ImageView
+        android:id="@+id/imgEditProduct"
+        android:layout_width="32dp"
+        android:layout_height="37dp"
+        android:contentDescription="@string/desc_floating"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.018"
+        app:srcCompat="@drawable/ic_edit" />
+
+    <ImageView
         android:id="@+id/imgAddProduct"
         android:layout_width="243dp"
         android:layout_height="206dp"

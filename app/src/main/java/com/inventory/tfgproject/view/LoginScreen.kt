@@ -22,7 +22,15 @@ class LoginScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initListeners()
+    }
 
+    private fun initListeners(){
+        binding.edtEmail.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
+        binding.edtEmail.onTextChanged { onFieldChanged() }
+
+        binding.edtPassword.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
+        binding.edtEmail.onTextChanged { onFieldChanged() }
 
         binding.btnLogin.setOnClickListener {
             val email = binding.edtEmail.text.toString()
@@ -38,17 +46,6 @@ class LoginScreen : AppCompatActivity() {
 
             }
         }
-
-    }
-
-    private fun initListeners(){
-        binding.edtEmail.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
-        binding.edtEmail.onTextChanged { onFieldChanged() }
-
-        binding.edtPassword.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
-        binding.edtEmail.onTextChanged { onFieldChanged() }
-
-
     }
 
     private fun onFieldChanged() {

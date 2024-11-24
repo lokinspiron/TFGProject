@@ -12,7 +12,6 @@ class FirebaseAuthClient {
         auth.signInWithEmailAndPassword(email,password)
             .addOnCompleteListener{ task ->
                 if(task.isSuccessful) {
-                    val user = auth.currentUser
                     callback(true)
                 }else {
                     callback(false)
@@ -21,37 +20,19 @@ class FirebaseAuthClient {
             }
     }
 
-    fun registerUser(email: String, password: String){
-        auth.createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener{ task ->
-                if(task.isSuccessful){
-                    val user = auth.currentUser
-                    saveUserData(user)
+    fun registerUser(email: String, password: String, callback: (Boolean) -> Unit){
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    callback(true)
+                } else {
+                    callback(false)
                 }
+            }
+    }
+
+    fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser
     }
 
 }
-
-    fun saveUserData(user: FirebaseUser?) {
-        val database = FirebaseDatabase.getInstance().reference
-        val userId = user?.uid
-
-        val userMap = mapOf(
-            "name" to "user's name",
-            "surname" to "user's surname",
-            "email" to user?.email,
-            "birthDate" to "user's birth date",
-            "phoneNumber" to "user's phone number",
-            "address" to "user's address",
-            "profilePictureUrl" to "user's profile picture URL",
-            "joinedDate" to System.currentTimeMillis()
-        )
-
-        if(userId != null){
-         database.child("users").child(userId).setValue(userMap)
-             .addOnSuccessListener {
-             }
-
-        }
-        }
-    }

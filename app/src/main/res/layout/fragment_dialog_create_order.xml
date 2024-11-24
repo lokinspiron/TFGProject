@@ -5,17 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor2">
-    <include
-        android:id="@+id/include2"
-        layout="@layout/activity_menu_footer"
-        android:visibility="invisible" />
-    <include
-        layout="@layout/activity_menu_header"
-        android:visibility="invisible" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cltAddCategory"
         android:name="com.inventory.tfgproject.view.AddCategoryFragment"
-        android:layout_width="337dp"
+        android:layout_width="match_parent"
         android:layout_height="496dp"
         android:background="@color/backgroundColor1"
         app:layout_constraintBottom_toBottomOf="parent"

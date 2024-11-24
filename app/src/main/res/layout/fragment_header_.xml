@@ -19,7 +19,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView"
-                android:name="com.inventory.tfgproject.view.Inventory_Fragment"
+                android:name="com.inventory.tfgproject.view.InventoryFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout="@layout/fragment_inventory_" />
