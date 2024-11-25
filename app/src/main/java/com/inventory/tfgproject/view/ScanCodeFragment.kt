@@ -6,48 +6,63 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.vision.CameraSource
+import com.google.android.gms.vision.barcode.Barcode
+import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.inventory.tfgproject.CaptureAct
 import com.inventory.tfgproject.R
-import com.journeyapps.barcodescanner.ScanContract
+import com.inventory.tfgproject.databinding.ActivityRegisterScreenInfoBinding
+import com.inventory.tfgproject.databinding.FragmentProviderBinding
+import com.inventory.tfgproject.databinding.FragmentScanCodeBinding
 import com.journeyapps.barcodescanner.ScanOptions
 
-class ScanCodeFragment : Fragment() {
 
+class ScanCodeFragment : Fragment() {
+    private var requestCamara : ActivityResultLauncher<String>? = null
+    private lateinit var barcodeDetector : BarcodeDetector
+    private lateinit var cameraSource : CameraSource
+    private var _binding: FragmentScanCodeBinding? = null
+    private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        scanCode()
-    }
+        requestCamara = registerForActivityResult(ActivityResultContracts
+            .RequestPermission(),) {
+            if(it) {
 
-    private fun scanCode() {
-        val options : ScanOptions = ScanOptions()
-        options.setPrompt("Volume up to flash on")
-        options.setBeepEnabled(true)
-        options.setOrientationLocked(true)
-        options.setCaptureActivity(CaptureAct::class.java)
-        barLauncher.launch(options)
-    }
-    private val barLauncher: ActivityResultLauncher<ScanOptions> = registerForActivityResult(
-        ScanContract()
-    ) { result ->
-        if(result.contents != null){
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Result")
-                .setMessage(result.contents)
-                .setPositiveButton("OK"){
-                    dialogInterface,_ ->
-                }
-            builder.create().show()
+            }else {
+                Toast.makeText(requireActivity(),"Permiso no dado",Toast.LENGTH_SHORT).show()
             }
-
         }
+        initListener()
+
+    }
+
+    private fun initListener() {
+        binding.btnScan.setOnClickListener(){
+            requestCamara?.launch(android.Manifest.permission.CAMERA)
+        }
+    }
+
+    private fun iniBc(){
+        barcodeDetector = BarcodeDetector.Builder(this)
+            .setBarcodeFormats(Barcode.ALL_FORMATS)
+            .build()
+        cameraSource = CameraSource.Builder(this,barcodeDetector)
+            .setRequestedPreviewSize(1920,1080)
+            .setAutoFocusEnabled(true)
+            .setFacing(CameraSource.CAMERA_FACING_FRONT)
+            .build()
+        binding.surfaceView!!.holder.addCallback(object : )
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_scan_code, container, false)
+        _binding = FragmentScanCodeBinding.inflate(inflater,container,false)
+        return binding.root
     }
-
 }
