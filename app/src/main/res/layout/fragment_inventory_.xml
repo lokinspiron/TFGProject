@@ -51,17 +51,7 @@
             app:showAsAction="ifRoom|collapseActionView" />
 
     </androidx.appcompat.widget.Toolbar>
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fcvAddProduct"
-        android:layout_width="417dp"
-        android:layout_height="710dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.496" />
+
     <Button
         android:id="@+id/btnAddCategory"
         android:layout_width="361dp"
@@ -95,6 +85,20 @@
         app:layout_constraintVertical_bias="0.155">
 
     </View>
+
+    <androidx.constraintlayout.helper.widget.Grid
+        android:layout_width="409dp"
+        android:layout_height="757dp"
+        android:layout_row="0"
+        android:layout_column="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+    </androidx.constraintlayout.helper.widget.Grid>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabEditProducts"

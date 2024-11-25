@@ -22,10 +22,10 @@ class FirebaseDatabaseClient {
         if (userId != null) {
             database.child("users").child(userId).setValue(userMap)
                 .addOnSuccessListener {
-                    // Éxito al guardar
+
                 }
                 .addOnFailureListener {
-                    // Manejar error al guardar los datos
+
                 }
         }
     }
