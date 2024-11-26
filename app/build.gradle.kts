@@ -66,10 +66,10 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
     //CameraBarCode
     implementation ("com.google.android.gms:play-services-vision:20.1.3")
+    implementation ("com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.1")
     implementation ("androidx.camera:camera-core:1.4.0")
     implementation ("androidx.camera:camera-view:1.4.0")
     implementation ("androidx.camera:camera-lifecycle:1.4.0")
-    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation ("androidx.core:core-ktx:1.9.0")
     implementation ("androidx.appcompat:appcompat:1.7.0")
     implementation ("com.google.android.material:material:1.12.0")

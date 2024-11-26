@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.ScanCodeFragment">
 
-    <androidx.camera.view.PreviewView
+    <SurfaceView
         android:id="@+id/cameraScan"
         android:layout_width="373dp"
         android:layout_height="649dp"
@@ -21,6 +21,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button" />
+
+    <TextView
+        android:id="@+id/txtBarcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         />
 
 
 </FrameLayout>

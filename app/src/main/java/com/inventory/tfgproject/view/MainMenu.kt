@@ -3,6 +3,8 @@ package com.inventory.tfgproject.view
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,12 +18,14 @@ import com.inventory.tfgproject.databinding.ActivityMainMenuBinding
 
 
 class MainMenu : AppCompatActivity(){
+    private var requestCamara : ActivityResultLauncher<String>? = null
     private lateinit var binding: ActivityMainMenuBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        initScan()
     }
 
     override fun onStart() {
@@ -30,7 +34,6 @@ class MainMenu : AppCompatActivity(){
         val drawerlt: DrawerLayout = findViewById(R.id.drawerlt)
         initListeners(btnDrawerToggle, drawerlt)
         replaceFragment(MenuMainFragment())
-        initNavigationView(drawerlt)
 
     }
 
@@ -65,10 +68,11 @@ class MainMenu : AppCompatActivity(){
             when (item.itemId) {
                 R.id.nav_home -> {
                     replaceFragment(MenuMainFragment())
-                    Toast.makeText(this, "Home seleccionado", Toast.LENGTH_SHORT).show()
                 }
                 R.id.nav_scan -> {
-                    Toast.makeText(this, "Scan seleccionado", Toast.LENGTH_SHORT).show()
+                    replaceFragment(ScanCodeFragment())
+
+
                 }
                 R.id.nav_share -> {
                     Toast.makeText(this, "Share seleccionado", Toast.LENGTH_SHORT).show()
@@ -107,11 +111,6 @@ class MainMenu : AppCompatActivity(){
         }
     }
 
-
-    private fun initNavigationView(drawerlt: DrawerLayout) {
-
-    }
-
     override fun onBackPressed() {
         val drawerlt: DrawerLayout = findViewById(R.id.drawerlt)
         if (drawerlt.isDrawerOpen(GravityCompat.START)) {
@@ -119,5 +118,9 @@ class MainMenu : AppCompatActivity(){
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun initScan(){
+
     }
 }
