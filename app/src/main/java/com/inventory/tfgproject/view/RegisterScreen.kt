@@ -23,13 +23,11 @@ class RegisterScreen : AppCompatActivity() {
 
     private fun initListener() {
         binding.btnContinue.setOnClickListener {
-            val name = binding.edtName.text.toString()
-            val surname = binding.edtSurname.text.toString()
-            val email = binding.edtEmail.text.toString()
+
             val password = binding.edtPassword.text.toString()
             val confPassword = binding.edtPasswordConfirm.text.toString()
 
-            if (name.isNotEmpty() && surname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confPassword.isNotEmpty()) {
+            /*if (name.isNotEmpty() && surname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confPassword.isNotEmpty()) {
                 val user = User(name = name, surname = surname, email = email)
 
                 authClient.registerUser(email, password) { isSuccessful ->
@@ -45,7 +43,7 @@ class RegisterScreen : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT)
                     .show()
-            }
+            }*/
         }
     }
 }

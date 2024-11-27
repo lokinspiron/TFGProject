@@ -111,4 +111,8 @@
     <string name="edit_profile" font="@font/convergence">Editar Perfil</string>
 
     <string name="required" font="@font/convergence">Requerido</string>
+    <string name="Scan" font="@font/convergence">Escaneo</string>
+
+    <string name="email_Register" font="@font/convergence">Correo</string>
+    <string name="confirmPassword_Register" font="@font/convergence">Confirmar Contraseña</string>
 </resources>
