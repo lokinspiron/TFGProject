@@ -105,4 +105,10 @@
 
     <string name="Used_Products" font="@font/convergence">Productos más usados</string>
 
+    <string name="surname_profile" font="@font/convergence">Apellidos:</string>
+    <string name="birthday_profile" font="@font/convergence">Fecha de nacimiento:</string>
+    <string name="joinedDate_profile" font="@font/convergence">Fecha de registro:</string>
+    <string name="edit_profile" font="@font/convergence">Editar Perfil</string>
+
+    <string name="required" font="@font/convergence">Requerido</string>
 </resources>

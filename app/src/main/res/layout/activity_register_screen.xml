@@ -88,53 +88,6 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
-            android:id="@+id/edtName"
-            android:layout_width="244dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/custom_input"
-            android:drawableStart="@drawable/ic_user"
-            android:drawablePadding="12dp"
-            android:ems="10"
-            android:fontFamily="@font/convergence"
-            android:hint="Nombre"
-            android:inputType="text"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textColor="@color/letters"
-            android:textColorHint="@color/letters"
-            app:layout_constraintBottom_toTopOf="@+id/edtSurname"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.615"
-            app:layout_constraintStart_toEndOf="@+id/txtName"
-            app:layout_constraintTop_toBottomOf="@+id/txtInformation"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <EditText
-            android:id="@+id/edtSurname"
-            android:layout_width="244dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="112dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/custom_input"
-            android:drawableStart="@drawable/ic_user"
-            android:drawablePadding="12dp"
-            android:ems="10"
-            android:fontFamily="@font/convergence"
-            android:hint="Apellido"
-            android:inputType="text"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textColor="@color/letters"
-            android:textColorHint="@color/letters"
-            app:layout_constraintBottom_toTopOf="@+id/edtEmail"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtSurname"
-            app:layout_constraintTop_toBottomOf="@+id/txtInformation"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <EditText
             android:id="@+id/edtEmail"
             android:layout_width="244dp"
             android:layout_height="48dp"
@@ -166,7 +119,7 @@
             android:shadowColor="@color/backgroundColor1"
             android:text="Correo:"
             android:textColor="@color/backgroundColor2"
-            android:textSize="22sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSurname" />
 
@@ -223,30 +176,28 @@
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
             android:fontFamily="@font/convergence"
             android:shadowColor="@color/backgroundColor1"
             android:text="Nombre(s):"
             android:textColor="@color/backgroundColor2"
-            android:textSize="22sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/txtSurname"
-            app:layout_constraintEnd_toStartOf="@+id/edtName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.058"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtInformation"
-            app:layout_constraintVertical_bias="0.56" />
+            app:layout_constraintVertical_bias="0.541" />
 
         <TextView
             android:id="@+id/txtSurname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="196dp"
-            android:layout_marginEnd="5dp"
             android:fontFamily="@font/convergence"
             android:shadowColor="@color/backgroundColor1"
             android:text="Apellido(s):"
             android:textColor="@color/backgroundColor2"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toStartOf="@+id/edtSurname"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -259,7 +210,7 @@
             android:shadowColor="@color/backgroundColor1"
             android:text="Contraseña:"
             android:textColor="@color/backgroundColor2"
-            android:textSize="22sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.02"
@@ -269,26 +220,66 @@
 
         <TextView
             android:id="@+id/txtConfirmPassword"
-            android:layout_width="146dp"
-            android:layout_height="55dp"
+            android:layout_width="125dp"
+            android:layout_height="54dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/convergence"
             android:shadowColor="@color/backgroundColor1"
             android:text="Confirmar Contraseña:"
             android:textColor="@color/backgroundColor2"
-            android:textSize="22sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.025"
+            app:layout_constraintHorizontal_bias="0.022"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtPassword"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.015" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameRegisterContainer"
+            android:layout_width="262dp"
+            android:layout_height="76dp"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@android:color/holo_red_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.888"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.17">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNameRegister"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/name"
+                android:textSize="20sp"
+                android:inputType="textCapCharacters"
+                android:lines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/surnameRegisterContainer"
+            android:layout_width="262dp"
+            android:layout_height="76dp"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@android:color/holo_red_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.892"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.291">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSurnameRegister"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/surname"
+                android:inputType="textCapCharacters"
+                android:lines="1"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="left" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.inventory.tfgproject.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
@@ -25,7 +26,6 @@ class MainMenu : AppCompatActivity(){
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        initScan()
     }
 
     override fun onStart() {
@@ -71,11 +71,9 @@ class MainMenu : AppCompatActivity(){
                 }
                 R.id.nav_scan -> {
                     replaceFragment(ScanCodeFragment())
-
-
                 }
                 R.id.nav_share -> {
-                    Toast.makeText(this, "Share seleccionado", Toast.LENGTH_SHORT).show()
+                    share()
                 }
                 R.id.nav_settings -> {
                     Toast.makeText(this, "Settings seleccionado", Toast.LENGTH_SHORT).show()
@@ -91,6 +89,19 @@ class MainMenu : AppCompatActivity(){
             drawerlt.closeDrawer(GravityCompat.START)
             true
         }
+    }
+
+    private fun share() {
+        val message = """
+            ¡Transforma tu negocio con DStock! ¿Eres un empresario que busca optimizar procesos, aumentar la productividad y llevar tu negocio al siguiente nivel? Con DStock, tendrás acceso a herramientas innovadoras y fáciles de usar que te ayudarán a gestionar tu empresa de manera más eficiente.
+        """.trimIndent()
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, message)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(intent,null)
+        startActivity(shareIntent)
     }
 
 
@@ -118,9 +129,5 @@ class MainMenu : AppCompatActivity(){
         } else {
             super.onBackPressed()
         }
-    }
-
-    private fun initScan(){
-
     }
 }
