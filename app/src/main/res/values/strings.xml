@@ -45,8 +45,8 @@
     </string>
     <string name="email" font="@font/convergence">Email</string>
     <string name="password" font="@font/convergence">Contraseña</string>
-    <string name="surname" font="@font/convergence">Apellido</string>
-    <string name="name" font="@font/convergence">Nombre</string>
+    <string name="surname" font="@font/convergence">Apellido(s)</string>
+    <string name="name" font="@font/convergence">Nombre(s)</string>
     <string name="phone" font="@font/convergence">Movil</string>
     <string name="address" font="@font/convergence">Dirección</string>
     <string name="birthday" font="@font/convergence">Fecha de nacimiento</string>
@@ -110,9 +110,15 @@
     <string name="joinedDate_profile" font="@font/convergence">Fecha de registro:</string>
     <string name="edit_profile" font="@font/convergence">Editar Perfil</string>
 
-    <string name="required" font="@font/convergence">Requerido</string>
+    <string name="required" font="@font/convergence">*Requerido</string>
     <string name="Scan" font="@font/convergence">Escaneo</string>
 
     <string name="email_Register" font="@font/convergence">Correo</string>
     <string name="confirmPassword_Register" font="@font/convergence">Confirmar Contraseña</string>
+    <string name="continue_Register" font="@font/convergenece">Continuar</string>
+    <string name="information_add" font ="@font/convergence">Información Adicional</string>
+    <string name="skip" font="@font/convergence">Omitir</string>
+    <string name="upload_image" font="@font/convergence">Subir Foto de perfil</string>
+
+    <string name="register" font="@font/convergence">Regístrate</string>
 </resources>
