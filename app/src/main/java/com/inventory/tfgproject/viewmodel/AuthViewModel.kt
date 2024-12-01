@@ -1,5 +1,6 @@
 package com.inventory.tfgproject.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,14 +23,16 @@ class AuthViewModel: ViewModel() {
         val user = firebaseAuth.currentUser
         user?.sendEmailVerification()?.addOnCompleteListener{ task ->
             if(task.isSuccessful){
+                Log.d("Auth", "Email de verificación enviado correctamente")
                 startVerificationCheck()
             }else {
+                Log.d("Auth", "Error al enviar email de verificación")
                 _isEmailVerified.postValue(false)
             }
         }
     }
 
-    private fun startVerificationCheck() {
+    fun startVerificationCheck() {
         verificationJob = CoroutineScope(Dispatchers.IO).launch{
             while(true){
                 val user = firebaseAuth.currentUser
@@ -38,7 +41,7 @@ class AuthViewModel: ViewModel() {
                     _isEmailVerified.postValue(true)
                     break
                 }
-                delay(3000)
+                delay(2000)
             }
         }
     }

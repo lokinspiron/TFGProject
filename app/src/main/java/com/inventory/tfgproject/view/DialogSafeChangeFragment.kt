@@ -6,24 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.inventory.tfgproject.R
+import com.inventory.tfgproject.databinding.FragmentDialogSafeChangeBinding
 
 
 class DialogSafeChangeFragment : DialogFragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
+    private lateinit var binding : FragmentDialogSafeChangeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentDialogSafeChangeBinding.inflate(inflater,container,false)
+        initListener()
+        return binding.root
+    }
 
-        return inflater.inflate(R.layout.fragment_dialog_safe_change, container, false)
+    private fun initListener() {
+        binding.btnCancel.setOnClickListener{
+            dismiss()
+        }
     }
 
 }

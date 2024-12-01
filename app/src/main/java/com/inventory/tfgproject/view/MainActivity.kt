@@ -9,8 +9,6 @@ import android.widget.TextView
 import com.inventory.tfgproject.R
 import android.os.Handler
 import android.os.Looper
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import com.inventory.tfgproject.AnimationUtil
 
 
@@ -24,8 +22,8 @@ class MainActivity : AppCompatActivity() {
         val dstockTextView: TextView = findViewById(R.id.txtNombre)
         val logoImageView: ImageView = findViewById(R.id.imgLogo)
 
-        AnimationUtil.UpAnimation(this, logoImageView, R.anim.movement_up)
-        AnimationUtil.DownAnimation(this, dstockTextView, R.anim.movement_down)
+        AnimationUtil.upAnimation(this, logoImageView, R.anim.movement_up)
+        AnimationUtil.downAnimation(this, dstockTextView, R.anim.movement_down)
 
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, LoginActivity::class.java)

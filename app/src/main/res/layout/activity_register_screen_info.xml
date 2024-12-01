@@ -21,8 +21,8 @@
 
         <TextView
             android:id="@+id/txtInformation"
-            android:layout_width="339dp"
-            android:layout_height="88dp"
+            android:layout_width="407dp"
+            android:layout_height="45dp"
             android:fontFamily="@font/convergence"
             android:text="@string/information_add"
             android:textAlignment="center"
@@ -30,30 +30,29 @@
             android:textSize="34sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.026" />
+            app:layout_constraintVertical_bias="0.045" />
 
         <Button
             android:id="@+id/btnContinue"
-            android:layout_width="196dp"
-            android:layout_height="66dp"
+            android:layout_width="266dp"
+            android:layout_height="67dp"
             android:fontFamily="@font/convergence"
             android:text="@string/continue_Register"
             android:textSize="29sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.791"
+            app:layout_constraintVertical_bias="0.737"
             tools:ignore="MissingConstraints" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="194dp"
-            android:layout_height="63dp"
+            android:id="@+id/btnCancel"
+            android:layout_width="266dp"
+            android:layout_height="67dp"
             android:backgroundTint="@color/red_button"
             android:fontFamily="@font/convergence"
             android:text="@string/cancel"
@@ -62,19 +61,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.891" />
+            app:layout_constraintVertical_bias="0.883" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/addressRegisterContainer"
             style="@style/TextInputLayoutStyle"
             android:layout_width="350dp"
             android:layout_height="76dp"
+            android:imeOptions="actionNext"
             android:textColorHint="@color/backgroundColor2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.214"
+            app:layout_constraintVertical_bias="0.173"
             app:startIconDrawable="@drawable/ic_home"
             app:startIconTint="@color/backgroundColor2">
 
@@ -84,6 +84,8 @@
                 android:layout_height="50dp"
                 android:fontFamily="@font/convergence"
                 android:hint="@string/address"
+                android:imeOptions="actionNext"
+                android:inputType="textPostalAddress"
                 android:paddingStart="45dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,15 +94,16 @@
             style="@style/TextInputLayoutStyle"
             android:layout_width="350dp"
             android:layout_height="76dp"
-            app:helperTextEnabled="true"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@android:color/holo_red_dark"
+            android:imeOptions="actionDone"
             android:textColorHint="@color/backgroundColor2"
+            app:helperText="@string/required"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="@android:color/holo_red_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35"
+            app:layout_constraintVertical_bias="0.32"
             app:startIconDrawable="@drawable/ic_phone"
             app:startIconTint="@color/backgroundColor2">
 
@@ -110,6 +113,7 @@
                 android:layout_height="50dp"
                 android:fontFamily="@font/convergence"
                 android:hint="@string/phone"
+                android:imeOptions="actionDone"
                 android:inputType="phone"
                 android:paddingStart="45dp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -131,7 +135,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.479" />
+            app:layout_constraintVertical_bias="0.451" />
 
         <Button
             android:id="@+id/btnImgRegister"
@@ -150,7 +154,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.601" />
+            app:layout_constraintVertical_bias="0.57" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

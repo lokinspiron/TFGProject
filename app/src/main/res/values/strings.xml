@@ -121,4 +121,7 @@
     <string name="upload_image" font="@font/convergence">Subir Foto de perfil</string>
 
     <string name="register" font="@font/convergence">Regístrate</string>
+    <string name="orRegister" font="@font/convergence">o regístrate con</string>
+
+    <string name="verification_Message">Para acceder a la aplicación verifica tu correo (recuerda mirar la carpeta SPAM)</string>
 </resources>

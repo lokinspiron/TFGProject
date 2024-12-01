@@ -1,5 +1,6 @@
 package com.inventory.tfgproject.model
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 
@@ -22,10 +23,11 @@ class FirebaseDatabaseClient {
         if (userId != null) {
             database.child("users").child(userId).setValue(userMap)
                 .addOnSuccessListener {
+                    Log.d("Firebase", "User data saved successfully")
 
                 }
-                .addOnFailureListener {
-
+                .addOnFailureListener {exception ->
+                    Log.e("Firebase", "Error saving user data", exception)
                 }
         }
     }

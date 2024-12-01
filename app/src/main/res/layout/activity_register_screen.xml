@@ -24,41 +24,39 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txtInformation"
+                    android:id="@+id/txtRegister"
                     android:layout_width="399dp"
                     android:layout_height="61dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/convergence"
-                    android:text="@string/regist"
+                    android:text="@string/register"
                     android:textAlignment="center"
                     android:textColor="@color/backgroundColor2"
-                    android:textSize="48sp" />
-
-                <TextView
-                    android:id="@+id/txtOrRegister"
-                    android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/convergence"
-                    android:text="o regístrate con"
-                    android:textColor="@color/backgroundColor2"
-                    android:textSize="20sp" />
+                    android:textSize="45sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/nameRegisterContainer"
                     style="@style/TextInputLayoutStyle"
                     android:layout_width="350dp"
                     android:layout_height="76dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="7dp"
                     android:textColorHint="@color/backgroundColor2"
+                    android:imeOptions="actionNext"
                     app:helperText="@string/required"
-                    app:helperTextTextColor="@android:color/holo_red_dark"
+                    app:helperTextTextColor="@android:color/holo_red_light"
                     app:startIconDrawable="@drawable/ic_user"
                     app:startIconTint="@color/backgroundColor2">
 
@@ -68,47 +66,25 @@
                         android:layout_height="50dp"
                         android:fontFamily="@font/convergence"
                         android:hint="@string/name"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
                         android:lines="1"
-                        android:paddingStart="45dp"
+                        android:paddingStart="40dp"
                         android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/confirmPasswordRegisterContainer"
-                    style="@style/TextInputLayoutStyle"
-                    android:layout_width="350dp"
-                    android:layout_height="76dp"
-                    android:textColorHint="@color/backgroundColor2"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="16"
-                    app:counterTextColor="@color/backgroundColor2"
-                    app:helperText="@string/required"
-                    app:helperTextTextColor="@android:color/holo_red_dark"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/backgroundColor2"
-                    app:startIconDrawable="@drawable/ic_lock"
-                    app:startIconTint="@color/backgroundColor2">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtConfirmPasswordRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:fontFamily="@font/convergence"
-                        android:hint="@string/confirmPassword_Register"
-                        android:lines="1"
-                        android:paddingStart="45dp"
-                        android:textSize="15sp"
-                        tools:ignore="RtlSymmetry" />
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/surnameRegisterContainer"
                     style="@style/TextInputLayoutStyle"
                     android:layout_width="350dp"
                     android:layout_height="76dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="7dp"
                     android:textColorHint="@color/backgroundColor2"
+                    android:imeOptions="actionNext"
                     app:helperText="@string/required"
-                    app:helperTextTextColor="@android:color/holo_red_dark"
+                    app:helperTextTextColor="@android:color/holo_red_light"
                     app:startIconDrawable="@drawable/ic_user"
                     app:startIconTint="@color/backgroundColor2">
 
@@ -118,8 +94,38 @@
                         android:layout_height="50dp"
                         android:fontFamily="@font/convergence"
                         android:hint="@string/surname"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
                         android:lines="1"
-                        android:paddingStart="45dp"
+                        android:paddingStart="40dp"
+                        android:textSize="15sp"
+                        tools:ignore="RtlSymmetry" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailRegisterContainer"
+                    style="@style/TextInputLayoutStyle"
+                    android:layout_width="350dp"
+                    android:layout_height="76dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="7dp"
+                    android:textColorHint="@color/backgroundColor2"
+                    android:imeOptions="actionNext"
+                    app:helperText="@string/required"
+                    app:helperTextTextColor="@android:color/holo_red_light"
+                    app:startIconDrawable="@drawable/ic_email"
+                    app:startIconTint="@color/backgroundColor2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtEmailRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:fontFamily="@font/convergence"
+                        android:hint="@string/email_Register"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:lines="1"
+                        android:paddingStart="40dp"
                         android:textSize="15sp"
                         tools:ignore="RtlSymmetry" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -129,12 +135,13 @@
                     style="@style/TextInputLayoutStyle"
                     android:layout_width="350dp"
                     android:layout_height="76dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="7dp"
                     android:textColorHint="@color/backgroundColor2"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="16"
+                    android:imeOptions="actionNext"
                     app:counterTextColor="@color/backgroundColor2"
                     app:helperText="@string/required"
-                    app:helperTextTextColor="@android:color/holo_red_dark"
+                    app:helperTextTextColor="@android:color/holo_red_light"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/backgroundColor2"
                     app:startIconDrawable="@drawable/ic_lock"
@@ -146,31 +153,41 @@
                         android:layout_height="50dp"
                         android:fontFamily="@font/convergence"
                         android:hint="@string/password"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"
                         android:lines="1"
-                        android:paddingStart="45dp"
+                        android:paddingStart="40dp"
                         android:textSize="15sp"
                         tools:ignore="RtlSymmetry" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/emailRegisterContainer"
+                    android:id="@+id/confirmPasswordRegisterContainer"
                     style="@style/TextInputLayoutStyle"
                     android:layout_width="350dp"
                     android:layout_height="76dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="7dp"
                     android:textColorHint="@color/backgroundColor2"
+                    android:imeOptions="actionNext"
+                    app:counterTextColor="@color/backgroundColor2"
                     app:helperText="@string/required"
-                    app:helperTextTextColor="@android:color/holo_red_dark"
-                    app:startIconDrawable="@drawable/ic_email"
+                    app:helperTextTextColor="@android:color/holo_red_light"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/backgroundColor2"
+                    app:startIconDrawable="@drawable/ic_lock"
                     app:startIconTint="@color/backgroundColor2">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtEmailRegister"
+                        android:id="@+id/edtConfirmPasswordRegister"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:fontFamily="@font/convergence"
-                        android:hint="@string/email_Register"
+                        android:hint="@string/confirmPassword_Register"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
                         android:lines="1"
-                        android:paddingStart="45dp"
+                        android:paddingStart="40dp"
                         android:textSize="15sp"
                         tools:ignore="RtlSymmetry" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -179,24 +196,38 @@
                     android:id="@+id/btnContinue"
                     android:layout_width="307dp"
                     android:layout_height="81dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/convergence"
                     android:text="@string/continue_Register"
                     android:textSize="35sp" />
+
+                <TextView
+                    android:id="@+id/txtOrRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="130dp"
+                    android:layout_marginTop="13dp"
+                    android:fontFamily="@font/convergence"
+                    android:text="@string/orRegister"
+                    android:textColor="@color/backgroundColor2"
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/bkgCircle2"
                     android:layout_width="70dp"
                     android:layout_height="58dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="167dp"
+                    android:layout_marginTop="15dp"
                     android:contentDescription="@string/desc_floating"
                     android:src="@drawable/circle" />
 
                 <ImageView
-                    android:id="@+id/imgGoogle2"
+                    android:id="@+id/imgGoogle"
                     android:layout_width="50dp"
                     android:layout_height="72dp"
+                    android:layout_marginStart="177dp"
+                    android:layout_marginTop="-65dp"
                     app:srcCompat="@drawable/logo_google" />
 
             </LinearLayout>

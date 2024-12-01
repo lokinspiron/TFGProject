@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         initUI()
 
         val backLayout: ConstraintLayout = findViewById(R.id.bkgBienvenido)
-        AnimationUtil.UpAnimation(this, backLayout, R.anim.movement_up)
+        AnimationUtil.upAnimation(this, backLayout, R.anim.movement_up)
 
         binding.btnLogin.setOnClickListener { startActivity(Intent(this, LoginScreen::class.java))}
         binding.txtRegistrate.setOnClickListener { startActivity(Intent(this, RegisterScreen::class.java)) }
