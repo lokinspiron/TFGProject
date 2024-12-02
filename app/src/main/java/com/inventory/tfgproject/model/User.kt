@@ -11,7 +11,7 @@ data class User(
     val phoneNumber: String? = null,
     val address: String? = null,
     val profilePictureUrl: String? = null,
-    val joinedDate:Long = System.currentTimeMillis()) : Parcelable {
+    val joinedDate:String? = "" ): Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -21,7 +21,7 @@ data class User(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readLong()
+        parcel.readString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -32,7 +32,7 @@ data class User(
         parcel.writeString(phoneNumber)
         parcel.writeString(address)
         parcel.writeString(profilePictureUrl)
-        parcel.writeLong(joinedDate)
+        parcel.writeString(joinedDate)
     }
 
     override fun describeContents(): Int {

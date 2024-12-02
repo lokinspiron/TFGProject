@@ -124,4 +124,9 @@
     <string name="orRegister" font="@font/convergence">o regístrate con</string>
 
     <string name="verification_Message">Para acceder a la aplicación verifica tu correo (recuerda mirar la carpeta SPAM)</string>
+
+    <string name="greetings">¡Hola, %1s!</string>
+
+    <string name="empty_list">Lista vacía</string>
+    <string name="add_category">Añade categorías</string>
 </resources>

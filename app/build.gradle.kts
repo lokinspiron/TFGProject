@@ -52,6 +52,7 @@ dependencies {
     implementation("androidx.activity:activity:1.8.0")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation("com.google.firebase:firebase-storage-ktx:21.0.1")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     //Lottie
     val lottieVersion = "6.0.0"
     implementation("com.airbnb.android:lottie-compose:$lottieVersion")

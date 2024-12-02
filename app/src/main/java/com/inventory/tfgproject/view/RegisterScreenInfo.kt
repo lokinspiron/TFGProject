@@ -1,5 +1,6 @@
 package com.inventory.tfgproject.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.inventory.tfgproject.AnimationUtil
@@ -22,8 +24,12 @@ import com.inventory.tfgproject.databinding.ActivityRegisterScreenInfoBinding
 import com.inventory.tfgproject.extension.loseFocusAfterAction
 import com.inventory.tfgproject.extension.toast
 import com.inventory.tfgproject.model.FirebaseAuthClient
+import com.inventory.tfgproject.model.FirebaseDatabaseClient
 import com.inventory.tfgproject.model.User
 import com.inventory.tfgproject.viewmodel.AuthViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.UUID
 
 class RegisterScreenInfo : AppCompatActivity() {
@@ -31,20 +37,23 @@ class RegisterScreenInfo : AppCompatActivity() {
     private var user: User? = null
     private val authViewModel: AuthViewModel by viewModels()
     private lateinit var authClient: FirebaseAuthClient
-    private lateinit var db: FirebaseDatabase
+    private lateinit var db: FirebaseDatabaseClient
 
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
         if(uri!=null){
             toast("Foto de perfil seleccionada",Toast.LENGTH_SHORT)
+            uploadProfilePicture(uri)
         }else{
             toast("Error al elegir foto de perfil",Toast.LENGTH_SHORT)
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterScreenInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         authClient = FirebaseAuthClient()
+        db = FirebaseDatabaseClient()
         initListener()
     }
 
@@ -53,6 +62,7 @@ class RegisterScreenInfo : AppCompatActivity() {
         binding.phoneRegisterContainer.helperText = null
         binding.btnContinue.setOnClickListener {
             registerLoadingScreen()
+
         }
         binding.edtPhoneRegister.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
         binding.edtPhoneRegister.setOnFocusChangeListener { _, focused ->
@@ -87,6 +97,8 @@ class RegisterScreenInfo : AppCompatActivity() {
                 }
                 if (age >= 18) {
                     toast("Edad válida",Toast.LENGTH_SHORT)
+                    val birthDateString = selectedDate.time.toString()
+                    user = user?.copy(birthDate = birthDateString)
                 } else {
                     toast("Debes ser mayor de 18 años",Toast.LENGTH_SHORT)
                 }
@@ -103,7 +115,7 @@ class RegisterScreenInfo : AppCompatActivity() {
     }
 
     private fun isValidPhone(phone: String): Boolean {
-        return phone.length in 10..15 && phone.all{it.isDigit()}
+        return phone.length in 9..15 && phone.all{it.isDigit()}
     }
 
     private fun registerLoadingScreen(){
@@ -126,13 +138,13 @@ class RegisterScreenInfo : AppCompatActivity() {
         authViewModel.isEmailVerified.observe(this, Observer{isVerified ->
             if(isVerified){
                 authViewModel.stopVerificationCheck()
+                registerUserDB()
                 toast("Correo verificado", Toast.LENGTH_SHORT)
                 startActivity(Intent(this,MainMenu::class.java))
             }else{
                 setContentView(viewLoading)
             }
         })
-
         authViewModel.startVerificationCheck()
     }
 
@@ -152,14 +164,31 @@ class RegisterScreenInfo : AppCompatActivity() {
     }
 
     private fun registerUserDB(){
-        val userName = intent.getStringExtra("Username")
-        val userSurname = intent.getStringExtra("Surname")
-        val userEmail = intent.getStringExtra("Email")
-        val userBirthDate = binding.
+        val userName = intent.getStringExtra("Username")?:""
+        val userSurname = intent.getStringExtra("Surname")?:""
+        val userEmail = intent.getStringExtra("Email")?:""
+        val userBirthDate = user?.birthDate
         val userPhone = binding.edtPhoneRegister.text.toString().trim()
         val userAddress = binding.edtAddressRegister.text.toString().trim()
-        val userProfilePhoto =
-        val joinedDate =
+        val userProfilePhoto = user?.profilePictureUrl
+        val userJoinedDate = ActualDate()
+
+        val newUser = User(
+            name = userName,
+            surname = userSurname,
+            email = userEmail,
+            birthDate = userBirthDate,
+            phoneNumber = userPhone,
+            address = userAddress,
+            profilePictureUrl = userProfilePhoto,
+            joinedDate = userJoinedDate
+        )
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if(currentUser != null){
+            db.saveUserData(currentUser.uid,newUser)
+            toast("Se ha agregado a base de datos",Toast.LENGTH_SHORT)
+        }
     }
 
     private fun uploadProfilePicture(uri: Uri) {
@@ -167,17 +196,23 @@ class RegisterScreenInfo : AppCompatActivity() {
         val profilePictureRef = storageRef.child("profile_pictures/${UUID.randomUUID()}.jpg")
 
         profilePictureRef.putFile(uri)
-            .addOnSuccessListener { taskSnapshot ->
-                // Obtén la URL de la imagen subida
+            .addOnSuccessListener {
                 profilePictureRef.downloadUrl.addOnSuccessListener { uri ->
                     val profilePictureUrl = uri.toString()
-                    // Aquí puedes pasar la URL a la función saveUserData
+                    user = user?.copy(profilePictureUrl = profilePictureUrl)
+                    toast("Foto de perfil subida con éxito",Toast.LENGTH_SHORT)
                 }
             }
             .addOnFailureListener { exception ->
-                toast("Error al subir la foto de perfil")
+                toast("Error al subir la foto de perfil",Toast.LENGTH_SHORT)
                 Log.e("Firebase", "Error uploading profile picture", exception)
             }
+    }
+    @SuppressLint("SimpleDateFormat")
+    fun ActualDate():String{
+        val sdf : SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val fechaActual = Date()
+        return sdf.format(fechaActual)
     }
 
     override fun onDestroy(){
