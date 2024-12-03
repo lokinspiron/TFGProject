@@ -41,8 +41,6 @@ class InventoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
-
-
     }
 
     override fun onDestroyView() {
@@ -55,7 +53,14 @@ class InventoryFragment : Fragment() {
             onAddButtonClicked()
         }
         binding.fabAddProducts.setOnClickListener {
-            replaceFragment(AddProductFragment())
+            val bundle = Bundle()
+            bundle.putString("greetingMessage", "Añadir Producto")
+
+            val addProductFragment = AddProductFragment()
+            addProductFragment.arguments = bundle
+
+            // Reemplazar el fragmento
+            replaceFragment(addProductFragment)
         }
         binding.fabEditProducts.setOnClickListener {
 
@@ -64,14 +69,6 @@ class InventoryFragment : Fragment() {
             val dialogFragment: DialogFragment = DialogCreateCategoryFragment()
             dialogFragment.show(childFragmentManager, "CreateCategory")
         }
-
-
-        parentFragmentManager.setFragmentResultListener("createCategoryRequest",this){
-            _,bundle ->
-            val categoryName = bundle.getString("categoryName")
-        }
-
-
     }
 
 
@@ -115,7 +112,7 @@ class InventoryFragment : Fragment() {
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment, greetingMessage:String? = null) {
         val fragmentTag = fragment.javaClass.simpleName
 
         val fragmentTransaction = parentFragmentManager.beginTransaction()
@@ -129,6 +126,9 @@ class InventoryFragment : Fragment() {
             parentFragmentManager.beginTransaction()
                 .show(existingFragment)
                 .commit()
+        }
+        greetingMessage?.let {
+            binding.txtWave.text = it
         }
     }
 

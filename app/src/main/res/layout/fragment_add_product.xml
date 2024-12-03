@@ -1,9 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameProductAddContainer"
+        style="@style/TextInputLayoutStyle2"
+        android:layout_width="355dp"
+        android:layout_height="85dp"
+        android:imeOptions="actionNext"
+        android:textColorHint="@color/backgroundColor1"
+        app:counterTextColor="@color/backgroundColor1"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.30">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtNameProductAdd"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="@font/convergence"
+            android:hint="@string/add_product_name"
+            android:inputType="text"
+            android:lines="1"
+            android:textColor="@color/backgroundColor1"
+            android:textSize="15sp"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/weightProductAddContainer"
+        style="@style/TextInputLayoutStyle2"
+        android:layout_width="235dp"
+        android:layout_height="76dp"
+        android:imeOptions="actionNext"
+        android:textAlignment="center"
+        android:textColorHint="@color/backgroundColor1"
+        app:counterTextColor="@color/backgroundColor1"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.549">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtWeightProductAdd"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="@font/convergence"
+            android:hint="@string/add_product_weight"
+            android:inputType="number|numberDecimal"
+            android:lines="1"
+            android:textAlignment="center"
+            android:textColor="@color/backgroundColor1"
+            android:textSize="15sp"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/quantityProductAddContainer"
+        style="@style/TextInputLayoutStyle2"
+        android:layout_width="235dp"
+        android:layout_height="76dp"
+        android:imeOptions="actionNext"
+        android:textAlignment="center"
+        android:textColorHint="@color/backgroundColor1"
+        app:counterTextColor="@color/backgroundColor1"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.430">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtQuantityProductAdd"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="@font/convergence"
+            android:hint="@string/add_product_quantity"
+            android:inputType="number|numberDecimal"
+            android:lines="1"
+            android:textAlignment="center"
+            android:textColor="@color/backgroundColor1"
+            android:textSize="15sp"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnIncreaseQuantity"
+        android:layout_width="52dp"
+        android:layout_height="45dp"
+        android:background="@drawable/btn_shape"
+        android:drawableTop="@drawable/ic_add"
+        android:fontFamily="@font/convergence"
+        android:gravity="center"
+        android:text="@string/increase"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.422" />
+
+    <Button
+        android:id="@+id/btnDecreaseQuantity"
+        android:layout_width="55dp"
+        android:layout_height="45dp"
+        android:background="@drawable/btn_shape"
+        android:fontFamily="@font/convergence"
+        android:gravity="center"
+        android:text="@string/decrease"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.422" />
 
     <include
         android:id="@+id/header_title"
@@ -17,267 +146,56 @@
     <ImageButton
         android:id="@+id/imgBtnBack"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="35dp"
         android:background="@color/backgroundColor2"
+        android:contentDescription="@string/desc_floating"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_arrow_back"
-        android:contentDescription="@string/desc_floating"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.047"
-        app:tint="@color/black" />
+        app:tint="@color/backgroundColor1" />
+
 
     <ImageView
         android:id="@+id/imgAddProduct"
-        android:layout_width="243dp"
-        android:layout_height="206dp"
+        android:layout_width="199dp"
+        android:layout_height="156dp"
         android:contentDescription="@string/desc_floating"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.107"
+        app:layout_constraintVertical_bias="0.042"
         app:srcCompat="@drawable/logo_dstock" />
 
-    <EditText
-        android:id="@+id/edtNameProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/name_product"
+    <Button
+        android:id="@+id/btnSaveChangesAddProduct"
+        android:layout_width="146dp"
+        android:layout_height="64dp"
+        android:text="@string/save_change"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.845"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.391" />
-
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        android:fontFamily="@font/convergence"
-        android:text="@string/name_product"
-        android:textColor="@color/letters"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.208"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.395" />
-
-    <EditText
-        android:id="@+id/edtQuantityProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="number"
-        android:text="@string/quantity_product"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.845"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.457" />
-
-    <EditText
-        android:id="@+id/edtWeightProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="number"
-        android:text="@string/weight_product"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.845"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.51" />
-
-    <TextView
-        android:id="@+id/txtWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/convergence"
-        android:text="@string/weight_product"
-        android:textColor="@color/letters"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.287"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.511" />
-
-    <EditText
-        android:id="@+id/edtPriceProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:text="@string/price_product"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.845"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.576" />
-
-    <TextView
-        android:id="@+id/txtPriceProduct"
-        android:layout_width="147dp"
-        android:layout_height="37dp"
-        android:fontFamily="@font/convergence"
-        android:text="@string/price_product"
-        android:textColor="@color/letters"
-        android:textSize="21sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.033"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.58" />
-
-
-    <TextView
-        android:id="@+id/txtQuantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/convergence"
-        android:text="@string/quantity_product"
-        android:textColor="@color/letters"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.447" />
-
-    <TextView
-        android:id="@+id/txtProviderProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/convergence"
-        android:text="@string/provider_product"
-        android:textColor="@color/letters"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.649" />
-
-    <EditText
-        android:id="@+id/edtProviderProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/provider_product"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.855"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.653" />
-
-    <TextView
-        android:id="@+id/txtCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/convergence"
-        android:text="@string/category_product"
-        android:textColor="@color/letters"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.729" />
-
-    <EditText
-        android:id="@+id/edtCategoryProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/category_product"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.855"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.734" />
-
-    <TextView
-        android:id="@+id/txtSubcategoryProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/convergence"
-        android:text="@string/subcategory_product"
-        android:textColor="@color/letters"
-        android:textSize="21sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.804" />
-
-    <EditText
-        android:id="@+id/edtSubcategoryProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/subcategory_product"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.86"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.812" />
+        app:layout_constraintVertical_bias="0.949" />
 
     <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="133dp"
-        android:layout_height="52dp"
+        android:id="@+id/btnCancelAddProduct"
+        android:layout_width="146dp"
+        android:layout_height="64dp"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
+        app:layout_constraintHorizontal_bias="0.162"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.896" />
+        app:layout_constraintVertical_bias="0.949" />
 
-    <Button
-        android:id="@+id/btnCancel2"
-        android:layout_width="133dp"
-        android:layout_height="52dp"
-        android:text="@string/flbtn_add_product"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.769"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.896" />
     <include
         android:id="@+id/footer_title"
         layout="@layout/activity_menu_footer"
@@ -286,6 +204,73 @@
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnIncreaseWeight"
+        android:layout_width="52dp"
+        android:layout_height="45dp"
+        android:background="@drawable/btn_shape"
+        android:fontFamily="@font/convergence"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:drawableTop="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.537" />
+
+    <Button
+        android:id="@+id/btnDecreaseWeight"
+        android:layout_width="55dp"
+        android:layout_height="45dp"
+        android:background="@drawable/btn_shape"
+        android:fontFamily="@font/convergence"
+        android:gravity="center"
+        android:text="@string/decrease"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <Spinner
+        android:id="@+id/spinnerProvider"
+        android:layout_width="355dp"
+        android:layout_height="50dp"
+        android:background="@drawable/spinner_border_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.840" />
+
+    <Spinner
+        android:id="@+id/spinnerSubCategory"
+        android:layout_width="355dp"
+        android:layout_height="50dp"
+        android:background="@drawable/spinner_border_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.743" />
+
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="355dp"
+        android:layout_height="50dp"
+        android:background="@drawable/spinner_border_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.647" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

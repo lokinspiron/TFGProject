@@ -13,7 +13,9 @@
     <color name="navigation">#D9D9D9</color>
     <color name="btn_gray">#BDBABA</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FBF7FF</color>
+    <color name="textInputColor" tools:override="true">#b147ff</color>
     <color name="red_button">#fc5656</color>
+
 
 
 </resources>

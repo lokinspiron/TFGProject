@@ -11,6 +11,7 @@ import com.inventory.tfgproject.databinding.FragmentDialogSafeChangeBinding
 
 class DialogSafeChangeFragment : DialogFragment() {
     private lateinit var binding : FragmentDialogSafeChangeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

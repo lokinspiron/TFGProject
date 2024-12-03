@@ -7,7 +7,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cltAddCategory"
-        android:name="com.inventory.tfgproject.view.AddCategoryFragment"
+        android:name="com.inventory.tfgproject.view.DialogSafeChangeFragment"
         android:layout_width="454dp"
         android:layout_height="266dp"
         android:background="@color/navigation"

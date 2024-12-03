@@ -36,13 +36,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="130dp"
             android:fontFamily="@font/convergence"
-            android:paddingRight="95dp"
-            android:text="TextView"
             android:textAlignment="center"
             android:textColor="@color/backgroundColor2"
             android:textSize="20sp" />
 
         <ImageView
+            android:id="@+id/imgHeader"
             android:layout_width="48dp"
             android:layout_height="37dp"
             android:padding="2dp"
@@ -51,40 +50,6 @@
             app:showAsAction="ifRoom|collapseActionView" />
 
     </androidx.appcompat.widget.Toolbar>
-
-    <Button
-        android:id="@+id/btnAddCategory"
-        android:layout_width="361dp"
-        android:layout_height="64dp"
-        android:background="@null"
-        android:backgroundTint="@color/navigation"
-        android:fontFamily="@font/convergence"
-        android:text="@string/btn_add_category"
-        android:textColor="@color/letters"
-        android:textSize="25sp"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.196" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
-        android:background="@color/black"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155">
-
-    </View>
 
     <ScrollView
         android:id="@+id/scvInventory"
@@ -95,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Contenedor único que envuelve todos los elementos -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,11 +68,33 @@
             android:gravity="center"
             android:padding="16dp">
 
+            <Button
+                android:id="@+id/btnAddCategory"
+                android:layout_width="361dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="7dp"
+                android:background="@null"
+                android:backgroundTint="@color/navigation"
+                android:fontFamily="@font/convergence"
+                android:text="@string/btn_add_category"
+                android:textColor="@color/letters"
+                android:textSize="25sp"
+                app:cornerRadius="0dp" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/black"
+                android:orientation="horizontal">
+            </View>
+
             <ImageView
                 android:id="@+id/imgNoContent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_width="320dp"
+                android:layout_height="212dp"
+                android:layout_marginTop="110dp"
                 android:contentDescription="@string/desc_floating"
                 android:src="@drawable/ic_empty" />
 

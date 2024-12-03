@@ -16,6 +16,11 @@
         <item name="boxStrokeWidth">2dp</item>
     </style>
 
+    <style name="TextInputLayoutStyle2" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor" tools:ignore="PrivateResource">@color/text_input_box_stroke</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
+
     <style name="MyTextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
         <item name="android:textColor">@color/color_Focused</item>
     </style>

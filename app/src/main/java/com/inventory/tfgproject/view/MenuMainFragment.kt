@@ -20,6 +20,8 @@ class MenuMainFragment : Fragment() {
 
     }
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,6 +29,11 @@ class MenuMainFragment : Fragment() {
         binding = FragmentMenuMainBinding.inflate(inflater,container,false)
         initListeners()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     private fun initListeners() {
@@ -37,7 +44,6 @@ class MenuMainFragment : Fragment() {
         }
 
         val bnvMenu = binding.root.findViewById<BottomNavigationView>(R.id.bnvMenu)
-
         bnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.btnHome -> {
@@ -52,10 +58,9 @@ class MenuMainFragment : Fragment() {
             }
         }
 
-
     }
 
-    private fun replaceFragment(fragment: Fragment)  {
+    private fun replaceFragment(fragment: Fragment, greetingMessage: String?=null)  {
         val fragmentTag = fragment.javaClass.simpleName
 
         val fragmentTransaction = childFragmentManager.beginTransaction()
@@ -70,6 +75,15 @@ class MenuMainFragment : Fragment() {
             fragmentTransaction.show(existingFragment)
             fragmentTransaction.commit()
         }
+
+        greetingMessage?.let {
+            binding.txtWave.text = it
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
 }

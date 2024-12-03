@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.inventory.tfgproject.databinding.DialogCreateCategoryBinding
+import com.inventory.tfgproject.databinding.FragmentDialogCreateCategoryBinding
 
 class CreateCategoryDialogFragment : DialogFragment() {
-    private lateinit var binding : DialogCreateCategoryBinding
+    private lateinit var binding : FragmentDialogCreateCategoryBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentDialogCreateCategoryBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

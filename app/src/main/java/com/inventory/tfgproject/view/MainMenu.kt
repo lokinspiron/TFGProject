@@ -34,7 +34,6 @@ class MainMenu : AppCompatActivity(){
         setContentView(binding.root)
         supportActionBar?.hide()
         userViewModel.loadUserData()
-        initViewModels()
     }
 
     private fun initViewModels() {
@@ -43,6 +42,7 @@ class MainMenu : AppCompatActivity(){
                 Log.d("User Data", "User: ${user.name}, ${user.email}")
                 val greetingMessage = getString(R.string.greetings, user.name)
                 binding.txtWave.text = greetingMessage
+                replaceFragment(MenuMainFragment(),greetingMessage)
 
                 val navigationView: NavigationView = findViewById(R.id.nav_view)
                 val headerView = navigationView.getHeaderView(0)
@@ -65,13 +65,12 @@ class MainMenu : AppCompatActivity(){
         val drawerlt: DrawerLayout = findViewById(R.id.drawerlt)
         initListeners(btnDrawerToggle, drawerlt)
         replaceFragment(MenuMainFragment())
-
+        initViewModels()
     }
 
     private fun initListeners(btnDrawerToggle: ImageButton, drawerlt: DrawerLayout) {
         btnDrawerToggle.setOnClickListener {
             drawerlt.openDrawer(GravityCompat.START)
-
         }
 
         val bnvMenu = binding.root.findViewById<BottomNavigationView>(R.id.bnvMenu)
@@ -79,11 +78,11 @@ class MainMenu : AppCompatActivity(){
         bnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.btnHome -> {
-                    replaceFragment(MenuMainFragment())
+                    replaceFragment(MenuMainFragment(),getString(R.string.greetings,userViewModel.userData.value?.name))
                     true
                 }
                 R.id.btnProviders -> {
-                    replaceFragment(ProviderFragment())
+                    replaceFragment(ProviderFragment(),"Proveedores")
                     true
 
                 }
@@ -93,16 +92,17 @@ class MainMenu : AppCompatActivity(){
 
         val fabMenu = binding.root.findViewById<FloatingActionButton>(R.id.fabMenu)
         fabMenu.setOnClickListener{
-            replaceFragment(InventoryFragment())
+            replaceFragment(InventoryFragment(),"Inventario")
+
         }
         val navMenu = binding.root.findViewById<NavigationView>(R.id.nav_view)
         navMenu.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    replaceFragment(MenuMainFragment())
+                    replaceFragment(MenuMainFragment(),getString(R.string.greetings,userViewModel.userData.value?.name))
                 }
                 R.id.nav_scan -> {
-                    replaceFragment(ScanCodeFragment())
+                    replaceFragment(ScanCodeFragment(),"Escaneo")
                 }
                 R.id.nav_share -> {
                     share()
@@ -137,7 +137,7 @@ class MainMenu : AppCompatActivity(){
     }
 
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment,greetingMessage:String?=null) {
         val fragmentTag = fragment.javaClass.simpleName
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -152,6 +152,9 @@ class MainMenu : AppCompatActivity(){
                 .show(existingFragment)
                 .commit()
         }
+        greetingMessage?.let {
+            binding.txtWave.text = it
+        }
     }
 
     override fun onBackPressed() {
@@ -162,4 +165,5 @@ class MainMenu : AppCompatActivity(){
             super.onBackPressed()
         }
     }
+
 }

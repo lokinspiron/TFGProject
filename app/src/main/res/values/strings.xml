@@ -129,4 +129,13 @@
 
     <string name="empty_list">Lista vacía</string>
     <string name="add_category">Añade categorías</string>
+    <string name="add_provider">Añade proveedores</string>
+
+    <string name="add_product_name">Nombre</string>
+    <string name="add_product_quantity">Cantidad</string>
+    <string name="add_product_weight">Peso</string>
+    <string name="increase">+</string>
+    <string name="decrease">-</string>
+
+    <string name="inventory">Inventario</string>
 </resources>
