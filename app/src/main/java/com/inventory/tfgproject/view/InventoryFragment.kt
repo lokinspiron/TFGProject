@@ -34,7 +34,6 @@ class InventoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentInventoryBinding.inflate(inflater,container,false)
-
         return binding.root
     }
 
@@ -53,14 +52,7 @@ class InventoryFragment : Fragment() {
             onAddButtonClicked()
         }
         binding.fabAddProducts.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("greetingMessage", "Añadir Producto")
-
-            val addProductFragment = AddProductFragment()
-            addProductFragment.arguments = bundle
-
-            // Reemplazar el fragmento
-            replaceFragment(addProductFragment)
+            replaceFragment(AddProductFragment(),"Añadir Producto")
         }
         binding.fabEditProducts.setOnClickListener {
 

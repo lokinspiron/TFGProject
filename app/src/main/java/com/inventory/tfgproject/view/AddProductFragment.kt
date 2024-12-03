@@ -28,15 +28,8 @@ class AddProductFragment : Fragment() {
         return binding.root
     }
 
-    private fun updateTextView() {
-        val txtView = requireActivity().findViewById<TextView>(R.id.txtWave)
-        val txtAddProduct = getString(R.string.flbtn_add_product)
-        txtView.text = txtAddProduct
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        updateTextView()
     }
 
     override fun onDestroyView() {

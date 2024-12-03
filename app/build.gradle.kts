@@ -49,6 +49,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("androidx.activity:activity:1.8.0")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation("com.google.firebase:firebase-storage-ktx:21.0.1")
