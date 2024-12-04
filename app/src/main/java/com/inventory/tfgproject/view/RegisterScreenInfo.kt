@@ -27,6 +27,7 @@ import com.inventory.tfgproject.model.FirebaseAuthClient
 import com.inventory.tfgproject.model.FirebaseDatabaseClient
 import com.inventory.tfgproject.model.User
 import com.inventory.tfgproject.viewmodel.AuthViewModel
+import com.inventory.tfgproject.viewmodel.UserViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -36,6 +37,7 @@ class RegisterScreenInfo : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterScreenInfoBinding
     private var user: User? = null
     private val authViewModel: AuthViewModel by viewModels()
+    private val userViewModel : UserViewModel by viewModels()
     private lateinit var authClient: FirebaseAuthClient
     private lateinit var db: FirebaseDatabaseClient
 
@@ -163,31 +165,32 @@ class RegisterScreenInfo : AppCompatActivity() {
         }
     }
 
-    private fun registerUserDB(){
-        val userName = intent.getStringExtra("Username")?:""
-        val userSurname = intent.getStringExtra("Surname")?:""
-        val userEmail = intent.getStringExtra("Email")?:""
+    private fun registerUserDB() {
+        val userName = intent.getStringExtra("Username") ?: ""
+        val userSurname = intent.getStringExtra("Surname") ?: ""
+        val userEmail = intent.getStringExtra("Email") ?: ""
         val userBirthDate = user?.birthDate
         val userPhone = binding.edtPhoneRegister.text.toString().trim()
         val userAddress = binding.edtAddressRegister.text.toString().trim()
-        val userProfilePhoto = user?.profilePictureUrl
+        var userProfilePhoto: String? = user?.profilePictureUrl
         val userJoinedDate = ActualDate()
 
-        val newUser = User(
-            name = userName,
-            surname = userSurname,
-            email = userEmail,
-            birthDate = userBirthDate,
-            phoneNumber = userPhone,
-            address = userAddress,
-            profilePictureUrl = userProfilePhoto,
-            joinedDate = userJoinedDate
-        )
-
         val currentUser = FirebaseAuth.getInstance().currentUser
-        if(currentUser != null){
-            db.saveUserData(currentUser.uid,newUser)
-            toast("Se ha agregado a base de datos",Toast.LENGTH_SHORT)
+
+        if (currentUser != null) {
+            val newUser = User(
+                name = userName,
+                surname = userSurname,
+                email = userEmail,
+                birthDate = userBirthDate,
+                phoneNumber = userPhone,
+                address = userAddress,
+                profilePictureUrl = userProfilePhoto,
+                joinedDate = userJoinedDate
+            )
+
+            db.saveUserData(currentUser.uid, newUser)
+            toast("Se ha agregado a base de datos", Toast.LENGTH_SHORT)
         }
     }
 
@@ -200,6 +203,10 @@ class RegisterScreenInfo : AppCompatActivity() {
                 profilePictureRef.downloadUrl.addOnSuccessListener { uri ->
                     val profilePictureUrl = uri.toString()
                     user = user?.copy(profilePictureUrl = profilePictureUrl)
+
+                    userViewModel.updateUser(user)
+
+                    Log.d("Firebase", "Foto subida correctamente: $profilePictureUrl")
                     toast("Foto de perfil subida con éxito",Toast.LENGTH_SHORT)
                 }
             }

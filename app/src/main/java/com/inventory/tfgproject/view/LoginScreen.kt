@@ -116,8 +116,6 @@ class LoginScreen : AppCompatActivity() {
             AnimationUtil.isAnimationDone = true
         }
 
-        registerNewUserAuth()
-
         authViewModel.isEmailVerified.observe(this, Observer{isVerified ->
             if(isVerified){
                 authViewModel.stopVerificationCheck()
@@ -128,21 +126,6 @@ class LoginScreen : AppCompatActivity() {
             }
         })
         authViewModel.startVerificationCheck()
-    }
-
-    private fun registerNewUserAuth() {
-        val userEmail = intent.getStringExtra("Email")
-        val userPassword = intent.getStringExtra("Password")
-
-        if (userEmail != null && userPassword != null) {
-            authClient.registerUser(userEmail,userPassword){registered ->
-                if(registered){
-                    authViewModel.sendVerificationEmail()
-                }else{
-                    toast("El correo ya existe")
-                }
-            }
-        }
     }
 
     private fun validPassword(): String? {

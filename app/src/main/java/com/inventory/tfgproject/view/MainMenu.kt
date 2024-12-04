@@ -15,12 +15,14 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ActivityMainMenuBinding
 import com.inventory.tfgproject.viewmodel.UserViewModel
+import de.hdodenhof.circleimageview.CircleImageView
 
 
 class MainMenu : AppCompatActivity(){
@@ -53,6 +55,21 @@ class MainMenu : AppCompatActivity(){
                 txtNameHeader.text = user.name
                 txtEmailHeader.text = user.email
 
+                val imgProfilePhoto: CircleImageView = binding.root.findViewById(R.id.imgProfilePhoto)
+                Log.d("UserData", "Profile Picture URL: ${user.profilePictureUrl}")
+                if (!user.profilePictureUrl.isNullOrEmpty()) {
+                    Glide.with(this)
+                        .load(user.profilePictureUrl)
+                        .circleCrop()
+                        .into(imgProfilePhoto)
+                    Log.e("ImgProfilePhoto","Photo is uploaded")
+                } else {
+                    Glide.with(this)
+                        .load(R.drawable.ic_user_image)
+                        .circleCrop()
+                        .into(imgProfilePhoto)
+                    Log.e("ImgProfilePhoto","Photo is not uploaded")
+                }
             } else {
                 Log.d("User Data", "User data is null")
             }
@@ -93,8 +110,8 @@ class MainMenu : AppCompatActivity(){
         val fabMenu = binding.root.findViewById<FloatingActionButton>(R.id.fabMenu)
         fabMenu.setOnClickListener{
             replaceFragment(InventoryFragment(),"Inventario")
-
         }
+
         val navMenu = binding.root.findViewById<NavigationView>(R.id.nav_view)
         navMenu.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -136,8 +153,7 @@ class MainMenu : AppCompatActivity(){
         startActivity(shareIntent)
     }
 
-
-    private fun replaceFragment(fragment: Fragment,greetingMessage:String?=null) {
+    fun replaceFragment(fragment: Fragment,greetingMessage:String?=null) {
         val fragmentTag = fragment.javaClass.simpleName
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -165,5 +181,4 @@ class MainMenu : AppCompatActivity(){
             super.onBackPressed()
         }
     }
-
 }

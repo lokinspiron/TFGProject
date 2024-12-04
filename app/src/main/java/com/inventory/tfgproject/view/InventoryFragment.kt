@@ -52,7 +52,8 @@ class InventoryFragment : Fragment() {
             onAddButtonClicked()
         }
         binding.fabAddProducts.setOnClickListener {
-            replaceFragment(AddProductFragment(),"Añadir Producto")
+            (activity as? MainMenu)?.replaceFragment(AddProductFragment(), " Añadir Producto")
+
         }
         binding.fabEditProducts.setOnClickListener {
 
@@ -123,5 +124,4 @@ class InventoryFragment : Fragment() {
             binding.txtWave.text = it
         }
     }
-
 }

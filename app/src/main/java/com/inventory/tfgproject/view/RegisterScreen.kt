@@ -1,32 +1,79 @@
 package com.inventory.tfgproject.view
 
-import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.activity.viewModels
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.database.FirebaseDatabase
+import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ActivityRegisterScreenBinding
 import com.inventory.tfgproject.extension.loseFocusAfterAction
-import com.inventory.tfgproject.extension.toast
-import com.inventory.tfgproject.model.FirebaseAuthClient
-import com.inventory.tfgproject.model.User
+import com.inventory.tfgproject.viewmodel.AuthViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+
 
 class RegisterScreen : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterScreenBinding
-
+    private val authViewModel: AuthViewModel by viewModels()
+    private lateinit var googleSignInClient: GoogleSignInClient
+    private val RC_SIGN_IN = 9001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initListener()
+    }
+
+    private fun configureGoogleSignIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        val googleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        val signInIntent: Intent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RC_SIGN_IN){
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try{
+                authViewModel.handleGoogleSignInResult(task)
+            } catch (e:ApiException){
+                Log.e("GoogleSignIn","Google SIGN-IN FAILED",e)
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String?) {
+        if (idToken != null) {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            FirebaseAuth.getInstance().signInWithCredential(credential)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user = FirebaseAuth.getInstance().currentUser
+                        if (user != null) {
+                            authViewModel.saveUserDetailsToDatabase(user)
+                        }
+                        Log.d("FirebaseAuth", "Usuario autenticado: ${user?.displayName}")
+                    } else {
+                        Log.w("FirebaseAuth", "Error de autenticación", task.exception)
+                    }
+                }
+        }
     }
 
     private fun initListener() {
@@ -78,6 +125,10 @@ class RegisterScreen : AppCompatActivity() {
             if (!focused) {
                 binding.confirmPasswordRegisterContainer.helperText = validConfirm()
             }
+        }
+
+        binding.imgGoogle.setOnClickListener{
+            configureGoogleSignIn()
         }
     }
 
@@ -160,4 +211,5 @@ class RegisterScreen : AppCompatActivity() {
         }
         return null
     }
+
 }

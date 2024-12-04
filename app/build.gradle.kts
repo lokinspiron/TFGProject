@@ -54,6 +54,8 @@ dependencies {
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation("com.google.firebase:firebase-storage-ktx:21.0.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
     //Lottie
     val lottieVersion = "6.0.0"
     implementation("com.airbnb.android:lottie-compose:$lottieVersion")
