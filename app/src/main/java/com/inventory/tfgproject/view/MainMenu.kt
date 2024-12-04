@@ -57,18 +57,18 @@ class MainMenu : AppCompatActivity(){
 
                 val imgProfilePhoto: CircleImageView = binding.root.findViewById(R.id.imgProfilePhoto)
                 Log.d("UserData", "Profile Picture URL: ${user.profilePictureUrl}")
-                if (!user.profilePictureUrl.isNullOrEmpty()) {
-                    Glide.with(this)
-                        .load(user.profilePictureUrl)
-                        .circleCrop()
-                        .into(imgProfilePhoto)
-                    Log.e("ImgProfilePhoto","Photo is uploaded")
-                } else {
+                if (user.profilePictureUrl.isNullOrEmpty()) {
                     Glide.with(this)
                         .load(R.drawable.ic_user_image)
                         .circleCrop()
                         .into(imgProfilePhoto)
                     Log.e("ImgProfilePhoto","Photo is not uploaded")
+                } else {
+                    Glide.with(this)
+                        .load(user.profilePictureUrl)
+                        .circleCrop()
+                        .into(imgProfilePhoto)
+                    Log.e("ImgProfilePhoto","Photo is uploaded")
                 }
             } else {
                 Log.d("User Data", "User data is null")

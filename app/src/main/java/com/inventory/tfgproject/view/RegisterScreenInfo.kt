@@ -64,7 +64,6 @@ class RegisterScreenInfo : AppCompatActivity() {
         binding.phoneRegisterContainer.helperText = null
         binding.btnContinue.setOnClickListener {
             registerLoadingScreen()
-
         }
         binding.edtPhoneRegister.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
         binding.edtPhoneRegister.setOnFocusChangeListener { _, focused ->
@@ -145,6 +144,7 @@ class RegisterScreenInfo : AppCompatActivity() {
                 startActivity(Intent(this,MainMenu::class.java))
             }else{
                 setContentView(viewLoading)
+
             }
         })
         authViewModel.startVerificationCheck()
@@ -172,13 +172,13 @@ class RegisterScreenInfo : AppCompatActivity() {
         val userBirthDate = user?.birthDate
         val userPhone = binding.edtPhoneRegister.text.toString().trim()
         val userAddress = binding.edtAddressRegister.text.toString().trim()
-        var userProfilePhoto: String? = user?.profilePictureUrl
+        val userProfilePhoto: String? = user?.profilePictureUrl
         val userJoinedDate = ActualDate()
 
         val currentUser = FirebaseAuth.getInstance().currentUser
 
         if (currentUser != null) {
-            val newUser = User(
+            user = User(
                 name = userName,
                 surname = userSurname,
                 email = userEmail,
@@ -189,7 +189,7 @@ class RegisterScreenInfo : AppCompatActivity() {
                 joinedDate = userJoinedDate
             )
 
-            db.saveUserData(currentUser.uid, newUser)
+            db.saveUserData(currentUser)
             toast("Se ha agregado a base de datos", Toast.LENGTH_SHORT)
         }
     }
@@ -215,6 +215,7 @@ class RegisterScreenInfo : AppCompatActivity() {
                 Log.e("Firebase", "Error uploading profile picture", exception)
             }
     }
+
     @SuppressLint("SimpleDateFormat")
     fun ActualDate():String{
         val sdf : SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
