@@ -22,58 +22,18 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class RegisterScreen : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterScreenBinding
-    private val authViewModel: AuthViewModel by viewModels()
+    private val auth: AuthViewModel by viewModels()
     private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_SIGN_IN = 9001
+    private val REQ_ONE_TAP = 2
+    private var showOneTapUI = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        confGoogleSignIn()
         initListener()
-    }
-
-    private fun configureGoogleSignIn() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        val googleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
-        val signInIntent: Intent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == RC_SIGN_IN){
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try{
-                authViewModel.handleGoogleSignInResult(task)
-            } catch (e:ApiException){
-                Log.e("GoogleSignIn","Google SIGN-IN FAILED",e)
-            }
-        }
-    }
-
-    private fun firebaseAuthWithGoogle(idToken: String?) {
-        if (idToken != null) {
-            val credential = GoogleAuthProvider.getCredential(idToken, null)
-            FirebaseAuth.getInstance().signInWithCredential(credential)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val user = FirebaseAuth.getInstance().currentUser
-                        if (user != null) {
-                            authViewModel.saveUserDetailsToDatabase(user)
-                        }
-                        Log.d("FirebaseAuth", "Usuario autenticado: ${user?.displayName}")
-                    } else {
-                        Log.w("FirebaseAuth", "Error de autenticación", task.exception)
-                    }
-                }
-        }
     }
 
     private fun initListener() {
@@ -128,7 +88,7 @@ class RegisterScreen : AppCompatActivity() {
         }
 
         binding.imgGoogle.setOnClickListener{
-            configureGoogleSignIn()
+
         }
     }
 
@@ -210,6 +170,15 @@ class RegisterScreen : AppCompatActivity() {
             return "Incluye al menos una mayúscula y número"
         }
         return null
+    }
+
+    fun confGoogleSignIn(){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
 }

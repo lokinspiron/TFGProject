@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -12,12 +13,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
+import com.inventory.tfgproject.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.whileSelect
+import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 class AuthViewModel: ViewModel() {
     private val firebaseDb = FirebaseDatabase.getInstance()
@@ -63,7 +66,7 @@ class AuthViewModel: ViewModel() {
         verificationJob?.cancel()
     }
 
-    fun signInWithGoogle(idToken: String) {
+    private fun signInWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener { task: Task<AuthResult> ->
@@ -80,6 +83,7 @@ class AuthViewModel: ViewModel() {
                 }
             }
     }
+
 
     fun handleGoogleSignInResult(task: Task<GoogleSignInAccount>) {
         try {

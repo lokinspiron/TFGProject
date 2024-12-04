@@ -8,35 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:853853576865:android:4754c37d3549bb51bc1ae0",
-        "android_client_info": {
-          "package_name": "com.inventory.tfgproject"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "853853576865-atupfa5idpis71ubt78s19skitqe0f7j.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyARaEcbUMNNOCbQCsctwi4on1wKW3b_zKE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "853853576865-atupfa5idpis71ubt78s19skitqe0f7j.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:853853576865:android:8d8ceb04077910afbc1ae0",
         "android_client_info": {
           "package_name": "com.inventory.tfproject"
