@@ -9,9 +9,7 @@ import com.inventory.tfgproject.model.FirebaseAuthClient
 
 class LoginViewModel: ViewModel() {
 
-    val userName = MutableLiveData<String>()
-
-    private val authClient = FirebaseAuthClient()
+    private val auth = FirebaseAuthClient()
 
     fun getUserName() {
         val user = FirebaseAuth.getInstance().currentUser
@@ -21,7 +19,6 @@ class LoginViewModel: ViewModel() {
 
             database.child("users").child(userId).get().addOnSuccessListener { snapshot ->
                 val name = snapshot.child("name").value.toString()
-                userName.value = name
             }
         }
     }

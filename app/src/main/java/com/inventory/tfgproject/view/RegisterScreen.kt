@@ -1,38 +1,44 @@
 package com.inventory.tfgproject.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.database.FirebaseDatabase
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ActivityRegisterScreenBinding
 import com.inventory.tfgproject.extension.loseFocusAfterAction
 import com.inventory.tfgproject.viewmodel.AuthViewModel
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.FirebaseDatabase
+import com.inventory.tfgproject.model.User
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class RegisterScreen : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterScreenBinding
-    private val auth: AuthViewModel by viewModels()
-    private lateinit var googleSignInClient: GoogleSignInClient
+    private val authViewModel: AuthViewModel by viewModels()
+    private lateinit var auth : FirebaseAuth
     private val RC_SIGN_IN = 9001
-    private val REQ_ONE_TAP = 2
-    private var showOneTapUI = true
+    private lateinit var user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        confGoogleSignIn()
+        user = User()
         initListener()
     }
 
@@ -88,7 +94,7 @@ class RegisterScreen : AppCompatActivity() {
         }
 
         binding.imgGoogle.setOnClickListener{
-
+            confGoogleSignIn()
         }
     }
 
@@ -172,13 +178,90 @@ class RegisterScreen : AppCompatActivity() {
         return null
     }
 
-    fun confGoogleSignIn(){
+    private fun confGoogleSignIn(){
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
-        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        val googleSignInClient = GoogleSignIn.getClient(this,gso)
+
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RC_SIGN_IN){
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                account?.let { firebaseAuthWithGoogle(it) }
+            }catch (e: ApiException){
+                Toast.makeText(this,"Google sign-in failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val currentUser = authViewModel.getCurrentUser()
+
+                    var userName = currentUser?.displayName?.split(" ")?.get(0) ?: ""
+                    var userSurname = currentUser?.displayName?.split(" ")?.getOrNull(1) ?: ""
+                    val userEmail = currentUser?.email.toString()
+                    val userPhone = currentUser?.phoneNumber
+                    val userAddress = ""
+                    val profilePhoto = currentUser?.photoUrl
+                    val joinedDate = ActualDate()
+
+                    user = User(
+                        name = userName,
+                        surname = userSurname,
+                        email = userEmail,
+                        phoneNumber = userPhone,
+                        address = userAddress,
+                        profilePictureUrl = profilePhoto.toString(),
+                        joinedDate = joinedDate
+                    )
+
+                    val userId = currentUser?.uid
+                    if (userId != null) {
+                        val database = FirebaseDatabase.getInstance()
+                        val userRef = database.getReference("users").child(userId)
+
+                        userRef.get().addOnSuccessListener { snapshot ->
+                            if(!snapshot.exists()){
+                                userRef.setValue(user)
+                                    .addOnCompleteListener { dbTask ->
+                                        if (dbTask.isSuccessful) {
+                                            Log.d("Firebase", "User data saved successfully.")
+                                        } else {
+                                            Log.d("Firebase", "Error saving user data.")
+                                        }
+                                    }
+                            } else {
+                                Log.d("Firebase Database ","User already exists")
+                            }
+                        }
+                    }
+
+                    Toast.makeText(this, "Hello, ${currentUser?.displayName}!", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this,MainMenu::class.java))
+                } else {
+                    Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun ActualDate():String{
+        val sdf : SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val fechaActual = Date()
+        return sdf.format(fechaActual)
+    }
 }

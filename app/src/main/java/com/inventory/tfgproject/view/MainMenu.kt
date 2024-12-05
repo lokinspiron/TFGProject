@@ -19,8 +19,11 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseUser
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ActivityMainMenuBinding
+import com.inventory.tfgproject.model.User
+import com.inventory.tfgproject.viewmodel.AuthViewModel
 import com.inventory.tfgproject.viewmodel.UserViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -28,6 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 class MainMenu : AppCompatActivity(){
     private var requestCamara : ActivityResultLauncher<String>? = null
     private lateinit var binding: ActivityMainMenuBinding
+    private val auth : AuthViewModel by viewModels()
     private val userViewModel : UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,10 +39,10 @@ class MainMenu : AppCompatActivity(){
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        userViewModel.loadUserData()
+
     }
 
-    private fun initViewModels() {
+    private fun initViewModels(currentUser: FirebaseUser) {
         userViewModel.userData.observe(this,Observer{ user ->
             if (user != null) {
                 Log.d("User Data", "User: ${user.name}, ${user.email}")
@@ -74,15 +78,17 @@ class MainMenu : AppCompatActivity(){
                 Log.d("User Data", "User data is null")
             }
         })
+        userViewModel.loadUserData(currentUser)
     }
 
     override fun onStart() {
         super.onStart()
         val btnDrawerToggle: ImageButton = findViewById(R.id.btnDrawerToggle)
         val drawerlt: DrawerLayout = findViewById(R.id.drawerlt)
+        val currentUser = auth.getCurrentUser()
         initListeners(btnDrawerToggle, drawerlt)
         replaceFragment(MenuMainFragment())
-        initViewModels()
+        initViewModels(currentUser!!)
     }
 
     private fun initListeners(btnDrawerToggle: ImageButton, drawerlt: DrawerLayout) {

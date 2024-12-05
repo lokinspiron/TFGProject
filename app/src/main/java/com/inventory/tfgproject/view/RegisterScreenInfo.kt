@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.oAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.inventory.tfgproject.AnimationUtil
@@ -35,11 +38,10 @@ import java.util.UUID
 
 class RegisterScreenInfo : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterScreenInfoBinding
-    private var user: User? = null
     private val authViewModel: AuthViewModel by viewModels()
-    private val userViewModel : UserViewModel by viewModels()
     private lateinit var authClient: FirebaseAuthClient
     private lateinit var db: FirebaseDatabaseClient
+    private lateinit var user : User
 
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
         if(uri!=null){
@@ -56,6 +58,7 @@ class RegisterScreenInfo : AppCompatActivity() {
         setContentView(binding.root)
         authClient = FirebaseAuthClient()
         db = FirebaseDatabaseClient()
+        user = User()
         initListener()
     }
 
@@ -99,7 +102,7 @@ class RegisterScreenInfo : AppCompatActivity() {
                 if (age >= 18) {
                     toast("Edad válida",Toast.LENGTH_SHORT)
                     val birthDateString = selectedDate.time.toString()
-                    user = user?.copy(birthDate = birthDateString)
+                    user = user.copy(birthDate = birthDateString)
                 } else {
                     toast("Debes ser mayor de 18 años",Toast.LENGTH_SHORT)
                 }
@@ -135,64 +138,57 @@ class RegisterScreenInfo : AppCompatActivity() {
         }
 
         registerNewUserAuth()
+        emailVerification(viewLoading)
 
+
+    }
+
+    private fun emailVerification(viewLoading: View){
         authViewModel.isEmailVerified.observe(this, Observer{isVerified ->
             if(isVerified){
                 authViewModel.stopVerificationCheck()
-                registerUserDB()
                 toast("Correo verificado", Toast.LENGTH_SHORT)
                 startActivity(Intent(this,MainMenu::class.java))
             }else{
                 setContentView(viewLoading)
-
             }
         })
-        authViewModel.startVerificationCheck()
+        authViewModel.sendVerificationEmail()
     }
 
     private fun registerNewUserAuth() {
-        val userEmail = intent.getStringExtra("Email")
-        val userPassword = intent.getStringExtra("Password")
-
-        if (userEmail != null && userPassword != null) {
-            authClient.registerUser(userEmail,userPassword){registered ->
-                if(registered){
-                    authViewModel.sendVerificationEmail()
-                }else{
-                    toast("El correo ya existe")
-                }
+        authViewModel.authStatus.observe(this,Observer{ isSuccessful ->
+            if(isSuccessful){
+                Log.d("Autenticacion de usuario","Usuario autenticado : {currentUser?.email}")
+            }else{
+                Toast.makeText(this,"Error de autenticacion",Toast.LENGTH_SHORT).show()
             }
-        }
+        })
+        registerUserDB()
     }
 
     private fun registerUserDB() {
+
         val userName = intent.getStringExtra("Username") ?: ""
         val userSurname = intent.getStringExtra("Surname") ?: ""
         val userEmail = intent.getStringExtra("Email") ?: ""
-        val userBirthDate = user?.birthDate
+        val userPassword = intent.getStringExtra("Password")?:""
         val userPhone = binding.edtPhoneRegister.text.toString().trim()
         val userAddress = binding.edtAddressRegister.text.toString().trim()
-        val userProfilePhoto: String? = user?.profilePictureUrl
         val userJoinedDate = ActualDate()
 
-        val currentUser = FirebaseAuth.getInstance().currentUser
+        user = User(
+            name = userName,
+            surname = userSurname,
+            email = userEmail,
+            phoneNumber = userPhone,
+            address = userAddress,
+            joinedDate = userJoinedDate
+        )
 
-        if (currentUser != null) {
-            user = User(
-                name = userName,
-                surname = userSurname,
-                email = userEmail,
-                birthDate = userBirthDate,
-                phoneNumber = userPhone,
-                address = userAddress,
-                profilePictureUrl = userProfilePhoto,
-                joinedDate = userJoinedDate
-            )
-
-            db.saveUserData(currentUser)
-            toast("Se ha agregado a base de datos", Toast.LENGTH_SHORT)
+        authViewModel.createUser(userEmail,userPassword,user)
+        toast("Se ha agregado a base de datos", Toast.LENGTH_SHORT)
         }
-    }
 
     private fun uploadProfilePicture(uri: Uri) {
         val storageRef = FirebaseStorage.getInstance().reference
@@ -202,9 +198,7 @@ class RegisterScreenInfo : AppCompatActivity() {
             .addOnSuccessListener {
                 profilePictureRef.downloadUrl.addOnSuccessListener { uri ->
                     val profilePictureUrl = uri.toString()
-                    user = user?.copy(profilePictureUrl = profilePictureUrl)
-
-                    userViewModel.updateUser(user)
+                    user = user.copy(profilePictureUrl = profilePictureUrl)
 
                     Log.d("Firebase", "Foto subida correctamente: $profilePictureUrl")
                     toast("Foto de perfil subida con éxito",Toast.LENGTH_SHORT)

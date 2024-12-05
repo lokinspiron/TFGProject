@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:853853576865:android:8d8ceb04077910afbc1ae0",
         "android_client_info": {
-          "package_name": "com.inventory.tfproject"
+          "package_name": "com.inventory.tfgproject"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "853853576865-on150onffgord9sjufbhkdvh86m93tqr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.inventory.tfproject",
+            "package_name": "com.inventory.tfgproject",
             "certificate_hash": "288ceb7d91db908fb563813ab86eef5b3503b2af"
           }
         },

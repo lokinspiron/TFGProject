@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="370dp"
+        android:layout_height="268dp"
+        android:background="@color/navigation"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.459">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameGoogleRegister"
+            style="@style/TextInputLayoutStyle2"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:imeOptions="actionNext"
+            android:textColorHint="@color/backgroundColor1"
+            app:counterTextColor="@color/backgroundColor1"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@android:color/holo_red_dark">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNameGoogleRegister"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:fontFamily="@font/convergence"
+                android:hint="@string/add_product_name"
+                android:inputType="text"
+                android:lines="1"
+                android:textColor="@color/backgroundColor1"
+                android:textSize="15sp"
+                tools:ignore="RtlSymmetry" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/surnameGoogleRegister"
+            style="@style/TextInputLayoutStyle2"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="25dp"
+            android:imeOptions="actionNext"
+            android:textColorHint="@color/backgroundColor1"
+            app:counterTextColor="@color/backgroundColor1"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@android:color/holo_red_dark">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSurnameGoogleRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/convergence"
+                android:hint="@string/surname"
+                android:inputType="text"
+                android:lines="1"
+                android:textColor="@color/backgroundColor1"
+                android:textSize="15sp"
+                tools:ignore="RtlSymmetry" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="85dp"
+            android:layout_marginTop="25dp"
+            android:text="Submit" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
