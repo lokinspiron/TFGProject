@@ -16,14 +16,19 @@ class UserViewModel: ViewModel() {
     val userData: LiveData<User?> get() = _userData
 
     fun loadUserData(currentUser:FirebaseUser){
-        Log.d("Firebase", "User UID: ${currentUser.uid}")
+        Log.d("Firebase", "Listening for changes on User UID: ${currentUser.uid}")
         val userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUser.uid)
 
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        userRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = dataSnapshot.getValue(User::class.java)
-                if (user != null) {
-                    _userData.postValue(user)
+                if (dataSnapshot.exists()) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    Log.d("Firebase", "User data updated: $user")
+                    if (user != null) {
+                        _userData.postValue(user)
+                    }
+                } else {
+                    Log.e("Firebase", "User data not found in database for UID: ${currentUser.uid}")
                 }
             }
 

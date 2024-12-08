@@ -16,10 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.oAuthProvider
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.inventory.tfgproject.AnimationUtil
 import com.inventory.tfgproject.R
@@ -30,7 +26,6 @@ import com.inventory.tfgproject.model.FirebaseAuthClient
 import com.inventory.tfgproject.model.FirebaseDatabaseClient
 import com.inventory.tfgproject.model.User
 import com.inventory.tfgproject.viewmodel.AuthViewModel
-import com.inventory.tfgproject.viewmodel.UserViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -42,6 +37,8 @@ class RegisterScreenInfo : AppCompatActivity() {
     private lateinit var authClient: FirebaseAuthClient
     private lateinit var db: FirebaseDatabaseClient
     private lateinit var user : User
+
+    private var profilePictureUrl : String? = null
 
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
         if(uri!=null){
@@ -137,9 +134,7 @@ class RegisterScreenInfo : AppCompatActivity() {
             AnimationUtil.isAnimationDone = true
         }
 
-        registerNewUserAuth()
-        emailVerification(viewLoading)
-
+        registerNewUserAuth(viewLoading)
 
     }
 
@@ -150,16 +145,18 @@ class RegisterScreenInfo : AppCompatActivity() {
                 toast("Correo verificado", Toast.LENGTH_SHORT)
                 startActivity(Intent(this,MainMenu::class.java))
             }else{
-                setContentView(viewLoading)
+                toast("Error al verificar el correo",Toast.LENGTH_SHORT)
             }
         })
-        authViewModel.sendVerificationEmail()
+
     }
 
-    private fun registerNewUserAuth() {
+    private fun registerNewUserAuth(viewLoading: View) {
         authViewModel.authStatus.observe(this,Observer{ isSuccessful ->
             if(isSuccessful){
                 Log.d("Autenticacion de usuario","Usuario autenticado : {currentUser?.email}")
+                authViewModel.sendVerificationEmail()
+                emailVerification(viewLoading)
             }else{
                 Toast.makeText(this,"Error de autenticacion",Toast.LENGTH_SHORT).show()
             }
@@ -175,7 +172,7 @@ class RegisterScreenInfo : AppCompatActivity() {
         val userPassword = intent.getStringExtra("Password")?:""
         val userPhone = binding.edtPhoneRegister.text.toString().trim()
         val userAddress = binding.edtAddressRegister.text.toString().trim()
-        val userJoinedDate = ActualDate()
+        val userJoinedDate = actualDate()
 
         user = User(
             name = userName,
@@ -183,6 +180,7 @@ class RegisterScreenInfo : AppCompatActivity() {
             email = userEmail,
             phoneNumber = userPhone,
             address = userAddress,
+            profilePictureUrl = profilePictureUrl,
             joinedDate = userJoinedDate
         )
 
@@ -197,8 +195,7 @@ class RegisterScreenInfo : AppCompatActivity() {
         profilePictureRef.putFile(uri)
             .addOnSuccessListener {
                 profilePictureRef.downloadUrl.addOnSuccessListener { uri ->
-                    val profilePictureUrl = uri.toString()
-                    user = user.copy(profilePictureUrl = profilePictureUrl)
+                    profilePictureUrl = uri.toString()
 
                     Log.d("Firebase", "Foto subida correctamente: $profilePictureUrl")
                     toast("Foto de perfil subida con éxito",Toast.LENGTH_SHORT)
@@ -211,7 +208,7 @@ class RegisterScreenInfo : AppCompatActivity() {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun ActualDate():String{
+    fun actualDate():String{
         val sdf : SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val fechaActual = Date()
         return sdf.format(fechaActual)

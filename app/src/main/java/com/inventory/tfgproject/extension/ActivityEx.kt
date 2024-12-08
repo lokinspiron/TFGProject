@@ -6,11 +6,16 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.inventory.tfgproject.R
 
 
 fun Activity.toast(text: String,length: Int = Toast.LENGTH_SHORT){
     Toast.makeText(this,text,length).show()
+}
+
+fun Fragment.toast(text: String, length: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(requireContext(),text,length).show()
 }
 
 fun Activity.span(unselectedPart: String, selectedPart: String): SpannableStringBuilder {

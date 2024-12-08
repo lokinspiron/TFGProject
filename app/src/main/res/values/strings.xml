@@ -116,7 +116,7 @@
     <string name="email_Register" font="@font/convergence">Correo</string>
     <string name="confirmPassword_Register" font="@font/convergence">Confirmar Contraseña</string>
     <string name="continue_Register" font="@font/convergenece">Continuar</string>
-    <string name="information_add" font ="@font/convergence">Información Adicional</string>
+    <string name="information_add" font="@font/convergence">Información Adicional</string>
     <string name="skip" font="@font/convergence">Omitir</string>
     <string name="upload_image" font="@font/convergence">Subir Foto de perfil</string>
 
@@ -130,6 +130,7 @@
     <string name="empty_list">Lista vacía</string>
     <string name="add_category">Añade categorías</string>
     <string name="add_provider">Añade proveedores</string>
+    <string name="add_product">Añade productos</string>
 
     <string name="add_product_name">Nombre</string>
     <string name="add_product_quantity">Cantidad</string>
@@ -139,5 +140,7 @@
 
     <string name="inventory">Inventario</string>
 
-    <string name="default_web_client_id">853853576865-atupfa5idpis71ubt78s19skitqe0f7j.apps.googleusercontent.com</string>
+    <string name="default_web_client_id">853853576865-on150onffgord9sjufbhkdvh86m93tqr.apps.googleusercontent.com</string>
+
+    <string name="category">Categoría</string>
 </resources>

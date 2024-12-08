@@ -51,138 +51,78 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
-        android:id="@+id/scvInventory"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.228">
 
-
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategories"
             android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginBottom="65dp"
+            tools:listitem="@layout/item_category" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/black"
+            android:orientation="horizontal">
+
+        </View>
+
+        <Button
+            android:id="@+id/btnAddCategory"
+            android:layout_width="361dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="15dp"
+            android:background="@null"
+            android:backgroundTint="@color/navigation"
+            android:fontFamily="@font/convergence"
+            android:text="@string/btn_add_category"
+            android:textColor="@color/letters"
+            android:textSize="25sp"
+            app:cornerRadius="0dp" />
+
+        <ImageView
+            android:id="@+id/imgNoContent"
+            android:layout_width="320dp"
+            android:layout_height="212dp"
+            android:layout_marginTop="110dp"
+            android:contentDescription="@string/desc_floating"
+            android:src="@drawable/ic_empty" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="16dp">
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/convergence"
+            android:text="@string/empty_list"
+            android:textColor="@color/letters_dark"
+            android:textSize="35sp" />
 
-            <Button
-                android:id="@+id/btnAddCategory"
-                android:layout_width="361dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="7dp"
-                android:background="@null"
-                android:backgroundTint="@color/navigation"
-                android:fontFamily="@font/convergence"
-                android:text="@string/btn_add_category"
-                android:textColor="@color/letters"
-                android:textSize="25sp"
-                app:cornerRadius="0dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/convergence"
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/black"
-                android:orientation="horizontal">
-            </View>
+            android:text="@string/add_category"
+            android:textColor="@color/letters_dark"
+            android:textSize="20sp" />
 
-            <ImageView
-                android:id="@+id/imgNoContent"
-                android:layout_width="320dp"
-                android:layout_height="212dp"
-                android:layout_marginTop="110dp"
-                android:contentDescription="@string/desc_floating"
-                android:src="@drawable/ic_empty" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/convergence"
-                android:text="@string/empty_list"
-                android:textColor="@color/letters_dark"
-                android:textSize="35sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/convergence"
-
-                android:text="@string/add_category"
-                android:textColor="@color/letters_dark"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabEditProducts"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_gravity="bottom|end"
-        android:backgroundTint="@color/navigation"
-        android:clickable="true"
-        android:contentDescription="@string/flbtn_add_product"
-        android:focusable="true"
-        android:visibility="invisible"
-        app:fabCustomSize="55dp"
-        android:tint="@color/backgroundColor1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.943"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.780"
-        app:srcCompat="@drawable/ic_edit" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddProducts"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_gravity="bottom|end"
-        android:backgroundTint="@color/navigation"
-        android:clickable="true"
-        android:contentDescription="@string/flbtn_add_product"
-        android:focusable="true"
-        android:visibility="invisible"
-        android:tint="@color/backgroundColor1"
-        app:fabCustomSize="55dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.943"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.689"
-        app:srcCompat="@drawable/ic_add" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabProducts"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_gravity="bottom|end"
-        android:clickable="true"
-        android:contentDescription="@string/flbtn_add_product"
-        android:focusable="true"
-        app:fabCustomSize="65dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.900"
-        app:srcCompat="@drawable/ic_option_tools" />
-
-    <include
-        layout="@layout/activity_menu_footer"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

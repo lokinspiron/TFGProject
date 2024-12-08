@@ -51,12 +51,12 @@ class AuthViewModel: ViewModel() {
             user.sendEmailVerification().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("Auth", "Email de verificación enviado correctamente")
+                    startVerificationCheck(user)
                 } else {
                     Log.e("Auth", "Error al enviar email de verificación: ${task.exception?.message}")
                     _isEmailVerified.postValue(false)
                 }
             }
-            startVerificationCheck(user)
         } else {
             Log.e("Auth", "Error: Usuario no encontrado")
             _isEmailVerified.postValue(false)
@@ -83,56 +83,4 @@ class AuthViewModel: ViewModel() {
     fun getCurrentUser(): FirebaseUser? {
         return firebaseAuth.getCurrentUser()
     }
-
-//    fun signInWithGoogle(idToken: String) {
-//        val credential = GoogleAuthProvider.getCredential(idToken, null)
-//        firebaseAuth.signInWithCredential(credential)
-//            .addOnCompleteListener { task: Task<AuthResult> ->
-//                if (task.isSuccessful) {
-//                    firebaseAuth.currentUser?.let { firebaseUser ->
-//                        Log.d("FirebaseAuth", "Usuario autenticado: ${firebaseUser.displayName}")
-//                        _user.value = firebaseUser
-//                    } ?: run {
-//                        Log.e("FirebaseAuth", "El usuario es null después de la autenticación.")
-//                        _error.value = "Error: El usuario es null"
-//                    }
-//                } else {
-//                    _error.value = "Error de autenticación"
-//                }
-//            }
-//    }
-
-
-//    fun handleGoogleSignInResult(task: Task<GoogleSignInAccount>) {
-//        try {
-//            val account = task.getResult(ApiException::class.java)
-//            signInWithGoogle(account.idToken!!)
-//        } catch (e: ApiException) {
-//            _error.value = "Error en la autenticación con Google"
-//            Log.w("AuthenticationViewModel", "signInResult:failed code=" + e.statusCode)
-//        }
-//    }
-
-    fun saveUserDetailsToDatabase(user: FirebaseUser) {
-        val db = FirebaseDatabase.getInstance()
-        val userRef = db.reference.child("users").child(user.uid)
-
-        val userData = hashMapOf(
-            "name" to user.displayName,
-            "email" to user.email,
-            "profilePictureUrl" to user.photoUrl.toString()
-        )
-
-        userRef.setValue(userData)
-            .addOnSuccessListener {
-                Log.d("AuthenticationViewModel", "User details saved")
-            }
-            .addOnFailureListener { e ->
-                Log.w("AuthenticationViewModel", "Error saving user details", e)
-            }
-    }
-
-
-
-
 }

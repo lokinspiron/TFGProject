@@ -7,12 +7,10 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -22,7 +20,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseUser
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ActivityMainMenuBinding
-import com.inventory.tfgproject.model.User
 import com.inventory.tfgproject.viewmodel.AuthViewModel
 import com.inventory.tfgproject.viewmodel.UserViewModel
 import de.hdodenhof.circleimageview.CircleImageView
@@ -34,12 +31,12 @@ class MainMenu : AppCompatActivity(){
     private val auth : AuthViewModel by viewModels()
     private val userViewModel : UserViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-
     }
 
     private fun initViewModels(currentUser: FirebaseUser) {
@@ -71,6 +68,8 @@ class MainMenu : AppCompatActivity(){
                     Glide.with(this)
                         .load(user.profilePictureUrl)
                         .circleCrop()
+                        .fitCenter()
+                        .override(200, 200)
                         .into(imgProfilePhoto)
                     Log.e("ImgProfilePhoto","Photo is uploaded")
                 }
@@ -85,10 +84,19 @@ class MainMenu : AppCompatActivity(){
         super.onStart()
         val btnDrawerToggle: ImageButton = findViewById(R.id.btnDrawerToggle)
         val drawerlt: DrawerLayout = findViewById(R.id.drawerlt)
-        val currentUser = auth.getCurrentUser()
         initListeners(btnDrawerToggle, drawerlt)
         replaceFragment(MenuMainFragment())
-        initViewModels(currentUser!!)
+
+        val currentUser = auth.getCurrentUser()
+
+        if (currentUser == null) {
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            return
+        }
+        initViewModels(currentUser)
     }
 
     private fun initListeners(btnDrawerToggle: ImageButton, drawerlt: DrawerLayout) {
@@ -137,7 +145,10 @@ class MainMenu : AppCompatActivity(){
                     Toast.makeText(this, "About seleccionado", Toast.LENGTH_SHORT).show()
                 }
                 R.id.nav_logout -> {
-                    val dialogFragment: DialogFragment = DialogSafeChangeFragment()
+                    val dialogFragment = DialogSafeChangeFragment.newInstance(
+                        dynamicText = "Estás a punto de cerrar la sesión",
+                        doItText = "Cerrar Sesión"
+                    )
                     dialogFragment.show(supportFragmentManager, "LogOut")
                 }
             }

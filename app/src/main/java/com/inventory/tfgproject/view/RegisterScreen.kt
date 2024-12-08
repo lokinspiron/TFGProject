@@ -8,6 +8,8 @@ import android.util.Log
 import android.util.Patterns
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -21,6 +23,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
+import com.inventory.tfgproject.model.FirebaseAuthClient
 import com.inventory.tfgproject.model.User
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -31,15 +34,36 @@ class RegisterScreen : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterScreenBinding
     private val authViewModel: AuthViewModel by viewModels()
     private lateinit var auth : FirebaseAuth
-    private val RC_SIGN_IN = 9001
     private lateinit var user : User
+    private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        auth = FirebaseAuth.getInstance()
         user = User()
         initListener()
+
+        googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data = result.data
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                try {
+                    val account = task.getResult(ApiException::class.java)
+                    if (account != null) {
+                        Log.d("GoogleSignIn", "Google account: ${account.displayName}")
+                        firebaseAuthWithGoogle(account)
+                    } else {
+                        Log.e("GoogleSignIn", "Account is null, task failed")
+                    }
+                } catch (e: ApiException) {
+                    Toast.makeText(this, "Google sign-in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("GoogleSignIn", "Error: ${e.message}")
+                }
+            }
+        }
     }
 
     private fun initListener() {
@@ -94,7 +118,7 @@ class RegisterScreen : AppCompatActivity() {
         }
 
         binding.imgGoogle.setOnClickListener{
-            confGoogleSignIn()
+            launchGoogleSignIn()
         }
     }
 
@@ -178,30 +202,11 @@ class RegisterScreen : AppCompatActivity() {
         return null
     }
 
-    private fun confGoogleSignIn(){
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        val googleSignInClient = GoogleSignIn.getClient(this,gso)
-
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == RC_SIGN_IN){
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                account?.let { firebaseAuthWithGoogle(it) }
-            }catch (e: ApiException){
-                Toast.makeText(this,"Google sign-in failed", Toast.LENGTH_SHORT).show()
-            }
-        }
+    @SuppressLint("SimpleDateFormat")
+    fun actualDate():String{
+        val sdf : SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val fechaActual = Date()
+        return sdf.format(fechaActual)
     }
 
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
@@ -211,13 +216,13 @@ class RegisterScreen : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val currentUser = authViewModel.getCurrentUser()
 
-                    var userName = currentUser?.displayName?.split(" ")?.get(0) ?: ""
-                    var userSurname = currentUser?.displayName?.split(" ")?.getOrNull(1) ?: ""
+                    val userName = currentUser?.displayName?.split(" ")?.get(0) ?: ""
+                    val userSurname = currentUser?.displayName?.split(" ")?.getOrNull(1) ?: ""
                     val userEmail = currentUser?.email.toString()
                     val userPhone = currentUser?.phoneNumber
                     val userAddress = ""
                     val profilePhoto = currentUser?.photoUrl
-                    val joinedDate = ActualDate()
+                    val joinedDate = actualDate()
 
                     user = User(
                         name = userName,
@@ -240,28 +245,49 @@ class RegisterScreen : AppCompatActivity() {
                                     .addOnCompleteListener { dbTask ->
                                         if (dbTask.isSuccessful) {
                                             Log.d("Firebase", "User data saved successfully.")
+                                            navigateToMainMenu()
                                         } else {
                                             Log.d("Firebase", "Error saving user data.")
                                         }
                                     }
                             } else {
                                 Log.d("Firebase Database ","User already exists")
+                                navigateToMainMenu()
                             }
                         }
                     }
 
-                    Toast.makeText(this, "Hello, ${currentUser?.displayName}!", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this,MainMenu::class.java))
                 } else {
                     Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
-    @SuppressLint("SimpleDateFormat")
-    fun ActualDate():String{
-        val sdf : SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val fechaActual = Date()
-        return sdf.format(fechaActual)
+
+
+    private fun launchGoogleSignIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .setLogSessionId(true.toString())
+            .build()
+
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            FirebaseAuth.getInstance().signOut()
+        }
+
+        googleSignInClient.signOut().addOnCompleteListener {
+            googleSignInClient.revokeAccess().addOnCompleteListener {
+                val signInIntent = googleSignInClient.signInIntent
+                googleSignInLauncher.launch(signInIntent)
+            }
+        }
+    }
+
+    private fun navigateToMainMenu() {
+        startActivity(Intent(this, MainMenu::class.java))
+        finish()
     }
 }

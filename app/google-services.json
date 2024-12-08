@@ -1,21 +1,20 @@
 {
   "project_info": {
-    "project_number": "853853576865",
-    "firebase_url": "https://d-stock01-default-rtdb.firebaseio.com",
-    "project_id": "d-stock01",
-    "storage_bucket": "d-stock01.firebasestorage.app"
+    "project_number": "330855217523",
+    "project_id": "d-stock-01",
+    "storage_bucket": "d-stock-01.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:853853576865:android:8d8ceb04077910afbc1ae0",
+        "mobilesdk_app_id": "1:330855217523:android:26d3141092d46398e6ad06",
         "android_client_info": {
           "package_name": "com.inventory.tfgproject"
         }
       },
       "oauth_client": [
         {
-          "client_id": "853853576865-on150onffgord9sjufbhkdvh86m93tqr.apps.googleusercontent.com",
+          "client_id": "330855217523-dhfnr1cuvhmfvlcp82vm16qv5bo7gstq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.inventory.tfgproject",
@@ -23,20 +22,20 @@
           }
         },
         {
-          "client_id": "853853576865-atupfa5idpis71ubt78s19skitqe0f7j.apps.googleusercontent.com",
+          "client_id": "330855217523-0v91g3a3ajbbeqb6eerr23hulh0kql8o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyARaEcbUMNNOCbQCsctwi4on1wKW3b_zKE"
+          "current_key": "AIzaSyAvuavM20usZ_rBpgA013vmAb7C_Ibq3sk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "853853576865-atupfa5idpis71ubt78s19skitqe0f7j.apps.googleusercontent.com",
+              "client_id": "330855217523-0v91g3a3ajbbeqb6eerr23hulh0kql8o.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

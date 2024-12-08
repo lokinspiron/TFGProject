@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.inventory.tfgproject" />
-                  <option name="mobileSdkAppId" value="1:853853576865:android:4754c37d3549bb51bc1ae0" />
-                  <option name="projectId" value="d-stock01" />
-                  <option name="projectNumber" value="853853576865" />
+                  <option name="mobileSdkAppId" value="1:330855217523:android:26d3141092d46398e6ad06" />
+                  <option name="projectId" value="d-stock-01" />
+                  <option name="projectNumber" value="330855217523" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

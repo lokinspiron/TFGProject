@@ -15,24 +15,12 @@ class FirebaseAuthClient {
         auth.setLanguageCode(Locale.getDefault().language)
     }
 
-    fun loginUser(email:String,password:String,callback: (Boolean) -> Unit){
-        auth.signInWithEmailAndPassword(email,password)
-            .addOnCompleteListener{ task ->
-                if(task.isSuccessful) {
-                    callback(true)
-                }else {
-                    callback(false)
-                }
-
-            }
-    }
-
     fun createUserWithEmail(email: String, password: String, user:User,onComplete:(Boolean) -> Unit){
         auth.signOut()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val firebaseUser = auth.currentUser
+                    val firebaseUser = task.result?.user
                     val uid = firebaseUser?.uid
                     if (firebaseUser != null) {
                         val userRef = db.child("users").child(uid!!)
@@ -42,6 +30,7 @@ class FirebaseAuthClient {
                                     onComplete(true)
                                 } else {
                                     onComplete(false)
+                                    Log.d("Auth","Crear usuario en base de datos")
                                 }
                             }
                     } else {
@@ -53,10 +42,7 @@ class FirebaseAuthClient {
                     onComplete(false)
                 }
             }
-
     }
-
-
 
     fun signInWithEmail(email: String, password: String, onComplete: (Boolean) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
@@ -67,5 +53,9 @@ class FirebaseAuthClient {
 
     fun getCurrentUser(): FirebaseUser? {
         return auth.currentUser
+    }
+
+    fun logout(){
+        auth.signOut()
     }
 }

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundColor1"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageButton
+            android:id="@+id/btnDrawerToggle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/navigation_drawer_open"
+            android:padding="2dp"
+            android:src="@drawable/ic_menu" />
+
+        <TextView
+            android:id="@+id/txtWave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="130dp"
+            android:fontFamily="@font/convergence"
+            android:textAlignment="center"
+            android:textColor="@color/backgroundColor2"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imgHeader"
+            android:layout_width="48dp"
+            android:layout_height="37dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_search"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"
+            app:showAsAction="ifRoom|collapseActionView" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:fontFamily="@font/convergence"
+        android:textSize="11sp"
+        />
+    <ImageView
+        android:id="@+id/imgNoContent"
+        android:layout_width="320dp"
+        android:layout_height="212dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginStart="50dp"
+        android:contentDescription="@string/desc_floating"
+        android:src="@drawable/ic_empty" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:layout_marginStart="110dp"
+        android:fontFamily="@font/convergence"
+        android:text="@string/empty_list"
+        android:textColor="@color/letters_dark"
+        android:textSize="35sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/convergence"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/add_product"
+        android:textColor="@color/letters_dark"
+        android:textSize="20sp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEditProducts"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="25dp"
+        android:backgroundTint="@color/navigation"
+        android:clickable="true"
+        android:contentDescription="@string/flbtn_add_product"
+        android:focusable="true"
+        android:tintMode="@color/backgroundColor1"
+        android:visibility="visible"
+        app:fabCustomSize="55dp"
+        app:srcCompat="@drawable/ic_edit" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddProducts"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:backgroundTint="@color/navigation"
+        android:clickable="true"
+        android:contentDescription="@string/flbtn_add_product"
+        android:focusable="true"
+        android:tintMode="@color/backgroundColor1"
+        android:visibility="visible"
+        app:fabCustomSize="55dp"
+        app:srcCompat="@drawable/ic_add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabProducts"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:clickable="true"
+        android:contentDescription="@string/flbtn_add_product"
+        android:focusable="true"
+        app:fabCustomSize="65dp"
+        app:srcCompat="@drawable/ic_option_tools" />
+
+    <include
+        layout="@layout/activity_menu_footer"
+        android:visibility="invisible"/>
+
+</LinearLayout>
