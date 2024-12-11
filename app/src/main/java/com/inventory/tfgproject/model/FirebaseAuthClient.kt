@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import java.util.Locale
+import com.inventory.tfgproject.viewmodel.CategoryViewModel
 
 class FirebaseAuthClient {
     private val auth = FirebaseAuth.getInstance()
@@ -15,22 +16,22 @@ class FirebaseAuthClient {
         auth.setLanguageCode(Locale.getDefault().language)
     }
 
-    fun createUserWithEmail(email: String, password: String, user:User,onComplete:(Boolean) -> Unit){
+    fun createUserWithEmail(email: String, password: String, user: User, onComplete: (Boolean) -> Unit) {
         auth.signOut()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val firebaseUser = task.result?.user
                     val uid = firebaseUser?.uid
-                    if (firebaseUser != null) {
-                        val userRef = db.child("users").child(uid!!)
+                    if (firebaseUser != null && uid != null) {
+                        val userRef = db.child("users").child(uid)
                         userRef.setValue(user)
                             .addOnCompleteListener {
                                 if (it.isSuccessful) {
                                     onComplete(true)
                                 } else {
                                     onComplete(false)
-                                    Log.d("Auth","Crear usuario en base de datos")
+                                    Log.d("Auth", "Crear usuario en base de datos")
                                 }
                             }
                     } else {
@@ -58,4 +59,6 @@ class FirebaseAuthClient {
     fun logout(){
         auth.signOut()
     }
+
+
 }

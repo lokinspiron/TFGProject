@@ -143,4 +143,7 @@
     <string name="default_web_client_id">853853576865-on150onffgord9sjufbhkdvh86m93tqr.apps.googleusercontent.com</string>
 
     <string name="category">Categoría</string>
+
+    <string name="add_category_name">Nombre:</string>
+
 </resources>

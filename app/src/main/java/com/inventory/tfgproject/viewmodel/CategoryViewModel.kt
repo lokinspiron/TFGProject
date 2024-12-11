@@ -4,54 +4,132 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.distinctUntilChanged
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.inventory.tfgproject.model.Category
+import com.inventory.tfgproject.model.Subcategory
 
-class CategoryViewModel: ViewModel() {
-    private val db = FirebaseDatabase.getInstance().getReference("categories")
-
+class CategoryViewModel : ViewModel() {
     private val _categories = MutableLiveData<List<Category>>()
-    val categories: LiveData<List<Category>> get() = _categories
+    val categories: LiveData<List<Category>> = _categories.distinctUntilChanged()
 
-    init {
-        fetchCategories()
-    }
+    private val database = FirebaseDatabase.getInstance()
+    private val categoriesRef = database.getReference("categories")
+
+    private val currentUser = FirebaseAuth.getInstance().currentUser
 
     fun fetchCategories() {
-        db.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val categoryList = mutableListOf<Category>()
-                snapshot.children.forEach { child ->
-                    val category = child.getValue(Category::class.java)
-                    if (category != null) {
+        currentUser?.let { user ->
+            val userCategoriesRef = categoriesRef.child(user.uid)
+
+            userCategoriesRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val categoryList = mutableListOf<Category>()
+
+                    if (!snapshot.exists() || snapshot.childrenCount == 0L) {
+                        addDefaultCategory()
+                        return
+                    }
+
+                    snapshot.children.forEach { categorySnapshot ->
+                        val category = Category(
+                            id = categorySnapshot.key ?: "",
+                            name = categorySnapshot.child("name").getValue(String::class.java) ?: "",
+                            subcategory = categorySnapshot.child("subcategory").getValue(
+                                object : GenericTypeIndicator<Map<String?, Subcategory>>() {}
+                            )
+                        )
                         categoryList.add(category)
                     }
+
+                    val sortedCategories = categoryList.sortedBy {
+                        if (it.name == "Todo") 0 else 1
+                    }
+
+                    _categories.value = sortedCategories
                 }
 
-                val todoCategory = Category(
-                    id = "TODO",
-                    name = "Todo"
-                )
-                if (categoryList.none { it.id == "TODO" }) {
-                    categoryList.add(0, todoCategory)
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("CategoryViewModel", "Error fetching categories", error.toException())
                 }
-
-                _categories.value = categoryList
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("FirebaseError", "Error fetching categories: ${error.message}")
-            }
-        })
+            })
+        }
     }
 
-    fun addCategory(category: Category) {
-        val newCategoryRef = db.push()
-        category.id = newCategoryRef.key ?: ""
-        newCategoryRef.setValue(category)
+    private fun addDefaultCategory() {
+        currentUser?.let { user ->
+            val userCategoriesRef = categoriesRef.child(user.uid)
+            val newCategoryRef = userCategoriesRef.push()
+
+            val defaultCategory = Category(
+                id = newCategoryRef.key ?: "",
+                name = "Todo",
+                subcategory = null
+            )
+
+            newCategoryRef.setValue(defaultCategory)
+                .addOnSuccessListener {
+                    Log.d("CategoryViewModel", "Default 'Todo' category added successfully")
+                    fetchCategories()
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("CategoryViewModel", "Error adding default category", exception)
+                }
+        }
+    }
+
+    fun addCategory(name: String, subcategory: Subcategory? = null) {
+        currentUser?.let { user ->
+            val userCategoriesRef = categoriesRef.child(user.uid)
+            val newCategoryRef = userCategoriesRef.push()
+
+            val newCategory = Category(
+                id = newCategoryRef.key ?: "",
+                name = name,
+                subcategory = subcategory?.let {
+                    mapOf(it.id to it)
+                }
+            )
+
+            newCategoryRef.setValue(newCategory)
+                .addOnSuccessListener {
+                    Log.d("CategoryViewModel", "Categoría agregada exitosamente")
+
+                    val currentCategories = _categories.value?.toMutableList() ?: mutableListOf()
+                    currentCategories.add(newCategory)
+
+                    val sortedCategories = currentCategories.sortedBy {
+                        if (it.name == "Todo") 0 else 1
+                    }
+
+                    _categories.value = sortedCategories
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("CategoryViewModel", "Error al agregar categoría", exception)
+                }
+        }
+    }
+    fun addSubcategoryToCategory(category: Category, subcategory: Subcategory) {
+        currentUser?.let { user ->
+            val categoryRef = categoriesRef.child(user.uid).child(category.id)
+
+            val currentSubcategories = category.subcategory?.toMutableMap() ?: mutableMapOf()
+
+            currentSubcategories[subcategory.id] = subcategory
+
+            categoryRef.child("subcategory").setValue(currentSubcategories)
+                .addOnSuccessListener {
+                    Log.d("CategoryViewModel", "Subcategory added successfully")
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("CategoryViewModel", "Error adding subcategory", exception)
+                }
+        }
     }
 
 }

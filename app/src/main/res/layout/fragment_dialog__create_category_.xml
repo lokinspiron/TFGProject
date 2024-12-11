@@ -8,8 +8,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cltAddCategory"
         android:name="com.inventory.tfgproject.view.AddCategoryFragment"
-        android:layout_width="445dp"
-        android:layout_height="478dp"
+        android:layout_width="439dp"
+        android:layout_height="525dp"
         android:background="@color/navigation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,17 +18,16 @@
 
         <ImageView
             android:id="@+id/imgClose"
-            android:layout_width="39dp"
-            android:layout_height="47dp"
+            android:layout_width="36dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="16dp"
             android:backgroundTintMode="@color/letters"
             android:contentDescription="@string/desc_floating"
             android:src="@drawable/ic_close"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.958"
+            app:layout_constraintHorizontal_bias="0.93"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.027" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtAddCategory"
@@ -44,71 +43,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.044" />
 
-        <TextView
-            android:id="@+id/txtNameCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name_product"
-            android:textColor="@color/letters"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.094"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.21" />
-
-        <EditText
-            android:id="@+id/edtCategoryName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/letters"
-            android:ems="10"
-            android:hint="@string/category_product"
-            android:inputType="text"
-            android:textColor="@color/letters"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.804"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.196" />
-
         <Button
             android:id="@+id/btnAddCategory"
-            android:layout_width="153dp"
-            android:layout_height="49dp"
-            android:text="@string/add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.36" />
-
-        <Button
-            android:id="@+id/btnAddSubcategory"
-            android:layout_width="234dp"
-            android:layout_height="51dp"
+            android:layout_width="235dp"
+            android:layout_height="54dp"
             android:text="@string/save_change"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.959" />
-
-        <Button
-            android:id="@+id/btnAddSubcategory2"
-            android:layout_width="153dp"
-            android:layout_height="49dp"
-            android:text="@string/add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.804" />
+            app:layout_constraintVertical_bias="0.852" />
 
         <View
             android:id="@+id/divider"
@@ -118,28 +63,11 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.457">
+            app:layout_constraintVertical_bias="0.406">
 
         </View>
-
-        <EditText
-            android:id="@+id/edtSubCategoryName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/letters"
-            android:ems="10"
-            android:hint="@string/subcategory_product"
-            android:inputType="text"
-            android:textColor="@color/letters"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.805"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.66" />
 
         <TextView
             android:id="@+id/txtAddSubCategory"
@@ -152,23 +80,55 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.531" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtNameSubcategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name_product"
-            android:textColor="@color/letters"
-            android:textSize="20sp"
-            android:textStyle="bold"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilNameCategory"
+            android:layout_width="341dp"
+            android:layout_height="85dp"
+            android:textColorHint="@color/letters"
+            app:boxStrokeColor="@color/letters"
+            app:cursorColor="@color/letters"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@android:color/holo_red_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.091"
+            app:layout_constraintHorizontal_bias="0.485"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.66" />
+            app:layout_constraintVertical_bias="0.225">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNameCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/convergence"
+                android:hint="@string/add_category_name"
+                android:textColor="@color/letters"
+                android:textCursorDrawable="@color/letters" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="341dp"
+            android:layout_height="64dp"
+            android:textColorHint="@color/backgroundColor1"
+            app:boxStrokeColor="@color/backgroundColor1"
+            app:cursorColor="@color/backgroundColor1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.485"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.664">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNameSubcategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/convergence"
+                android:hint="@string/add_category_name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
