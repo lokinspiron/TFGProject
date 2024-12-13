@@ -59,8 +59,8 @@
         android:id="@+id/imgNoContent"
         android:layout_width="320dp"
         android:layout_height="212dp"
-        android:layout_marginTop="130dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="45dp"
         android:contentDescription="@string/desc_floating"
         android:src="@drawable/ic_empty" />
 
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/convergence"
         android:layout_marginStart="120dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:text="@string/add_product"
         android:textColor="@color/letters_dark"
         android:textSize="20sp" />
@@ -95,7 +95,7 @@
         android:contentDescription="@string/flbtn_add_product"
         android:focusable="true"
         android:tintMode="@color/backgroundColor1"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:fabCustomSize="55dp"
         app:srcCompat="@drawable/ic_edit" />
 
@@ -104,14 +104,14 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_gravity="bottom|end"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
         android:backgroundTint="@color/navigation"
         android:clickable="true"
         android:contentDescription="@string/flbtn_add_product"
         android:focusable="true"
         android:tintMode="@color/backgroundColor1"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:fabCustomSize="55dp"
         app:srcCompat="@drawable/ic_add" />
 
@@ -120,7 +120,7 @@
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_gravity="bottom|end"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="7dp"
         android:layout_marginEnd="20dp"
         android:clickable="true"
         android:contentDescription="@string/flbtn_add_product"

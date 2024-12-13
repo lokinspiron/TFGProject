@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,7 +19,6 @@ import com.inventory.tfgproject.SubcategoryAdapter
 import com.inventory.tfgproject.databinding.DialogAddSubcategoryBinding
 import com.inventory.tfgproject.databinding.FragmentInventoryBinding
 import com.inventory.tfgproject.viewmodel.CategoryViewModel
-import com.inventory.tfgproject.extension.toast
 import com.inventory.tfgproject.model.Category
 import com.inventory.tfgproject.model.Subcategory
 import java.util.UUID
@@ -59,22 +57,52 @@ class InventoryFragment : Fragment() {
             mutableListOf(),
             { category ->
                 Log.d("CategoryClick", "Clicked category: ${category.name}")
-                toast("Clicked: ${category.name}", Toast.LENGTH_SHORT)
-
-                setupSubcategoryRecyclerView(category)
+                categoryViewModel.selectCategory(category)
 
                 (activity as? MainMenu)?.replaceFragment(
-                    InventoryMenuFragment.newInstanceForCategory(category.id, category.name)
+                    InventoryMenuFragment.newInstanceForCategory(category.id, category.name),
+                    category.name
                 )
             },
             { category ->
                 showAddSubcategoryDialog(category)
+            },
+            { subcategory ->
+                Log.d("SubcategoryClick", "Clicked subcategory: ${subcategory.name}, ID: ${subcategory.id}")
+
+                (activity as? MainMenu)?.replaceFragment(
+                    InventoryMenuFragment.newInstanceForSubcategory(subcategory.id, subcategory.name),"${subcategory.name}"
+                )
             }
         )
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         recyclerView.adapter = categoryAdapter
 
-        setupSubcategoryRecyclerView(null)
+        view.post {
+            val rvSubcategories = view.findViewById<RecyclerView>(R.id.rvSubcategories)
+
+            if (rvSubcategories == null) {
+                Log.e("SetupSubcategoryRecycler", "RecyclerView is null. Cannot setup RecyclerView.")
+                return@post
+            }
+
+            subcategoryRecyclerView = rvSubcategories
+            subcategoryAdapter = SubcategoryAdapter(
+                mutableListOf()
+            ) { subcategory ->
+                Log.d("SubcategoryClick", "Subcategory clicked: ${subcategory.name}, ID: ${subcategory.id}")
+
+                (activity as? MainMenu)?.let { mainMenu ->
+                    val fragment = InventoryMenuFragment.newInstanceForSubcategory(subcategory.id, subcategory.name)
+                    mainMenu.replaceFragment(fragment)
+                } ?: Log.e("SubcategoryClick", "MainMenu activity is null")
+            }
+
+            subcategoryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            subcategoryRecyclerView.adapter = subcategoryAdapter
+
+            Log.d("SetupSubcategoryRecycler", "RecyclerView setup completed")
+        }
 
         initListeners()
         initViewModel()
@@ -138,37 +166,5 @@ class InventoryFragment : Fragment() {
             }
         }
         dialog.show()
-    }
-
-    private fun setupSubcategoryRecyclerView(category: Category?) {
-        val rvSubcategories = view?.findViewById<RecyclerView>(R.id.rvSubcategories)
-        if (rvSubcategories == null) {
-            Log.e(
-                "SetupSubcategoryRecycler",
-                "RecyclerView is null. Check if it's defined in the layout."
-            )
-            return
-        }
-
-        subcategoryRecyclerView = rvSubcategories
-        subcategoryAdapter = SubcategoryAdapter(
-            mutableListOf()
-        ) { subcategory ->
-            Log.d("SubcategoryClick", "Subcategory clicked: ${subcategory.name}")
-            (activity as? MainMenu)?.replaceFragment(
-                InventoryMenuFragment.newInstanceForSubcategory(subcategory.id, subcategory.name)
-            )
-        }
-        subcategoryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        subcategoryRecyclerView.adapter = subcategoryAdapter
-
-        category?.let {
-            categoryViewModel.getSubcategoriesForCategory(it.id)
-        }
-
-        categoryViewModel.subcategories.observe(viewLifecycleOwner, Observer { subcategories ->
-            subcategoryAdapter.updateSubcategories(subcategories)
-            subcategoryRecyclerView.visibility = if (subcategories.isEmpty()) View.GONE else View.VISIBLE
-        })
     }
 }

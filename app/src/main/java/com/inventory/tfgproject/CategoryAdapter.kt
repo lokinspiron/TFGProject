@@ -11,11 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.BuildConfig
 import com.inventory.tfgproject.model.Category
+import com.inventory.tfgproject.model.Subcategory
+import com.inventory.tfgproject.view.InventoryMenuFragment
+import com.inventory.tfgproject.view.MainMenu
 
 class CategoryAdapter(
     private var categories: MutableList<Category>,
     private val onCategoryClickListener: ((Category) -> Unit)? = null,
-    private val onAddSubcategoryClickListener: ((Category) -> Unit)? = null
+    private val onAddSubcategoryClickListener: ((Category) -> Unit)? = null,
+    private val onSubcategoryClickListener: ((Subcategory) -> Unit)? = null
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -49,13 +53,11 @@ class CategoryAdapter(
         fun bind(category: Category) {
             tvCategoryName.text = category.name
 
-            // Setup subcategory RecyclerView
             subcategoryAdapter = SubcategoryAdapter(
-                category.subcategory?.values?.toMutableList() ?: mutableListOf(),
-                { subcategory ->
-                    // Handle subcategory click if needed
-                }
-            )
+                category.subcategory?.values?.toMutableList() ?: mutableListOf()
+            ) { subcategory ->
+                onSubcategoryClickListener?.invoke(subcategory)
+            }
             rvSubcategories.layoutManager = LinearLayoutManager(itemView.context)
             rvSubcategories.adapter = subcategoryAdapter
 

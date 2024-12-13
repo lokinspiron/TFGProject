@@ -24,6 +24,9 @@ class CategoryViewModel : ViewModel() {
     private val _subcategories = MutableLiveData<List<Subcategory>>()
     val subcategories: LiveData<List<Subcategory>> = _subcategories
 
+    private val _selectedCategory = MutableLiveData<Category?>()
+    val selectedCategory: LiveData<Category?> = _selectedCategory
+
     private val database = FirebaseDatabase.getInstance()
     private val categoriesRef = database.getReference("categories")
 
@@ -165,5 +168,10 @@ class CategoryViewModel : ViewModel() {
                     Log.e("CategoryViewModel", "Error adding subcategory", exception)
                 }
         }
+    }
+
+    fun selectCategory(category: Category) {
+        _selectedCategory.value = category
+        getSubcategoriesForCategory(category.id)
     }
 }

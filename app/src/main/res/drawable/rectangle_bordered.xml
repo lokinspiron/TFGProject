@@ -3,6 +3,6 @@
     <solid android:color="@color/navigation" />
     <stroke
         android:color="@color/letters_dark"
-    android:width="1dp" />
+    android:width="0.5dp" />
     <corners android:radius="0dp" />
 </shape>

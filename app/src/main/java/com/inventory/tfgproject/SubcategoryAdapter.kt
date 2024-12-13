@@ -9,33 +9,36 @@ import androidx.recyclerview.widget.RecyclerView
 import com.inventory.tfgproject.model.Subcategory
 
 class SubcategoryAdapter(
-    private var subcategories: List<Subcategory>,
-    private val onSubcategoryClick: (Subcategory) -> Unit
+    private val subcategories: MutableList<Subcategory>,
+    private val onClick: (Subcategory) -> Unit
 ) : RecyclerView.Adapter<SubcategoryAdapter.SubcategoryViewHolder>() {
 
+    inner class SubcategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(subcategory: Subcategory) {
+            // Set the subcategory name
+            itemView.findViewById<TextView>(R.id.tvSubcategoryName).text = subcategory.name
+
+            itemView.setOnClickListener {
+                onClick(subcategory)
+            }
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubcategoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_subcategory, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_subcategory, parent, false)
         return SubcategoryViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: SubcategoryViewHolder, position: Int) {
-        val subcategory = subcategories[position]
-        holder.bind(subcategory)
-        holder.itemView.setOnClickListener {
-            onSubcategoryClick(subcategory)
-        }
+        holder.bind(subcategories[position])
     }
 
     override fun getItemCount(): Int = subcategories.size
 
     fun updateSubcategories(newSubcategories: List<Subcategory>) {
-        subcategories = newSubcategories
+        subcategories.clear()
+        subcategories.addAll(newSubcategories)
         notifyDataSetChanged()
-    }
-
-    class SubcategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(subcategory: Subcategory) {
-            itemView.findViewById<TextView>(R.id.tvSubcategoryName).text = subcategory.name
-        }
     }
 }
