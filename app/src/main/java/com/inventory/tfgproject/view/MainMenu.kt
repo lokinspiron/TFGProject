@@ -184,6 +184,8 @@ class MainMenu : AppCompatActivity(){
             supportFragmentManager.beginTransaction()
                 .show(existingFragment)
                 .commit()
+            Log.d("FragmentTransaction", "Replacing with subcategory fragment: ")
+
         }
         greetingMessage?.let {
             binding.txtWave.text = it

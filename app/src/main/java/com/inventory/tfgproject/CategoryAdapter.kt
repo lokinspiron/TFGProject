@@ -14,50 +14,9 @@ import com.inventory.tfgproject.model.Category
 
 class CategoryAdapter(
     private var categories: MutableList<Category>,
-    private val onCategoryClick: (Category) -> Unit,
-    private val onAddSubcategoryClick: (Category) -> Unit
+    private val onCategoryClickListener: ((Category) -> Unit)? = null,
+    private val onAddSubcategoryClickListener: ((Category) -> Unit)? = null
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
-    val listCategories: List<Category>
-        get() = this.categories
-
-    inner class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.tvCategoryName)
-        val btnCategoryAction: ImageView = view.findViewById(R.id.btnCategoryAction)
-        val rvSubcategories: RecyclerView = view.findViewById(R.id.rvSubcategories)
-
-        fun bind(category: Category) {
-            name.text = category.name
-
-            // Handle subcategories
-            val subcategories = category.subcategory?.values?.toList() ?: emptyList()
-
-            if (subcategories.isNotEmpty()) {
-                // Setup subcategory RecyclerView
-                val subcategoryAdapter = SubcategoryAdapter(subcategories) { subcategory ->
-                    // Handle subcategory click if needed
-                }
-                rvSubcategories.layoutManager = LinearLayoutManager(itemView.context)
-                rvSubcategories.adapter = subcategoryAdapter
-
-                // Set click listener to toggle subcategories visibility
-                itemView.setOnClickListener {
-                    val isVisible = rvSubcategories.visibility == View.VISIBLE
-                    rvSubcategories.visibility = if (isVisible) View.GONE else View.VISIBLE
-                }
-
-                // Change action button to show details
-                btnCategoryAction.setImageResource(R.drawable.ic_add) // Create an expand icon
-            } else {
-                // No subcategories, show add subcategory button
-                btnCategoryAction.setImageResource(R.drawable.ic_add)
-                btnCategoryAction.setOnClickListener {
-                    onAddSubcategoryClick(category)
-                }
-
-                rvSubcategories.visibility = View.GONE
-            }
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -66,44 +25,73 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        Log.d("CategoryAdapter", "Binding position: $position, Category: ${categories[position].name}")
-        holder.bind(categories[position])
+        val category = categories[position]
+        holder.bind(category)
     }
 
-    override fun getItemCount(): Int {
-        if (BuildConfig.DEBUG) { // Solo en modo debug
-            if (categories.size != lastLoggedSize) {
-                Log.d("CategoryAdapter", "Item count: ${categories.size}")
-                lastLoggedSize = categories.size
-            }
-        }
-        return categories.size
-    }
-
-    private var lastLoggedSize: Int = -1
+    override fun getItemCount() = categories.size
 
     fun updateCategories(newCategories: List<Category>) {
-        val diffResult = DiffUtil.calculateDiff(CategoryDiffCallback(categories, newCategories))
         categories.clear()
         categories.addAll(newCategories)
-        diffResult.dispatchUpdatesTo(this)
-    }
-}
-
-class CategoryDiffCallback(
-    private val oldList: List<Category>,
-    private val newList: List<Category>
-) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].id == newList[newItemPosition].id
+        notifyDataSetChanged()
     }
 
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
+    inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvCategoryName: TextView = itemView.findViewById(R.id.tvCategoryName)
+        private val btnCategoryAction: ImageView = itemView.findViewById(R.id.btnCategoryAction)
+        private val rvSubcategories: RecyclerView = itemView.findViewById(R.id.rvSubcategories)
+        private val divider: View = itemView.findViewById(R.id.divider)
+        private val btnAddSubcategory: TextView = itemView.findViewById(R.id.btnAddSubcategory)
+
+        private var subcategoryAdapter: SubcategoryAdapter? = null
+
+        fun bind(category: Category) {
+            tvCategoryName.text = category.name
+
+            // Setup subcategory RecyclerView
+            subcategoryAdapter = SubcategoryAdapter(
+                category.subcategory?.values?.toMutableList() ?: mutableListOf(),
+                { subcategory ->
+                    // Handle subcategory click if needed
+                }
+            )
+            rvSubcategories.layoutManager = LinearLayoutManager(itemView.context)
+            rvSubcategories.adapter = subcategoryAdapter
+
+            rvSubcategories.visibility = View.GONE
+            divider.visibility = View.GONE
+            btnAddSubcategory.visibility = View.GONE
+
+            itemView.setOnClickListener {
+                onCategoryClickListener?.invoke(category)
+            }
+
+            btnCategoryAction.setOnClickListener {
+                if (rvSubcategories.visibility == View.VISIBLE) {
+                    rvSubcategories.visibility = View.GONE
+                    divider.visibility = View.GONE
+                    btnAddSubcategory.visibility = View.GONE
+                } else {
+                    rvSubcategories.visibility = View.VISIBLE
+
+                    if ((category.subcategory?.size ?: 0) > 0) {
+                        divider.visibility = View.VISIBLE
+                    }
+
+                    btnAddSubcategory.visibility = View.VISIBLE
+                }
+            }
+
+            btnAddSubcategory.setOnClickListener {
+                onAddSubcategoryClickListener?.invoke(category)
+            }
+
+            category.subcategory?.let { subcategories ->
+                if (subcategories.isNotEmpty()) {
+                    subcategoryAdapter?.updateSubcategories(subcategories.values.toList())
+                }
+            }
+        }
     }
 }

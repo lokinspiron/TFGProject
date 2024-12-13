@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@color/navigation"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +21,34 @@
             android:text="@string/btn_add_subcategory"
             android:fontFamily="@font/convergence"
             android:textSize="35sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="15dp"
             android:textAlignment="center"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAddSubcategory"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="35dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSubcategoryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name_product"
+                android:fontFamily="@font/convergence"
+                android:textSize="12sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnAddSubcategory"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="85dp"
+            android:text="@string/save_change" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

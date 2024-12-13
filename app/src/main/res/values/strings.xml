@@ -146,4 +146,6 @@
 
     <string name="add_category_name">Nombre:</string>
 
+    <string name="add_subcategory">Añadir Subcategoria </string>
+
 </resources>

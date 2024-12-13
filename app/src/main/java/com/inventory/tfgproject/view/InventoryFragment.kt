@@ -6,8 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -15,9 +14,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Visibility
 import com.inventory.tfgproject.CategoryAdapter
 import com.inventory.tfgproject.R
+import com.inventory.tfgproject.SubcategoryAdapter
 import com.inventory.tfgproject.databinding.DialogAddSubcategoryBinding
 import com.inventory.tfgproject.databinding.FragmentInventoryBinding
 import com.inventory.tfgproject.viewmodel.CategoryViewModel
@@ -32,9 +31,13 @@ class InventoryFragment : Fragment() {
     private var _binding: FragmentInventoryBinding? = null
     private val binding get() = _binding!!
 
-    private val categoryViewModel : CategoryViewModel by viewModels()
+    private val categoryViewModel: CategoryViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var categoryAdapter: CategoryAdapter
+
+    private lateinit var subcategoryAdapter: SubcategoryAdapter
+    private lateinit var subcategoryRecyclerView: RecyclerView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,34 +48,35 @@ class InventoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentInventoryBinding.inflate(inflater,container,false)
+        _binding = FragmentInventoryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initListeners()
-
-        recyclerView = view.findViewById(R.id.rvCategories)
+        recyclerView = binding.rvCategories
         categoryAdapter = CategoryAdapter(
             mutableListOf(),
             { category ->
-                // Original category click logic
                 Log.d("CategoryClick", "Clicked category: ${category.name}")
                 toast("Clicked: ${category.name}", Toast.LENGTH_SHORT)
-                (activity as? MainMenu)?.replaceFragment(InventoryMenuFragment.newInstance(category.id, category.name))
+
+                setupSubcategoryRecyclerView(category)
+
+                (activity as? MainMenu)?.replaceFragment(
+                    InventoryMenuFragment.newInstanceForCategory(category.id, category.name)
+                )
             },
             { category ->
-                // Add subcategory logic
-                // Open a dialog to add a subcategory to this specific category
                 showAddSubcategoryDialog(category)
             }
         )
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         recyclerView.adapter = categoryAdapter
-        binding.progressBar.visibility = View.VISIBLE
-        binding.lltInventory.visibility = View.GONE
 
+        setupSubcategoryRecyclerView(null)
+
+        initListeners()
         initViewModel()
     }
 
@@ -86,6 +90,14 @@ class InventoryFragment : Fragment() {
             val dialogFragment: DialogFragment = DialogCreateCategoryFragment()
             dialogFragment.show(childFragmentManager, "CreateCategory")
         }
+
+        view?.findViewById<ImageView>(R.id.btnCategoryAction)?.setOnClickListener {
+            if (subcategoryRecyclerView.visibility == View.VISIBLE) {
+                subcategoryRecyclerView.visibility = View.GONE
+            } else {
+                subcategoryRecyclerView.visibility = View.VISIBLE
+            }
+        }
     }
 
 
@@ -95,7 +107,7 @@ class InventoryFragment : Fragment() {
             binding.progressBar.visibility = View.GONE
             binding.lltInventory.visibility = View.VISIBLE
 
-            if(categories.size > 1){
+            if (categories.size > 1) {
                 binding.imgNoContent.visibility = View.GONE
                 binding.txtNoContent.visibility = View.GONE
                 binding.txtAddCategories.visibility = View.GONE
@@ -125,7 +137,38 @@ class InventoryFragment : Fragment() {
                 dialog.dismiss()
             }
         }
-
         dialog.show()
+    }
+
+    private fun setupSubcategoryRecyclerView(category: Category?) {
+        val rvSubcategories = view?.findViewById<RecyclerView>(R.id.rvSubcategories)
+        if (rvSubcategories == null) {
+            Log.e(
+                "SetupSubcategoryRecycler",
+                "RecyclerView is null. Check if it's defined in the layout."
+            )
+            return
+        }
+
+        subcategoryRecyclerView = rvSubcategories
+        subcategoryAdapter = SubcategoryAdapter(
+            mutableListOf()
+        ) { subcategory ->
+            Log.d("SubcategoryClick", "Subcategory clicked: ${subcategory.name}")
+            (activity as? MainMenu)?.replaceFragment(
+                InventoryMenuFragment.newInstanceForSubcategory(subcategory.id, subcategory.name)
+            )
+        }
+        subcategoryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        subcategoryRecyclerView.adapter = subcategoryAdapter
+
+        category?.let {
+            categoryViewModel.getSubcategoriesForCategory(it.id)
+        }
+
+        categoryViewModel.subcategories.observe(viewLifecycleOwner, Observer { subcategories ->
+            subcategoryAdapter.updateSubcategories(subcategories)
+            subcategoryRecyclerView.visibility = if (subcategories.isEmpty()) View.GONE else View.VISIBLE
+        })
     }
 }

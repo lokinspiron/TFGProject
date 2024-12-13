@@ -26,15 +26,28 @@ class InventoryMenuFragment : Fragment() {
     private var categoryName: String? = null
 
     companion object {
-        fun newInstance(categoryId: String, categoryName: String): InventoryMenuFragment {
+        fun newInstanceForCategory(categoryId: String, categoryName: String): InventoryMenuFragment {
             val fragment = InventoryMenuFragment()
             val args = Bundle()
             args.putString("category_id", categoryId)
             args.putString("category_name", categoryName)
+            args.putBoolean("is_category", true)
+            fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstanceForSubcategory(subcategoryId: String?, subcategoryName: String?): InventoryMenuFragment {
+            val fragment = InventoryMenuFragment()
+            val args = Bundle()
+            args.putString("subcategory_id", subcategoryId)
+            args.putString("subcategory_name", subcategoryName)
+            args.putBoolean("is_category", false)
             fragment.arguments = args
             return fragment
         }
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

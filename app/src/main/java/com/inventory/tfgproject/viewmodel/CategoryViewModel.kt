@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.disklrucache.DiskLruCache.Value
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -13,10 +15,14 @@ import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.inventory.tfgproject.model.Category
 import com.inventory.tfgproject.model.Subcategory
+import kotlinx.coroutines.launch
 
 class CategoryViewModel : ViewModel() {
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>> = _categories.distinctUntilChanged()
+
+    private val _subcategories = MutableLiveData<List<Subcategory>>()
+    val subcategories: LiveData<List<Subcategory>> = _subcategories
 
     private val database = FirebaseDatabase.getInstance()
     private val categoriesRef = database.getReference("categories")
@@ -60,6 +66,34 @@ class CategoryViewModel : ViewModel() {
             })
         }
     }
+
+    fun getSubcategoriesForCategory(categoryId: String) {
+        currentUser?.let { user ->
+            val userSubcategoriesRef = categoriesRef.child(user.uid).child(categoryId).child("subcategories")
+
+            userSubcategoriesRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val subcategoryList = mutableListOf<Subcategory>()
+
+                    snapshot.children.forEach { subcategorySnapshot ->
+                        val subcategory = Subcategory(
+                            id = subcategorySnapshot.key ?: "",
+                            name = subcategorySnapshot.child("name").getValue(String::class.java) ?: ""
+                        )
+                        subcategoryList.add(subcategory)
+                    }
+
+                    _subcategories.postValue(subcategoryList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("CategoryViewModel", "Error fetching subcategories", error.toException())
+                    _subcategories.postValue(emptyList())
+                }
+            })
+        }
+    }
+
 
     private fun addDefaultCategory() {
         currentUser?.let { user ->
@@ -114,6 +148,7 @@ class CategoryViewModel : ViewModel() {
                 }
         }
     }
+
     fun addSubcategoryToCategory(category: Category, subcategory: Subcategory) {
         currentUser?.let { user ->
             val categoryRef = categoriesRef.child(user.uid).child(category.id)
@@ -131,5 +166,4 @@ class CategoryViewModel : ViewModel() {
                 }
         }
     }
-
 }
