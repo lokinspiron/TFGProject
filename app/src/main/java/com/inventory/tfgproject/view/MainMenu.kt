@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -35,6 +36,21 @@ class MainMenu : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
+
+
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.drawerlt.isDrawerOpen(GravityCompat.START)) {
+                    binding.drawerlt.closeDrawer(GravityCompat.START)
+                } else {
+
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
+
         setContentView(binding.root)
         supportActionBar?.hide()
     }
@@ -192,12 +208,12 @@ class MainMenu : AppCompatActivity(){
         }
     }
 
-    override fun onBackPressed() {
-        val drawerlt: DrawerLayout = findViewById(R.id.drawerlt)
-        if (drawerlt.isDrawerOpen(GravityCompat.START)) {
-            drawerlt.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        val drawerlt: DrawerLayout = findViewById(R.id.drawerlt)
+//        if (drawerlt.isDrawerOpen(GravityCompat.START)) {
+//            drawerlt.closeDrawer(GravityCompat.START)
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 }

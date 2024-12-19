@@ -6,14 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.BuildConfig
 import com.inventory.tfgproject.model.Category
 import com.inventory.tfgproject.model.Subcategory
-import com.inventory.tfgproject.view.InventoryMenuFragment
-import com.inventory.tfgproject.view.MainMenu
 
 class CategoryAdapter(
     private var categories: MutableList<Category>,

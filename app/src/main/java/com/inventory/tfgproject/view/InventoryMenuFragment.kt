@@ -1,19 +1,35 @@
 package com.inventory.tfgproject.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.inventory.tfgproject.ProductAdapter
+import com.inventory.tfgproject.ProductRepository
+import com.inventory.tfgproject.ProductViewModelFactory
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.FragmentInventoryMenuBinding
-
+import com.inventory.tfgproject.model.Product
+import com.inventory.tfgproject.viewmodel.ProductViewModel
 
 class InventoryMenuFragment : Fragment() {
     private var _binding: FragmentInventoryMenuBinding? = null
     private val binding get() = _binding!!
+
+    private val productViewModel: ProductViewModel by viewModels() {
+        ProductViewModelFactory(ProductRepository())
+    }
+
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var productAdapter : ProductAdapter
 
     private val rotateOpen: Animation by lazy {
         AnimationUtils.loadAnimation(
@@ -45,6 +61,9 @@ class InventoryMenuFragment : Fragment() {
     private var categoryId: String? = null
     private var categoryName: String? = null
 
+    private var subcategoryId: String? = null
+    private var subcategoryName: String? = null
+
     companion object {
         fun newInstanceForCategory(
             categoryId: String,
@@ -72,14 +91,51 @@ class InventoryMenuFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        categoryId = arguments?.getString("category_id")
+        categoryName = arguments?.getString("category_name")
+
+        subcategoryId = arguments?.getString("subcategory_id")
+        subcategoryName = arguments?.getString("subcategory_name")
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentInventoryMenuBinding.inflate(inflater, container, false)
-        initListener()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = binding.rvProducts
+        productAdapter = ProductAdapter(
+            mutableListOf()
+        ){product ->
+            Log.d("ProductClick","Clicked product ${product.name}")
+
+            (activity as? MainMenu)?.replaceFragment(ProductViewFragment(), product.name)
+
+        }
+
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        recyclerView.adapter = productAdapter
+
+        initVisibility()
+        initListener()
+        initViewModel()
+    }
+
+    private fun initVisibility(){
+        binding.txtCategory.visibility = View.GONE
+        binding.rvProducts.visibility = View.GONE
+        binding.imgNoContent.visibility = View.GONE
+        binding.txtEmptyListProducts.visibility = View.GONE
+        binding.txtAddProducts.visibility = View.GONE
+        binding.pbProduct.visibility = View.VISIBLE
     }
 
     private fun initListener() {
@@ -93,6 +149,48 @@ class InventoryMenuFragment : Fragment() {
         binding.fabEditProducts.setOnClickListener {
 
         }
+    }
+
+    private fun initViewModel(){
+        productViewModel.products.observe(viewLifecycleOwner, Observer { allProducts ->
+            binding.pbProduct.visibility = View.GONE
+            binding.rvProducts.visibility = View.VISIBLE
+            binding.txtCategory.visibility = View.VISIBLE
+
+            val filteredProducts = when {
+                categoryName == "Todo" -> {
+                    allProducts
+                }
+                !subcategoryId.isNullOrEmpty() -> {
+                    allProducts.filter { it.subcategoryId == subcategoryId }
+                }
+                !categoryId.isNullOrEmpty() -> {
+                    allProducts.filter { it.categoryId == categoryId }
+                }
+                else -> emptyList()
+            }
+
+            val displayName = subcategoryName ?: categoryName
+            val productCount = filteredProducts.size
+            binding.txtCategory.text = getString(R.string.category_products, displayName, productCount)
+
+            productAdapter = ProductAdapter(filteredProducts.toMutableList()) { product ->
+                Log.d("ProductClick", "Clicked product ${product.name}")
+                (activity as? MainMenu)?.replaceFragment(ProductViewFragment(), product.name)
+            }
+            recyclerView.adapter = productAdapter
+
+            if (filteredProducts.isEmpty()) {
+                binding.imgNoContent.visibility = View.VISIBLE
+                binding.txtEmptyListProducts.visibility = View.VISIBLE
+                binding.txtAddProducts.visibility = View.VISIBLE
+            } else {
+                binding.imgNoContent.visibility = View.GONE
+                binding.txtEmptyListProducts.visibility = View.GONE
+                binding.txtAddProducts.visibility = View.GONE
+            }
+        })
+        productViewModel.loadProducts()
     }
 
     private fun onAddButtonClicked() {

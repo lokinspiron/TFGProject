@@ -40,13 +40,8 @@ class RegisterScreenInfo : AppCompatActivity() {
 
     private var profilePictureUrl : String? = null
 
-    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
-        if(uri!=null){
-            toast("Foto de perfil seleccionada",Toast.LENGTH_SHORT)
-            uploadProfilePicture(uri)
-        }else{
-            toast("Error al elegir foto de perfil",Toast.LENGTH_SHORT)
-        }
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        uploadProfilePicture(uri)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -188,21 +183,29 @@ class RegisterScreenInfo : AppCompatActivity() {
         toast("Se ha agregado a base de datos", Toast.LENGTH_SHORT)
         }
 
-    private fun uploadProfilePicture(uri: Uri) {
+    private fun uploadProfilePicture(uri: Uri?) {
+        if (uri == null) {
+            profilePictureUrl = "https://firebasestorage.googleapis.com/v0/b/d-stock-01.firebasestorage.app/o/profile_pictures%2Fic_user_image.png?alt=media&token=3593949b-d6e4-420b-914d-c95eea68c7c3"
+            Log.d("Firebase", "Usando imagen de perfil predeterminada: $profilePictureUrl")
+            toast("Imagen de perfil predeterminada", Toast.LENGTH_SHORT)
+            return
+        }
+
         val storageRef = FirebaseStorage.getInstance().reference
         val profilePictureRef = storageRef.child("profile_pictures/${UUID.randomUUID()}.jpg")
 
         profilePictureRef.putFile(uri)
             .addOnSuccessListener {
-                profilePictureRef.downloadUrl.addOnSuccessListener { uri ->
-                    profilePictureUrl = uri.toString()
+                profilePictureRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                    profilePictureUrl = downloadUri.toString()
 
                     Log.d("Firebase", "Foto subida correctamente: $profilePictureUrl")
-                    toast("Foto de perfil subida con éxito",Toast.LENGTH_SHORT)
+                    toast("Foto de perfil subida con éxito", Toast.LENGTH_SHORT)
                 }
             }
             .addOnFailureListener { exception ->
-                toast("Error al subir la foto de perfil",Toast.LENGTH_SHORT)
+                profilePictureUrl = "https://firebasestorage.googleapis.com/v0/b/d-stock-01.firebasestorage.app/o/profile_pictures%2Fic_user_image.png?alt=media&token=3593949b-d6e4-420b-914d-c95eea68c7c3"
+                toast("Error al subir la foto. Usando imagen predeterminada", Toast.LENGTH_SHORT)
                 Log.e("Firebase", "Error uploading profile picture", exception)
             }
     }

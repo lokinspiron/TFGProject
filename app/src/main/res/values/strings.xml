@@ -135,6 +135,9 @@
     <string name="add_product_name">Nombre</string>
     <string name="add_product_quantity">Cantidad</string>
     <string name="add_product_weight">Peso</string>
+    <string name="add_product_price">Precio</string>
+    <string name="add_product_perprice">Precio por unidad</string>
+    <string name="add_product_perweight">Peso por unidad</string>
     <string name="increase">+</string>
     <string name="decrease">-</string>
 
@@ -147,5 +150,8 @@
     <string name="add_category_name">Nombre:</string>
 
     <string name="add_subcategory">Añadir Subcategoria </string>
+
+    <string name="category_products">%1$s (%2$d)</string>
+    <string name="order">Pedido</string>
 
 </resources>

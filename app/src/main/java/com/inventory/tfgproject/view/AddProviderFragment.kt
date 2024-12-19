@@ -1,60 +1,146 @@
 package com.inventory.tfgproject.view
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
+import com.inventory.tfgproject.ProviderRepository
+import com.inventory.tfgproject.ProviderViewModelFactory
 import com.inventory.tfgproject.R
+import com.inventory.tfgproject.databinding.FragmentAddProviderBinding
+import com.inventory.tfgproject.extension.toast
+import com.inventory.tfgproject.model.Providers
+import com.inventory.tfgproject.viewmodel.ProviderViewModel
+import java.util.UUID
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddProviderFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddProviderFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var _binding : FragmentAddProviderBinding? = null
+    private val binding get() = _binding!!
+
+    private val providerViewModel : ProviderViewModel by viewModels {
+        ProviderViewModelFactory(ProviderRepository())
+    }
+
+    private var defaultProviderUrl : String? = null
+
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        uploadProfilePicture(uri)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_provider, container, false)
+        _binding = FragmentAddProviderBinding.inflate(inflater,container,false)
+        initListeners()
+        initEditText()
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddProviderFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddProviderFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun initListeners(){
+        binding.btnAddProvider.setOnClickListener{
+            saveProvider()
+        }
+        binding.imgBtnBack.setOnClickListener{
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        binding.imgProvider.setOnClickListener{
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
+    private fun saveProvider(){
+        if(validateInputs()){
+            val name = binding.edtNameProviderAdd.text.toString()
+            val address = binding.edtAddressProviderAdd.text.toString()
+            val email = binding.edtEmailProviderAdd.text.toString()
+            val phone = binding.edtPhoneProviderAdd.text.toString()
+
+            val provider = Providers(
+                name = name,
+                address = address,
+                email = email,
+                phoneNumber = phone,
+                imageUrl = defaultProviderUrl
+            )
+            providerViewModel.saveProvider(provider)
+        }
+        clearForm()
+    }
+
+    private fun validateInputs(): Boolean {
+        var isValid = true
+
+        if(binding.edtNameProviderAdd.text.isNullOrBlank()){
+            binding.nameProviderAddContainer.error = "Nombre es requerido"
+            isValid = false
+        } else {
+            binding.nameProviderAddContainer.error = null
+        }
+
+        return isValid
+    }
+
+    private fun clearForm() {
+        binding.edtNameProviderAdd.text?.clear()
+        binding.edtAddressProviderAdd.text?.clear()
+        binding.edtEmailProviderAdd.text?.clear()
+        binding.edtPhoneProviderAdd.text?.clear()
+    }
+
+    private fun uploadProfilePicture(uri: Uri?) {
+        if (uri == null) {
+            defaultProviderUrl = "https://firebasestorage.googleapis.com/v0/b/d-stock-01.firebasestorage.app/o/default%2Flogo_dstock.png?alt=media&token=afc390aa-dc96-42a5-b96f-1f85c5effa83"
+            Log.d("Firebase", "Usando imagen de perfil predeterminada: $defaultProviderUrl")
+            toast("Imagen de perfil predeterminada", Toast.LENGTH_SHORT)
+            return
+        }
+
+        val storageRef = FirebaseStorage.getInstance().reference
+        val defaultPictureRef = storageRef.child("default/${UUID.randomUUID()}.jpg")
+
+        defaultPictureRef.putFile(uri)
+            .addOnSuccessListener {
+                defaultPictureRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                    defaultProviderUrl = downloadUri.toString()
+
+                    Glide.with(requireContext())
+                        .load(uri)
+                        .into(binding.imgProvider)
+
+                    Log.d("Firebase", "Foto subida correctamente: $defaultProviderUrl")
+                    toast("Foto de perfil subida con éxito", LENGTH_SHORT)
                 }
             }
+            .addOnFailureListener { exception ->
+                defaultProviderUrl = "https://firebasestorage.googleapis.com/v0/b/d-stock-01.firebasestorage.app/o/default%2Flogo_dstock.png?alt=media&token=afc390aa-dc96-42a5-b96f-1f85c5effa83"
+                toast("Error al subir la foto. Usando imagen predeterminada", LENGTH_SHORT)
+                Log.e("Firebase", "Error uploading profile picture", exception)
+            }
+    }
+
+    private fun initEditText(){
+        binding.nameProviderAddContainer.helperText = null
+        binding.addressProviderAddContainer.helperText = null
+        binding.phoneProviderAddContainer.helperText = null
+        binding.emailProviderAddContainer.helperText = null
     }
 }

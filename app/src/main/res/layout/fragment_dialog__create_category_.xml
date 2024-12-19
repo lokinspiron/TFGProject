@@ -9,7 +9,7 @@
         android:id="@+id/cltAddCategory"
         android:name="com.inventory.tfgproject.view.AddCategoryFragment"
         android:layout_width="439dp"
-        android:layout_height="525dp"
+        android:layout_height="450dp"
         android:background="@color/navigation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,12 +20,12 @@
             android:id="@+id/imgClose"
             android:layout_width="36dp"
             android:layout_height="33dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:backgroundTintMode="@color/letters"
             android:contentDescription="@string/desc_floating"
             android:src="@drawable/ic_close"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintHorizontal_bias="0.905"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,10 +50,9 @@
             android:text="@string/save_change"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.852" />
+            app:layout_constraintVertical_bias="0.886" />
 
         <View
             android:id="@+id/divider"
@@ -63,9 +62,10 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.406">
+            app:layout_constraintVertical_bias="0.42">
 
         </View>
 
@@ -116,10 +116,10 @@
             app:cursorColor="@color/backgroundColor1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.485"
+            app:layout_constraintHorizontal_bias="0.479"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.664">
+            app:layout_constraintVertical_bias="0.689">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtNameSubcategory"

@@ -1,6 +1,7 @@
 package com.inventory.tfgproject.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,7 @@ class DialogCreateCategoryFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDialogCreateCategoryBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -37,19 +38,22 @@ class DialogCreateCategoryFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+        initEditText()
     }
 
-    fun initListener(){
-        binding.btnAddCategory.setOnClickListener{
+    private fun initListener(){
+        binding.btnAddCategory.setOnClickListener {
             val nameCategory = binding.edtNameCategory.text.toString().trim()
             val nameSubcategory = binding.edtNameSubcategory.text.toString().trim()
 
             if (nameCategory.isNotEmpty()) {
                 val subcategory = if (nameSubcategory.isNotEmpty()) {
-                    Subcategory(
+                    val subcategory = Subcategory(
                         id = UUID.randomUUID().toString(),
                         name = nameSubcategory
                     )
+                    Log.d("DialogCreateCategoryFragment", "Subcategoría creada: $subcategory")
+                    subcategory
                 } else null
 
                 categoryViewModel.addCategory(nameCategory, subcategory)
@@ -61,10 +65,14 @@ class DialogCreateCategoryFragment : DialogFragment() {
             } else {
                 binding.tilNameCategory.helperText = "El nombre de la categoría es obligatorio"
             }
-
         }
+
         binding.imgClose.setOnClickListener{
             dismiss()
         }
+    }
+
+    private fun initEditText(){
+        binding.tilNameCategory.helperText = null
     }
 }

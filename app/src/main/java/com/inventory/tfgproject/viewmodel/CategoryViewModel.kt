@@ -5,8 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.distinctUntilChanged
-import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.disklrucache.DiskLruCache.Value
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -15,7 +13,6 @@ import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.inventory.tfgproject.model.Category
 import com.inventory.tfgproject.model.Subcategory
-import kotlinx.coroutines.launch
 
 class CategoryViewModel : ViewModel() {
     private val _categories = MutableLiveData<List<Category>>()
@@ -128,26 +125,19 @@ class CategoryViewModel : ViewModel() {
             val newCategory = Category(
                 id = newCategoryRef.key ?: "",
                 name = name,
-                subcategory = subcategory?.let {
-                    mapOf(it.id to it)
+                subcategory = if (subcategory != null) {
+                    mapOf(subcategory.id to subcategory)
+                } else {
+                    null
                 }
             )
 
             newCategoryRef.setValue(newCategory)
                 .addOnSuccessListener {
-                    Log.d("CategoryViewModel", "Categoría agregada exitosamente")
-
-                    val currentCategories = _categories.value?.toMutableList() ?: mutableListOf()
-                    currentCategories.add(newCategory)
-
-                    val sortedCategories = currentCategories.sortedBy {
-                        if (it.name == "Todo") 0 else 1
-                    }
-
-                    _categories.value = sortedCategories
+                    Log.d("CategoryViewModel", "Categoría y subcategoría guardadas exitosamente.")
                 }
                 .addOnFailureListener { exception ->
-                    Log.e("CategoryViewModel", "Error al agregar categoría", exception)
+                    Log.e("CategoryViewModel", "Error al guardar la categoría", exception)
                 }
         }
     }

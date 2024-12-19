@@ -3,225 +3,195 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/backgroundColor2"
-    tools:context=".view.AddProductActivity">
+    android:layout_gravity="center"
+    android:orientation="vertical">
 
-    <include
-        layout="@layout/activity_menu_header"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageButton
-        android:id="@+id/imgBtnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@color/backgroundColor2"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_arrow_back"
-        android:contentDescription="@string/desc_floating"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="0dp"
+        android:layout_height="684dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047"
-        app:tint="@color/black" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/imgAddProduct"
-        android:layout_width="240dp"
-        android:layout_height="244dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.114"
-        app:srcCompat="@drawable/logo_dstock" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edtNameProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/name_product"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.855"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.414" />
+            <ImageButton
+                android:id="@+id/imgBtnBack"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/backgroundColor2"
+                android:contentDescription="@string/desc_floating"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/backgroundColor1" />
 
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/convergence"
-        android:text="@string/name_product"
-        android:textColor="@color/letters"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.158"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.415" />
+            <FrameLayout
+                android:id="@+id/profileImageContainer"
+                android:layout_width="205dp"
+                android:layout_height="203dp"
+                android:layout_marginTop="-10dp"
+                android:layout_gravity="center">
 
-    <EditText
-        android:id="@+id/edtAddressProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/address_provider"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.86"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
+                <ImageView
+                    android:id="@+id/imgProvider"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/desc_floating"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logo_dstock" />
 
-    <EditText
-        android:id="@+id/edtPhoneProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="phone"
-        android:text="@string/phone_provider"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.86"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.563" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="8dp"
+                    android:contentDescription="@string/desc_floating"
+                    android:src="@drawable/ic_camera"
+                    app:tint="@color/black" />
+            </FrameLayout>
 
-    <TextView
-        android:id="@+id/txtPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/convergence"
-        android:text="@string/phone_provider"
-        android:textColor="@color/letters"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.148"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.563" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nameProviderAddContainer"
+                style="@style/TextInputLayoutStyle2"
+                android:layout_width="353dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:imeOptions="actionNext"
+                android:textColorHint="@color/backgroundColor1"
+                app:counterTextColor="@color/backgroundColor1"
+                app:helperText="@string/required"
+                app:helperTextTextColor="@android:color/holo_red_dark">
 
-    <EditText
-        android:id="@+id/edtEmailProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="@string/email_provider"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.865"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.653" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtNameProviderAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:fontFamily="@font/convergence"
+                    android:hint="@string/add_product_name"
+                    android:inputType="text"
+                    android:textAlignment="center"
+                    android:lines="1"
+                    android:textColor="@color/backgroundColor1"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/txtEmailProvider"
-        android:layout_width="75dp"
-        android:layout_height="25dp"
-        android:fontFamily="@font/convergence"
-        android:text="@string/email_provider"
-        android:textColor="@color/letters"
-        android:textSize="21sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addressProviderAddContainer"
+                style="@style/TextInputLayoutStyle2"
+                android:layout_width="353dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="30dp"
+                android:imeOptions="actionNext"
+                android:textAlignment="center"
+                android:textColorHint="@color/backgroundColor1"
+                app:counterTextColor="@color/backgroundColor1"
+                app:helperText="@string/required"
+                app:helperTextTextColor="@android:color/holo_red_dark">
 
-    <TextView
-        android:id="@+id/txtAddressProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/convergence"
-        android:text="@string/address_provider"
-        android:textColor="@color/letters"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.114"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.489" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtAddressProviderAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:fontFamily="@font/convergence"
+                    android:hint="@string/address"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:textAlignment="center"
+                    android:textColor="@color/backgroundColor1"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/txtOrdersProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/convergence"
-        android:text="@string/orders_provider"
-        android:textColor="@color/letters"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.169"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.742" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailProviderAddContainer"
+                style="@style/TextInputLayoutStyle2"
+                android:layout_width="353dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="30dp"
+                android:imeOptions="actionNext"
+                android:textAlignment="center"
+                android:textColorHint="@color/backgroundColor1"
+                app:counterTextColor="@color/backgroundColor1"
+                app:helperText="@string/required"
+                app:helperTextTextColor="@android:color/holo_red_dark">
 
-    <EditText
-        android:id="@+id/edtOrdersProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/orders_provider"
-        android:textColor="@color/letters"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.855"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.745" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEmailProviderAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:fontFamily="@font/convergence"
+                    android:hint="@string/email"
+                    android:inputType="text|textEmailAddress"
+                    android:lines="1"
+                    android:textAlignment="center"
+                    android:textColor="@color/backgroundColor1"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="133dp"
-        android:layout_height="52dp"
-        android:text="@string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.197"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.864" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneProviderAddContainer"
+                style="@style/TextInputLayoutStyle2"
+                android:layout_width="353dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="30dp"
+                android:imeOptions="actionNext"
+                android:textAlignment="center"
+                android:textColorHint="@color/backgroundColor1"
+                app:counterTextColor="@color/backgroundColor1"
+                app:helperText="@string/required"
+                app:helperTextTextColor="@android:color/holo_red_dark">
 
-    <Button
-        android:id="@+id/btnCancel2"
-        android:layout_width="133dp"
-        android:layout_height="52dp"
-        android:text="@string/flbtn_add_product"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.769"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.864" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPhoneProviderAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:fontFamily="@font/convergence"
+                    android:hint="@string/phone"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textAlignment="center"
+                    android:textColor="@color/backgroundColor1"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <LinearLayout
+                style="?android:attr/buttonBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="25dp">
 
+                <Button
+                    android:id="@+id/btnCancelAddProduct"
+                    android:layout_width="146dp"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@string/cancel" />
 
-    <include
-        layout="@layout/activity_menu_footer"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+                <Button
+                    android:id="@+id/btnAddProvider"
+                    android:layout_width="146dp"
+                    android:layout_height="64dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/btn_add_provider" />
 
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

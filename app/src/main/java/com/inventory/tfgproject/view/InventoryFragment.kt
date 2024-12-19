@@ -60,8 +60,7 @@ class InventoryFragment : Fragment() {
                 categoryViewModel.selectCategory(category)
 
                 (activity as? MainMenu)?.replaceFragment(
-                    InventoryMenuFragment.newInstanceForCategory(category.id, category.name),
-                    category.name
+                    InventoryMenuFragment.newInstanceForCategory(category.id, category.name)
                 )
             },
             { category ->
@@ -78,32 +77,7 @@ class InventoryFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         recyclerView.adapter = categoryAdapter
 
-        view.post {
-            val rvSubcategories = view.findViewById<RecyclerView>(R.id.rvSubcategories)
-
-            if (rvSubcategories == null) {
-                Log.e("SetupSubcategoryRecycler", "RecyclerView is null. Cannot setup RecyclerView.")
-                return@post
-            }
-
-            subcategoryRecyclerView = rvSubcategories
-            subcategoryAdapter = SubcategoryAdapter(
-                mutableListOf()
-            ) { subcategory ->
-                Log.d("SubcategoryClick", "Subcategory clicked: ${subcategory.name}, ID: ${subcategory.id}")
-
-                (activity as? MainMenu)?.let { mainMenu ->
-                    val fragment = InventoryMenuFragment.newInstanceForSubcategory(subcategory.id, subcategory.name)
-                    mainMenu.replaceFragment(fragment)
-                } ?: Log.e("SubcategoryClick", "MainMenu activity is null")
-            }
-
-            subcategoryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            subcategoryRecyclerView.adapter = subcategoryAdapter
-
-            Log.d("SetupSubcategoryRecycler", "RecyclerView setup completed")
-        }
-
+        initVisibility()
         initListeners()
         initViewModel()
     }
@@ -111,6 +85,13 @@ class InventoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initVisibility(){
+        binding.pbInventory.visibility = View.VISIBLE
+        binding.rvCategories.visibility = View.GONE
+        binding.divider.visibility = View.GONE
+        binding.btnAddCategory.visibility = View.GONE
     }
 
     private fun initListeners() {
@@ -132,8 +113,10 @@ class InventoryFragment : Fragment() {
     private fun initViewModel() {
         categoryViewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
             categoryAdapter.updateCategories(categories)
-            binding.progressBar.visibility = View.GONE
-            binding.lltInventory.visibility = View.VISIBLE
+            binding.pbInventory.visibility = View.GONE
+            binding.divider.visibility = View.VISIBLE
+            binding.rvCategories.visibility = View.VISIBLE
+            binding.btnAddCategory.visibility = View.VISIBLE
 
             if (categories.size > 1) {
                 binding.imgNoContent.visibility = View.GONE

@@ -1,85 +1,101 @@
 package com.inventory.tfgproject.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.inventory.tfgproject.ProviderAdapter
+import com.inventory.tfgproject.ProviderRepository
+import com.inventory.tfgproject.ProviderViewModelFactory
 import com.inventory.tfgproject.R
-import com.inventory.tfgproject.databinding.FragmentInventoryBinding
 import com.inventory.tfgproject.databinding.FragmentProviderBinding
-
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
+import com.inventory.tfgproject.viewmodel.ProviderViewModel
 
 class ProviderFragment : Fragment() {
     private var _binding: FragmentProviderBinding? = null
     private val binding get() = _binding!!
 
-    private var param1: String? = null
-    private var param2: String? = null
+    private val providerViewModel : ProviderViewModel by viewModels(){
+        ProviderViewModelFactory(ProviderRepository())
+    }
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var providerAdapter : ProviderAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = binding.rvProviders
+        providerAdapter = ProviderAdapter(
+            mutableListOf()
+        ) { provider ->
+            Log.d("ProviderClick", "Clicked provider ${provider.name}")
+
         }
 
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        recyclerView.adapter = providerAdapter
+
+        initVisibility()
+        initListeners()
+        initViewModel()
+
+    }
+
+    private fun initViewModel() {
+        providerViewModel.providers.observe(viewLifecycleOwner, Observer { providers ->
+            Log.d("ProviderFragment", "Providers received: ${providers.size}")
+
+            providerAdapter = ProviderAdapter(providers.toMutableList()) { provider ->
+                Log.d("ProviderClick", "Clicked provider ${provider.name}")
+            }
+            recyclerView.adapter = providerAdapter
+
+            binding.pbProvider.visibility = View.GONE
+            binding.rvProviders.visibility = View.VISIBLE
+            binding.divider.visibility = View.VISIBLE
+            binding.btnAddProvider.visibility = View.VISIBLE
+
+            if(providers.size == 0){
+                binding.imgNoContent.visibility = View.VISIBLE
+                binding.txtEmptyList.visibility = View.VISIBLE
+                binding.txtAddProviders.visibility = View.VISIBLE
+            } else {
+                binding.imgNoContent.visibility = View.GONE
+                binding.txtEmptyList.visibility = View.GONE
+                binding.txtAddProviders.visibility = View.GONE
+            }
+        })
+        providerViewModel.loadProviders()
+    }
+
+    private fun initVisibility(){
+        binding.pbProvider.visibility = View.VISIBLE
+        binding.rvProviders.visibility = View.GONE
+        binding.divider.visibility = View.GONE
+        binding.btnAddProvider.visibility = View.GONE
+        binding.imgNoContent.visibility = View.GONE
+        binding.txtAddProviders.visibility = View.GONE
+        binding.txtEmptyList.visibility = View.GONE
     }
 
     private fun initListeners() {
-        val btnDrawerToggle= binding.root.findViewById<ImageButton>(R.id.btnDrawerToggle)
-        val drawerlt = binding.root.findViewById<DrawerLayout>(R.id.drawerlt)
-        btnDrawerToggle.setOnClickListener {
-            drawerlt.openDrawer(GravityCompat.START)
-        }
-
-        val btnNavigationView = binding.root.findViewById<BottomNavigationView>(R.id.bnvMenu)
-        btnNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.btnHome -> {
-                    replaceFragment(MenuMainFragment())
-                    true
-                }
-
-                R.id.btnProviders -> {
-                    replaceFragment(ProviderFragment())
-                    true
-                }
-                else -> false
-            }
-        }
-
         binding.btnAddProvider.setOnClickListener{
-            replaceFragment(AddProviderFragment())
-        }
-
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentTag = fragment.javaClass.simpleName
-
-        val fragmentTransaction = parentFragmentManager.beginTransaction()
-
-        val existingFragment = parentFragmentManager.findFragmentByTag(fragmentTag)
-
-        if (existingFragment == null) {
-            fragmentTransaction.replace(R.id.fcvContent, fragment, fragmentTag)
-            fragmentTransaction.commit()
-        } else {
-            parentFragmentManager.beginTransaction()
-                .show(existingFragment)
-                .commit()
+            (activity as? MainMenu)?.replaceFragment(
+                AddProviderFragment(),"Añadir Proveedor")
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,16 +109,5 @@ class ProviderFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProviderFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }
