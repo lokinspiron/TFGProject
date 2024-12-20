@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "330855217523",
+    "firebase_url": "https://d-stock-01-default-rtdb.firebaseio.com",
     "project_id": "d-stock-01",
     "storage_bucket": "d-stock-01.firebasestorage.app"
   },

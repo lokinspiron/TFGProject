@@ -95,7 +95,6 @@ class InventoryMenuFragment : Fragment() {
         super.onCreate(savedInstanceState)
         categoryId = arguments?.getString("category_id")
         categoryName = arguments?.getString("category_name")
-
         subcategoryId = arguments?.getString("subcategory_id")
         subcategoryName = arguments?.getString("subcategory_name")
     }
@@ -113,13 +112,16 @@ class InventoryMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.rvProducts
         productAdapter = ProductAdapter(
-            mutableListOf()
-        ){product ->
-            Log.d("ProductClick","Clicked product ${product.name}")
-
-            (activity as? MainMenu)?.replaceFragment(ProductViewFragment(), product.name)
-
-        }
+            mutableListOf(),
+            onProductClick = { product ->
+                Log.d("ProductClick", "Clicked product ${product.name}")
+                (activity as? MainMenu)?.replaceFragment(ProductViewFragment(), product.name)
+            },
+            onQuantityChanged = { product, newQuantity ->
+                productViewModel.updateProductQuantity(product.id, newQuantity)
+                productAdapter.updateProduct(product.id, newQuantity)
+            }
+        )
 
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
         recyclerView.adapter = productAdapter
@@ -129,12 +131,50 @@ class InventoryMenuFragment : Fragment() {
         initViewModel()
     }
 
+    private fun initViewModel() {
+        productViewModel.products.observe(viewLifecycleOwner, Observer { allProducts ->
+            binding.pbProduct.visibility = View.GONE
+            binding.rvProducts.visibility = View.VISIBLE
+            binding.txtCategory.visibility = View.VISIBLE
+            binding.fabProducts.visibility = View.VISIBLE
+
+            val filteredProducts = when {
+                categoryName == "Todo" -> allProducts
+                !subcategoryId.isNullOrEmpty() -> allProducts.filter { it.subcategoryId == subcategoryId }
+                !categoryId.isNullOrEmpty() -> allProducts.filter { it.categoryId == categoryId }
+                else -> emptyList()
+            }
+
+            if (productAdapter.product != allProducts) {
+                productAdapter.product.clear()
+                productAdapter.product.addAll(allProducts)
+                productAdapter.notifyDataSetChanged()
+            }
+
+            val displayName = subcategoryName ?: categoryName
+            val productCount = filteredProducts.size
+            binding.txtCategory.text = getString(R.string.category_products, displayName, productCount)
+
+            if (filteredProducts.isEmpty()) {
+                binding.imgNoContent.visibility = View.VISIBLE
+                binding.txtEmptyListProducts.visibility = View.VISIBLE
+                binding.txtAddProducts.visibility = View.VISIBLE
+            } else {
+                binding.imgNoContent.visibility = View.GONE
+                binding.txtEmptyListProducts.visibility = View.GONE
+                binding.txtAddProducts.visibility = View.GONE
+            }
+        })
+        productViewModel.loadProducts()
+    }
+
     private fun initVisibility(){
         binding.txtCategory.visibility = View.GONE
         binding.rvProducts.visibility = View.GONE
         binding.imgNoContent.visibility = View.GONE
         binding.txtEmptyListProducts.visibility = View.GONE
         binding.txtAddProducts.visibility = View.GONE
+        binding.fabProducts.visibility = View.GONE
         binding.pbProduct.visibility = View.VISIBLE
     }
 
@@ -149,48 +189,6 @@ class InventoryMenuFragment : Fragment() {
         binding.fabEditProducts.setOnClickListener {
 
         }
-    }
-
-    private fun initViewModel(){
-        productViewModel.products.observe(viewLifecycleOwner, Observer { allProducts ->
-            binding.pbProduct.visibility = View.GONE
-            binding.rvProducts.visibility = View.VISIBLE
-            binding.txtCategory.visibility = View.VISIBLE
-
-            val filteredProducts = when {
-                categoryName == "Todo" -> {
-                    allProducts
-                }
-                !subcategoryId.isNullOrEmpty() -> {
-                    allProducts.filter { it.subcategoryId == subcategoryId }
-                }
-                !categoryId.isNullOrEmpty() -> {
-                    allProducts.filter { it.categoryId == categoryId }
-                }
-                else -> emptyList()
-            }
-
-            val displayName = subcategoryName ?: categoryName
-            val productCount = filteredProducts.size
-            binding.txtCategory.text = getString(R.string.category_products, displayName, productCount)
-
-            productAdapter = ProductAdapter(filteredProducts.toMutableList()) { product ->
-                Log.d("ProductClick", "Clicked product ${product.name}")
-                (activity as? MainMenu)?.replaceFragment(ProductViewFragment(), product.name)
-            }
-            recyclerView.adapter = productAdapter
-
-            if (filteredProducts.isEmpty()) {
-                binding.imgNoContent.visibility = View.VISIBLE
-                binding.txtEmptyListProducts.visibility = View.VISIBLE
-                binding.txtAddProducts.visibility = View.VISIBLE
-            } else {
-                binding.imgNoContent.visibility = View.GONE
-                binding.txtEmptyListProducts.visibility = View.GONE
-                binding.txtAddProducts.visibility = View.GONE
-            }
-        })
-        productViewModel.loadProducts()
     }
 
     private fun onAddButtonClicked() {

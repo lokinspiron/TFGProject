@@ -56,7 +56,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx:21.0.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+    implementation("com.google.firebase:firebase-appcheck-debug:18.0.0")
     //Lottie
     val lottieVersion = "6.0.0"
     implementation("com.airbnb.android:lottie-compose:$lottieVersion")
@@ -72,6 +72,11 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
     //CameraBarCode
     implementation ("com.google.android.gms:play-services-vision:20.1.3")
+    implementation ("com.google.firebase:firebase-appcheck-playintegrity:18.0.0")
+    implementation ("com.google.android.play:integrity:1.4.0")
+    implementation ("com.google.firebase:firebase-appcheck-debug")
+    implementation ("com.google.firebase:firebase-appcheck:18.0.0")
+    implementation ("com.google.firebase:firebase-appcheck-debug:18.0.0")
     implementation ("com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.1")
     implementation ("androidx.camera:camera-core:1.4.1")
     implementation ("androidx.camera:camera-view:1.4.1")

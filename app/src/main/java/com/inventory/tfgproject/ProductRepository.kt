@@ -15,13 +15,30 @@ import com.inventory.tfgproject.model.Subcategory
 class ProductRepository {
     private val db = FirebaseDatabase.getInstance()
     private val categoriesRef = db.getReference("categories")
-    private val subCategoriesRef = db.getReference("subcategories")
     private val providersRef = db.getReference("providers")
     private val productsRef = db.getReference("products")
 
     private val currentUser = FirebaseAuth.getInstance().currentUser
 
 
+    fun updateProductQuantity(productId: String, newQuantity: Int) {
+        if(currentUser == null) {
+            Log.e("ProductRepository", "No user logged in")
+            return
+        }
+
+        productsRef
+            .child(currentUser.uid)
+            .child(productId)
+            .child("stock")
+            .setValue(newQuantity)
+            .addOnSuccessListener {
+                Log.d("ProductRepository", "Successfully updated quantity to $newQuantity for product $productId")
+            }
+            .addOnFailureListener { e ->
+                Log.e("ProductRepository", "Failed to update quantity: ${e.message}", e)
+            }
+    }
     fun getProducts(callback: (List<Product>) -> Unit){
         if(currentUser == null) {
             Log.e("ProductRepository","No user loged in")
@@ -209,4 +226,5 @@ class ProductRepository {
             }
         }
     }
+
 }

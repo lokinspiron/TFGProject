@@ -3,11 +3,13 @@ package com.inventory.tfgproject.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.inventory.tfgproject.ProductRepository
 import com.inventory.tfgproject.model.Category
 import com.inventory.tfgproject.model.Product
 import com.inventory.tfgproject.model.Providers
 import com.inventory.tfgproject.model.Subcategory
+import kotlinx.coroutines.launch
 
 class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
     private val _categories = MutableLiveData<List<Category>>()
@@ -26,8 +28,11 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
     val saveProductStatus: LiveData<Pair<Boolean, String?>> = _saveProductStatus
 
     fun loadProducts(){
-        repository.getProducts { products ->
-            _products.postValue(products)
+        repository.getProducts { newProducts ->
+            val currentProducts = _products.value
+            if (currentProducts != newProducts) {
+                _products.postValue(newProducts)
+            }
         }
     }
     fun loadCategories() {
@@ -54,6 +59,19 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
         }
     }
 
+    fun updateProductQuantity(productId: String, newQuantity: Int) {
+        viewModelScope.launch {
+            repository.updateProductQuantity(productId, newQuantity)
 
-
+            val currentProducts = _products.value?.toMutableList() ?: mutableListOf()
+            val updatedProducts = currentProducts.map { product ->
+                if (product.id == productId) {
+                    product.copy(stock = newQuantity)
+                } else {
+                    product
+                }
+            }
+            _products.postValue(updatedProducts)
+        }
+    }
 }

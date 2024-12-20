@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -35,6 +37,23 @@ class InventoryFragment : Fragment() {
 
     private lateinit var subcategoryAdapter: SubcategoryAdapter
     private lateinit var subcategoryRecyclerView: RecyclerView
+
+    private lateinit var imgMoreContent : ImageView
+
+    private val rotateOpen: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_open_anim
+        )
+    }
+    private val rotateClose: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_close_anim
+        )
+    }
+
+    private var clicked = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +111,7 @@ class InventoryFragment : Fragment() {
         binding.rvCategories.visibility = View.GONE
         binding.divider.visibility = View.GONE
         binding.btnAddCategory.visibility = View.GONE
+        binding.lltInventory.visibility = View.GONE
     }
 
     private fun initListeners() {
@@ -100,7 +120,8 @@ class InventoryFragment : Fragment() {
             dialogFragment.show(childFragmentManager, "CreateCategory")
         }
 
-        view?.findViewById<ImageView>(R.id.btnCategoryAction)?.setOnClickListener {
+        requireActivity().findViewById<ImageView>(R.id.btnCategoryAction)?.setOnClickListener {
+            onAddButtonClicked()
             if (subcategoryRecyclerView.visibility == View.VISIBLE) {
                 subcategoryRecyclerView.visibility = View.GONE
             } else {
@@ -119,13 +140,9 @@ class InventoryFragment : Fragment() {
             binding.btnAddCategory.visibility = View.VISIBLE
 
             if (categories.size > 1) {
-                binding.imgNoContent.visibility = View.GONE
-                binding.txtNoContent.visibility = View.GONE
-                binding.txtAddCategories.visibility = View.GONE
+                binding.lltInventory.visibility = View.GONE
             } else {
-                binding.imgNoContent.visibility = View.VISIBLE
-                binding.txtNoContent.visibility = View.VISIBLE
-                binding.txtAddCategories.visibility = View.VISIBLE
+                binding.lltInventory.visibility = View.VISIBLE
             }
         })
         categoryViewModel.fetchCategories()
@@ -149,5 +166,25 @@ class InventoryFragment : Fragment() {
             }
         }
         dialog.show()
+    }
+    private fun onAddButtonClicked(){
+        setAnimation(clicked)
+        setClickable(clicked)
+        clicked = !clicked
+    }
+    private fun setAnimation(clicked: Boolean) {
+        val imgMoreContent = requireActivity().findViewById<ImageView>(R.id.btnCategoryAction)
+        imgMoreContent?.let {
+            if (!clicked) {
+                it.startAnimation(rotateOpen)
+            } else {
+                it.startAnimation(rotateClose)
+            }
+        }
+    }
+
+    private fun setClickable(clicked: Boolean) {
+        val imgMoreContent = requireActivity().findViewById<ImageView>(R.id.btnCategoryAction)
+        imgMoreContent?.isClickable = !clicked
     }
 }

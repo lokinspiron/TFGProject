@@ -84,6 +84,10 @@
         <meta-data
             android:name="com.google.android.gms.auth.api.credentials.CREDENTIALS_API"
             android:value="true" />
+
+        <meta-data
+            android:name="app_check_token_auto_refresh"
+            android:value="true" />
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FBF7FF</color>
     <color name="textInputColor" tools:override="true">#b147ff</color>
     <color name="red_button">#fc5656</color>
+    <color name="blue_button">#585aff</color>
 
 
 

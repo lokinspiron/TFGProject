@@ -143,6 +143,8 @@ class AddProductFragment : Fragment() {
     }
 
     private fun clearForm() {
+        defaultPictureUrl = "https://firebasestorage.googleapis.com/v0/b/d-stock-01.firebasestorage.app/o/default%2Flogo_dstock.png?alt=media&token=afc390aa-dc96-42a5-b96f-1f85c5effa83"
+
         binding.edtNameProductAdd.text?.clear()
         binding.edtQuantityProductAdd.text?.clear()
         binding.edtWeightProductAdd.text?.clear()
@@ -150,6 +152,9 @@ class AddProductFragment : Fragment() {
         binding.spinnerCategory.setSelection(0)
         binding.spinnerSubCategory.setSelection(0)
         binding.spinnerProvider.setSelection(0)
+        Glide.with(requireContext())
+            .load(defaultPictureUrl)
+            .into(binding.imgProduct)
     }
 
     private fun initForm(){
