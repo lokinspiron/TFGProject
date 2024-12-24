@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.FragmentDialogCreateCategoryBinding
-import com.inventory.tfgproject.databinding.FragmentInventoryBinding
 import com.inventory.tfgproject.model.Subcategory
 import com.inventory.tfgproject.viewmodel.CategoryViewModel
 import java.util.UUID

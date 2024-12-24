@@ -87,7 +87,7 @@
     <string name="subcategory_product" font="@font/convergence">Subcategoría:</string>
 
     <string name="address_provider" font="@font/convergence">Dirección:</string>
-    <string name="phone_provider" font="@font/convergence">Teléfono:</string>
+    <string name="phone_provider" font="@font/convergence">Móvil:</string>
     <string name="email_provider" font="@font/convergence">Correo:</string>
     <string name="orders_provider" font="@font/convergence">Pedidos:</string>
 
@@ -156,5 +156,30 @@
     <string name="quantity">%2$d</string>
 
     <string name="order_action">Pedir</string>
+    <string name="add_product_perprice_">Precio por unidad:</string>
+    <string name="add_product_perweight_">Peso por unidad:</string>
+    <string name="add_product_price_">Precio:</string>
+    <string name="add_product_stock_">Stock:</string>
 
+    <string name="product_name_format">%1$s</string>
+    <string name="product_quantity_format">%1$d</string>
+    <string name="product_price_format">%.1f %2$s</string>
+    <string name="product_weight_format">%.1f %2$s</string>
+    <string name="product_category_format">%1$s</string>
+    <string name="product_provider_format">%1$s</string>
+    <string name="product_subcategory_format">%1$s</string>
+
+    <string name="order_Date">Fecha de llegada (DD/MM)</string>
+
+    <string name="products_">Productos:</string>
+
+    <string name="look_product">Ver producto</string>
+
+    <string name="name_provider">Nombre del proveedor</string>
+
+    <string name="product_price_formats">%.1f</string>
+    <string name="product_weight_formats">%.1f</string>
+    <string name="product_quantity_formats">%.1$d</string>
+
+    <string name="contact">Contactar Proveedor</string>
 </resources>

@@ -14,7 +14,8 @@ import com.inventory.tfgproject.model.Providers
 
 class ProviderAdapter(
     private var providers : MutableList<Providers>,
-    private val onProviderClickListener: ((Providers) -> Unit)? = null
+    private val onProviderClick: ((Providers) -> Unit)? = null,
+    private val onCreateOrderClick: ((Providers) -> Unit)? = null
     ): RecyclerView.Adapter<ProviderAdapter.ProviderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProviderViewHolder {
@@ -46,7 +47,19 @@ class ProviderAdapter(
                     .load(providers.imageUrl)
                     .into(imgProviders)
             }
+
+            itemView.setOnClickListener{
+                onProviderClick?.invoke(providers)
+            }
+
+            btnMakeOrders.setOnClickListener{
+                onCreateOrderClick?.invoke(providers)
+            }
         }
 
+    }
+    fun updateProviders(newProviders: MutableList<Providers>) {
+        providers = newProviders
+        notifyDataSetChanged()
     }
 }

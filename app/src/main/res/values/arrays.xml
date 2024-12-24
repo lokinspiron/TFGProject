@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="currency_array">
+        <item>USD</item>
+        <item>EUR</item>
+    </string-array>
+
+    <string-array name="weight_array">
+        <item>kg</item>
+        <item>g</item>
+        <item>lb</item>
+    </string-array>
+</resources>

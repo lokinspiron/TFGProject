@@ -217,7 +217,6 @@ class AddProductFragment : Fragment() {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val textView = super.getDropDownView(position, convertView, parent) as TextView
                 textView.text = currencyUnits[position]
-                textView.setTextColor(Color.BLACK)
                 return textView
             }
         }
@@ -239,7 +238,6 @@ class AddProductFragment : Fragment() {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val textView = super.getDropDownView(position, convertView, parent) as TextView
                 textView.text = weightUnits[position]
-                textView.setTextColor(Color.BLACK)
                 return textView
             }
         }
@@ -268,7 +266,6 @@ class AddProductFragment : Fragment() {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
                 val textView = view.findViewById<TextView>(R.id.text1)
-
                 textView.text = itemList[position].name
 
                 return view

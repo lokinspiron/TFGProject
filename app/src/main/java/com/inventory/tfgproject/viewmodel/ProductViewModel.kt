@@ -27,6 +27,13 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
     private val _saveProductStatus = MutableLiveData<Pair<Boolean, String?>>()
     val saveProductStatus: LiveData<Pair<Boolean, String?>> = _saveProductStatus
 
+    private val _updateProductStatus = MutableLiveData<Boolean>()
+    val updateProductStatus: LiveData<Boolean> = _updateProductStatus
+
+    private val _deleteProductStatus = MutableLiveData<Boolean>()
+    val deleteProductStatus: LiveData<Boolean> = _deleteProductStatus
+
+
     fun loadProducts(){
         repository.getProducts { newProducts ->
             val currentProducts = _products.value
@@ -74,4 +81,51 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
             _products.postValue(updatedProducts)
         }
     }
+
+    fun updateProduct(productId: String, updates: Map<String, Any>) {
+        viewModelScope.launch {
+            repository.updateProduct(productId, updates) { success ->
+                if (success) {
+                    val currentProducts = _products.value?.toMutableList() ?: mutableListOf()
+                    val updatedProducts = currentProducts.map { product ->
+                        if (product.id == productId) {
+                            product.copy().apply {
+                                updates.forEach { (key, value) ->
+                                    when (key) {
+                                        "name" -> name = value as String
+                                        "price" -> price = value as Double
+                                        "weight" -> weight = value as Double
+                                        "stock" -> stock = value as Int
+                                        "categoryId" -> categoryId = value as String
+                                        "subcategoryId" -> subcategoryId = value as String
+                                        "providerId" -> providerId = value as String
+                                        "imageUrl" -> imageUrl = value as String
+                                        "currencyUnit" -> currencyUnit = value as String
+                                        "weightUnit" -> weightUnit = value as String
+                                    }
+                                }
+                            }
+                        } else {
+                            product
+                        }
+                    }
+                    _products.postValue(updatedProducts)
+                }
+                _updateProductStatus.postValue(success)
+            }
+        }
+    }
+    fun deleteProduct(productId: String) {
+        viewModelScope.launch {
+            repository.deleteProduct(productId) { success ->
+                if (success) {
+                    val currentProducts = _products.value?.toMutableList() ?: mutableListOf()
+                    val updatedProducts = currentProducts.filter { it.id != productId }
+                    _products.postValue(updatedProducts)
+                }
+                _deleteProductStatus.postValue(success)
+            }
+        }
+    }
+
 }

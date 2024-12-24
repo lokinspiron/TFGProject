@@ -15,6 +15,7 @@ import com.inventory.tfgproject.model.FirebaseAuthClient
 class DialogSafeChangeFragment : DialogFragment() {
     private lateinit var binding : FragmentDialogSafeChangeBinding
     private lateinit var firebaseAuthClient: FirebaseAuthClient
+    var onDoItClick: (() -> Unit)? = null
 
     companion object {
         private const val ARG_DYNAMIC_TEXT = "arg_dynamic_text"
@@ -62,6 +63,11 @@ class DialogSafeChangeFragment : DialogFragment() {
 
         view.findViewById<Button>(R.id.btnDoIt).setOnClickListener {
             logoutAndNavigate()
+        }
+
+        binding.btnDoIt.setOnClickListener{
+            onDoItClick?.invoke()
+            dismiss()
         }
 
     }

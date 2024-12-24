@@ -89,7 +89,7 @@ class InventoryFragment : Fragment() {
                 Log.d("SubcategoryClick", "Clicked subcategory: ${subcategory.name}, ID: ${subcategory.id}")
 
                 (activity as? MainMenu)?.replaceFragment(
-                    InventoryMenuFragment.newInstanceForSubcategory(subcategory.id, subcategory.name),"${subcategory.name}"
+                    InventoryMenuFragment.newInstanceForSubcategory(subcategory.id, subcategory.name)
                 )
             }
         )

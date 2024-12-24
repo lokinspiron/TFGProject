@@ -227,4 +227,48 @@ class ProductRepository {
         }
     }
 
+    fun updateProduct(productId: String, updatedProduct: Map<String, Any>, callback: (Boolean) -> Unit) {
+        if(currentUser == null) {
+            Log.e("ProductRepository", "No user logged in")
+            callback(false)
+            return
+        }
+
+        productsRef
+            .child(currentUser.uid)
+            .child(productId)
+            .updateChildren(updatedProduct)
+            .addOnSuccessListener {
+                Log.d("ProductRepository", "Successfully updated product $productId")
+                callback(true)
+            }
+            .addOnFailureListener { e ->
+                Log.e("ProductRepository", "Failed to update product: ${e.message}", e)
+                callback(false)
+            }
+    }
+
+    fun deleteProduct(productId: String, callback: (Boolean) -> Unit) {
+        if(currentUser == null) {
+            Log.e("ProductRepository", "No user logged in")
+            callback(false)
+            return
+        }
+
+        productsRef
+            .child(currentUser.uid)
+            .child(productId)
+            .removeValue()
+            .addOnSuccessListener {
+                Log.d("ProductRepository", "Successfully deleted product $productId")
+                callback(true)
+            }
+            .addOnFailureListener { e ->
+                Log.e("ProductRepository", "Failed to delete product: ${e.message}", e)
+                callback(false)
+            }
+    }
+
+
+
 }

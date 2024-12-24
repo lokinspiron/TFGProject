@@ -10,7 +10,7 @@
         android:id="@+id/cltAddCategory"
         android:name="com.inventory.tfgproject.view.AddCategoryFragment"
         android:layout_width="500dp"
-        android:layout_height="496dp"
+        android:layout_height="350dp"
         android:background="@color/backgroundColor1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,10 +25,10 @@
             android:text="@string/gmail"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.197"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.906" />
+            app:layout_constraintVertical_bias="0.62" />
 
         <Button
             android:id="@+id/btnPhone"
@@ -38,10 +38,10 @@
             android:text="@string/phone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.805"
+            app:layout_constraintHorizontal_bias="0.525"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.906" />
+            app:layout_constraintVertical_bias="0.794" />
 
         <Button
             android:id="@+id/btnMakeOrder"
@@ -56,7 +56,7 @@
             app:layout_constraintHorizontal_bias="0.403"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintVertical_bias="0.343" />
 
         <ImageView
             android:id="@+id/imgClose"
@@ -75,7 +75,7 @@
             android:id="@+id/txtAddCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_order"
+            android:text="@string/contact"
             android:textColor="@color/backgroundColor2"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -85,73 +85,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.046" />
-
-        <Spinner
-            android:id="@+id/spinnerProvider"
-            android:layout_width="353dp"
-            android:layout_height="45dp"
-            android:background="@drawable/spinner_border_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.206" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/quantityOrderContainer"
-            style="@style/TextInputLayoutStyle"
-            android:layout_width="353dp"
-            android:layout_height="71dp"
-            android:layout_marginTop="25dp"
-            android:imeOptions="actionNext"
-            android:textColorHint="@color/backgroundColor2"
-            app:counterTextColor="@color/backgroundColor2"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@android:color/holo_red_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerProvider">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtQuantityOrder"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:fontFamily="@font/convergence"
-                android:hint="@string/add_product_quantity"
-                android:inputType="number"
-                android:lines="1"
-                android:textColor="@color/backgroundColor2"
-                android:textSize="15sp"
-                tools:ignore="RtlSymmetry" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dateOrderContainer"
-            style="@style/TextInputLayoutStyle"
-            android:layout_width="353dp"
-            android:layout_height="71dp"
-            android:layout_marginTop="5dp"
-            android:imeOptions="actionNext"
-            android:textColorHint="@color/backgroundColor2"
-            app:counterTextColor="@color/backgroundColor2"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@android:color/holo_red_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quantityOrderContainer">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtDateOrder"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:fontFamily="@font/convergence"
-                android:hint="@string/order_Date"
-                android:inputType="date"
-                android:lines="1"
-                android:maxLength="10"
-                android:textColor="@color/backgroundColor2"
-                android:textSize="15sp" />
-        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

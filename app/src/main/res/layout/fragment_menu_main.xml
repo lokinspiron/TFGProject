@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundColor1"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btnDrawerToggle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/navigation_drawer_open"
+            android:padding="2dp"
+            android:src="@drawable/ic_menu" />
+
+        <TextView
+            android:id="@+id/txtWave"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/backgroundColor1"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_marginStart="130dp"
+            android:fontFamily="@font/convergence"
+            android:paddingRight="95dp"
+            android:textAlignment="center"
+            android:textColor="@color/backgroundColor2"
+            android:textSize="20sp" />
 
-            <ImageButton
-                android:id="@+id/btnDrawerToggle"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/navigation_drawer_open"
-                android:padding="2dp"
-                android:src="@drawable/ic_menu" />
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="37dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_search"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"
+            app:showAsAction="ifRoom|collapseActionView" />
 
-            <TextView
-                android:id="@+id/txtWave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="130dp"
-                android:fontFamily="@font/convergence"
-                android:paddingRight="95dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textColor="@color/backgroundColor2"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="37dp"
-                android:padding="2dp"
-                android:src="@drawable/ic_search"
-                app:actionViewClass="androidx.appcompat.widget.SearchView"
-                app:showAsAction="ifRoom|collapseActionView" />
-
-        </androidx.appcompat.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtUsedProducts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
@@ -71,11 +70,12 @@
         app:layout_constraintVertical_bias="0.045" />
 
     <include
-            layout="@layout/activity_menu_footer"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        android:id="@+id/include2"
+        layout="@layout/activity_menu_footer"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

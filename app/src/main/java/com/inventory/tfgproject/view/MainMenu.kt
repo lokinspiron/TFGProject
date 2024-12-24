@@ -3,6 +3,7 @@ package com.inventory.tfgproject.view
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -37,8 +38,6 @@ class MainMenu : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
 
-
-
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (binding.drawerlt.isDrawerOpen(GravityCompat.START)) {
@@ -50,7 +49,7 @@ class MainMenu : AppCompatActivity(){
                 }
             }
         })
-
+        initVisibility()
         setContentView(binding.root)
         supportActionBar?.hide()
     }
@@ -62,6 +61,7 @@ class MainMenu : AppCompatActivity(){
                 val greetingMessage = getString(R.string.greetings, user.name)
                 binding.txtWave.text = greetingMessage
                 replaceFragment(MenuMainFragment(),greetingMessage)
+                binding.loadingOverlay.visibility = View.GONE
 
                 val navigationView: NavigationView = findViewById(R.id.nav_view)
                 val headerView = navigationView.getHeaderView(0)
@@ -206,6 +206,10 @@ class MainMenu : AppCompatActivity(){
         greetingMessage?.let {
             binding.txtWave.text = it
         }
+    }
+
+    private fun initVisibility(){
+        binding.loadingOverlay.visibility = View.VISIBLE
     }
 
 //    override fun onBackPressed() {

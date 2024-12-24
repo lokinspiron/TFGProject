@@ -103,7 +103,7 @@ class InventoryMenuFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentInventoryMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -115,11 +115,19 @@ class InventoryMenuFragment : Fragment() {
             mutableListOf(),
             onProductClick = { product ->
                 Log.d("ProductClick", "Clicked product ${product.name}")
-                (activity as? MainMenu)?.replaceFragment(ProductViewFragment(), product.name)
+                (activity as? MainMenu)?.replaceFragment(
+                    ProductViewFragment.newInstance(product.id,product.name))
             },
             onQuantityChanged = { product, newQuantity ->
                 productViewModel.updateProductQuantity(product.id, newQuantity)
                 productAdapter.updateProduct(product.id, newQuantity)
+            },
+            onButtonProductClick = { product ->
+                val dialog = CreateOrderDialogFragment.newInstance(
+                    providerId = product.providerId,
+                    productId = product.id
+                )
+                dialog.show(childFragmentManager, "CreateOrder")
             }
         )
 
@@ -132,7 +140,7 @@ class InventoryMenuFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        productViewModel.products.observe(viewLifecycleOwner, Observer { allProducts ->
+        productViewModel.products.observe(viewLifecycleOwner) { allProducts ->
             binding.pbProduct.visibility = View.GONE
             binding.rvProducts.visibility = View.VISIBLE
             binding.txtCategory.visibility = View.VISIBLE
@@ -145,9 +153,9 @@ class InventoryMenuFragment : Fragment() {
                 else -> emptyList()
             }
 
-            if (productAdapter.product != allProducts) {
+            if (productAdapter.product != filteredProducts) {
                 productAdapter.product.clear()
-                productAdapter.product.addAll(allProducts)
+                productAdapter.product.addAll(filteredProducts)
                 productAdapter.notifyDataSetChanged()
             }
 
@@ -164,7 +172,7 @@ class InventoryMenuFragment : Fragment() {
                 binding.txtEmptyListProducts.visibility = View.GONE
                 binding.txtAddProducts.visibility = View.GONE
             }
-        })
+        }
         productViewModel.loadProducts()
     }
 
@@ -208,7 +216,6 @@ class InventoryMenuFragment : Fragment() {
             binding.fabAddProducts.startAnimation(toBottom)
             binding.fabProducts.startAnimation(rotateClose)
         }
-
     }
 
     private fun setVisibility(clicked: Boolean) {
