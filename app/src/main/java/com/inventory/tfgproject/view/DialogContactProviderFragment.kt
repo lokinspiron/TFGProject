@@ -1,23 +1,27 @@
 package com.inventory.tfgproject.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.inventory.tfgproject.databinding.FragmentDialogCreateOrderBinding
+import com.inventory.tfgproject.databinding.FragmentDialogContactProviderBinding
 
 class DialogContactProviderFragment: DialogFragment() {
-    private lateinit var binding : DialogContactProviderFragment
+    private lateinit var binding : FragmentDialogContactProviderBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentDialogContactProviderBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
-
     }
 
     private fun initListeners() {

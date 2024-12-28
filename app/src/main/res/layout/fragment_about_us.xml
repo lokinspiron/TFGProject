@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor2">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imgAboutUs"
+                android:layout_width="265dp"
+                android:layout_height="247dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="75dp"
+                android:background="@drawable/circle_navigation_background"
+                android:contentDescription="@string/desc_floating"
+                android:padding="40dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/task_document" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="75dp"
+                android:fontFamily="@font/convergence"
+                android:text="@string/our_mission"
+                android:textSize="35sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="100dp"
+                android:fontFamily="@font/convergence"
+                android:text="@string/and_purpose"
+                android:textSize="35sp"
+                android:textStyle="bold" />
+
+            <com.codesgood.views.JustifiedTextView
+                android:layout_width="345dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="38dp"
+                android:layout_marginStart="40dp"
+                android:fontFamily="@font/convergence"
+                android:text="@string/mission_purpose"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="95dp"
+                android:fontFamily="@font/convergence"
+                android:text="@string/contact_us"
+                android:textSize="35sp"
+                android:textStyle="bold" />
+
+            <com.codesgood.views.JustifiedTextView
+                android:layout_width="345dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="38dp"
+                android:layout_marginStart="40dp"
+                android:fontFamily="@font/convergence"
+                android:text="@string/contact_us_text"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,5 @@
 package com.inventory.tfgproject.model
 
-import java.lang.System.currentTimeMillis
 
 data class Orders(
     val id: String = "",

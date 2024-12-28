@@ -33,7 +33,6 @@ class MainMenu : AppCompatActivity(){
     private val auth : AuthViewModel by viewModels()
     private val userViewModel : UserViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
@@ -79,7 +78,7 @@ class MainMenu : AppCompatActivity(){
                         .load(R.drawable.ic_user_image)
                         .circleCrop()
                         .into(imgProfilePhoto)
-                    Log.e("ImgProfilePhoto","Photo is not uploaded")
+                    Log.d("ImgProfilePhoto","Photo is not uploaded")
                 } else {
                     Glide.with(this)
                         .load(user.profilePictureUrl)
@@ -87,7 +86,7 @@ class MainMenu : AppCompatActivity(){
                         .fitCenter()
                         .override(200, 200)
                         .into(imgProfilePhoto)
-                    Log.e("ImgProfilePhoto","Photo is uploaded")
+                    Log.d("ImgProfilePhoto","Photo is uploaded")
                 }
             } else {
                 Log.d("User Data", "User data is null")
@@ -155,10 +154,10 @@ class MainMenu : AppCompatActivity(){
                     share()
                 }
                 R.id.nav_settings -> {
-                    Toast.makeText(this, "Settings seleccionado", Toast.LENGTH_SHORT).show()
+                    replaceFragment(UserProfileFragment(),"Perfil")
                 }
                 R.id.nav_about -> {
-                    Toast.makeText(this, "About seleccionado", Toast.LENGTH_SHORT).show()
+                    replaceFragment(AboutUsFragment(),"Acerca de nosotros")
                 }
                 R.id.nav_logout -> {
                     val dialogFragment = DialogSafeChangeFragment.newInstance(

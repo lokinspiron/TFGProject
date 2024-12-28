@@ -9,54 +9,57 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cltAddCategory"
         android:name="com.inventory.tfgproject.view.AddCategoryFragment"
-        android:layout_width="500dp"
+        android:layout_width="650dp"
         android:layout_height="350dp"
         android:background="@color/backgroundColor1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/btnGmail"
-            android:layout_width="125dp"
-            android:layout_height="48dp"
+            android:layout_width="295dp"
+            android:layout_height="56dp"
             android:fontFamily="@font/convergence"
             android:text="@string/gmail"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.62" />
+            app:layout_constraintVertical_bias="0.547" />
 
         <Button
             android:id="@+id/btnPhone"
-            android:layout_width="125dp"
-            android:layout_height="48dp"
+            android:layout_width="295dp"
+            android:layout_height="56dp"
             android:fontFamily="@font/convergence"
             android:text="@string/phone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.525"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.794" />
-
-        <Button
-            android:id="@+id/btnMakeOrder"
-            android:layout_width="266dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="38dp"
-            android:fontFamily="@font/convergence"
-            android:text="@string/make_order"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.403"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.343" />
+            app:layout_constraintVertical_bias="0.795" />
+
+        <Button
+            android:id="@+id/btnMakeOrder"
+            android:layout_width="295dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="38dp"
+            android:fontFamily="@font/convergence"
+            android:text="@string/whatsapp"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.441"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.278" />
 
         <ImageView
             android:id="@+id/imgClose"
@@ -65,21 +68,21 @@
             android:src="@drawable/ic_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.856"
+            app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.035"
+            app:layout_constraintVertical_bias="0.013"
             app:tint="@color/backgroundColor2" />
 
         <TextView
             android:id="@+id/txtAddCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/convergence"
             android:text="@string/contact"
             android:textColor="@color/backgroundColor2"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:fontFamily="@font/convergence"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

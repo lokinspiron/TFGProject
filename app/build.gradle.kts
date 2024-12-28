@@ -72,6 +72,7 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
     //CameraBarCode
     implementation ("com.google.android.gms:play-services-vision:20.1.3")
+    implementation ("com.codesgood:justifiedtextview:1.1.0")
     implementation ("com.google.firebase:firebase-appcheck-playintegrity:18.0.0")
     implementation ("com.google.android.play:integrity:1.4.0")
     implementation ("com.google.firebase:firebase-appcheck-debug")

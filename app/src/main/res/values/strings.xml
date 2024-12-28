@@ -182,4 +182,28 @@
     <string name="product_quantity_formats">%.1$d</string>
 
     <string name="contact">Contactar Proveedor</string>
+
+    <string name="whatsapp">Whatsapp</string>
+
+    <string name="our_mission">Nuestra Misión</string>
+    <string name="and_purpose">y Propósito</string>
+
+    <string name="mission_purpose">Nuestra misión es simplificar la gestión de inventarios para pequeñas empresas,
+        ayudándolas a ahorrar tiempo y reducir errores. La idea nació al ver los retos de usar métodos tradicionales
+        como hojas de cálculo, inspirándonos a crear una solución moderna y confiable.</string>
+
+    <string name="contact_us">Contáctanos</string>
+
+    <string name="contact_us_text">Tu opinión es valiosa para nosotros. Si tienes sugerencias, preguntas o necesitas soporte,
+        no dudes en contactarnos</string>
+
+    <string name="Orders">Pedidos</string>
+
+    <string name="State">Estado</string>
+
+    <string name="Look_orders">Ver pedidos</string>
+
+    <string name="no_orders">No hay pedidos disponibles</string>
+
+    <string name="no_data">Sin datos</string>
 </resources>
