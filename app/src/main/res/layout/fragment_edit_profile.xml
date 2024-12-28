@@ -93,6 +93,7 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilUsernameContainer"
                         style="@style/TextInputLayoutStyle2"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
@@ -132,7 +133,9 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/TextInputLayoutStyle2"                        android:layout_width="150dp"
+                        android:id="@+id/tilSurnameContainer"
+                        style="@style/TextInputLayoutStyle2"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:lines="1"
@@ -170,7 +173,9 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/TextInputLayoutStyle2"                        android:layout_width="150dp"
+                        android:id="@+id/tilBirthdayContainer"
+                        style="@style/TextInputLayoutStyle2"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:lines="1"
@@ -182,8 +187,10 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/convergence"
                             android:gravity="end"
-                            android:lines="1"
-                            android:inputType="date"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:inputType="none"
+                            android:cursorVisible="false"
                             android:textColor="@color/letters"
                             android:textSize="18sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -193,7 +200,7 @@
                     android:id="@+id/lltEmailUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginBottom="16dp"
                     android:orientation="horizontal"
                     android:weightSum="1">
@@ -209,6 +216,7 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEmailContainer"
                         style="@style/TextInputLayoutStyle2"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
@@ -249,7 +257,9 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/TextInputLayoutStyle2"                        android:layout_width="150dp"
+                        android:id="@+id/tilPhoneContainer"
+                        style="@style/TextInputLayoutStyle2"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:lines="1"
@@ -288,7 +298,9 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/TextInputLayoutStyle2"                        android:layout_width="150dp"
+                        android:id="@+id/tilAddressContainer"
+                        style="@style/TextInputLayoutStyle2"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:lines="1"
@@ -308,7 +320,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnDelete"
+                android:id="@+id/btnSaveProfile"
                 android:layout_width="145dp"
                 android:layout_height="65dp"
                 android:layout_marginTop="20dp"
@@ -323,7 +335,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
-                android:id="@+id/btnSaveProfile"
+                android:id="@+id/btnDelete"
                 android:layout_width="145dp"
                 android:layout_height="65dp"
                 android:layout_marginTop="20dp"

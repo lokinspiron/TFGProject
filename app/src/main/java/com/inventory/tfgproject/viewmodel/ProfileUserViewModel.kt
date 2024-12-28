@@ -37,19 +37,40 @@ class ProfileUserViewModel(private val repository: UserRepository) : ViewModel()
     }
 
     fun updateUserData(updatedUser: User) {
+        Log.d("ProfileUserViewModel", "updateUserData() called with user: $updatedUser")
         _isLoading.value = true
+
         repository.updateUserData(
             user = updatedUser,
             onSuccess = {
+                Log.d("ProfileUserViewModel", "Update success callback received")
                 _updateSuccess.postValue(true)
                 _isLoading.value = false
-                loadUserData() // Reload user data after successful update
+                loadUserData()
+            },
+            onError = { exception ->
+                Log.e("ProfileUserViewModel", "Update error callback received", exception)
+                _error.postValue(exception.message)
+                _updateSuccess.postValue(false)
+                _isLoading.value = false
+            }
+        )
+    }
+
+    fun updateProfilePicture(imageUrl: String) {
+        _isLoading.value = true
+
+        repository.updateUserProfilePicture(
+            imageUrl = imageUrl,
+            onSuccess = {
+                _updateSuccess.postValue(true)
+                _isLoading.value = false
+                loadUserData()
             },
             onError = { exception ->
                 _error.postValue(exception.message)
                 _updateSuccess.postValue(false)
                 _isLoading.value = false
-                Log.e("UserViewModel", "Error updating user data", exception)
             }
         )
     }

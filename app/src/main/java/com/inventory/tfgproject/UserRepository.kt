@@ -1,5 +1,6 @@
 package com.inventory.tfgproject
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -47,14 +48,39 @@ class UserRepository {
             return
         }
 
+        val updates = mapOf(
+            "email" to user.email,
+            "phoneNumber" to user.phoneNumber,
+            "address" to user.address,
+            "birthDate" to user.birthDate
+        )
+
+
         userRef.child(currentUser.uid)
-            .setValue(user)
+            .updateChildren(updates)
             .addOnSuccessListener {
+                Log.d("UserRepository", "Firebase update successful")
                 onSuccess()
             }
             .addOnFailureListener { exception ->
+                Log.e("UserRepository", "Firebase update failed", exception)
                 onError(exception)
             }
+    }
+
+    fun updateUserProfilePicture(imageUrl: String, onSuccess: () -> Unit, onError: (Exception) -> Unit) {
+        currentUser?.let { user ->
+            val updates = mapOf("profilePictureUrl" to imageUrl)
+
+            userRef.child(user.uid)
+                .updateChildren(updates)
+                .addOnSuccessListener {
+                    onSuccess()
+                }
+                .addOnFailureListener { exception ->
+                    onError(exception)
+                }
+        } ?: onError(Exception("No user logged in"))
     }
 }
 

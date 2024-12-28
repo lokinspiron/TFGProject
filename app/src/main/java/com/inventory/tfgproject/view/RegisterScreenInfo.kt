@@ -1,10 +1,15 @@
 package com.inventory.tfgproject.view
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -16,7 +21,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageException
 import com.inventory.tfgproject.AnimationUtil
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ActivityRegisterScreenInfoBinding
@@ -26,6 +33,7 @@ import com.inventory.tfgproject.model.FirebaseAuthClient
 import com.inventory.tfgproject.model.FirebaseDatabaseClient
 import com.inventory.tfgproject.model.User
 import com.inventory.tfgproject.viewmodel.AuthViewModel
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -39,6 +47,7 @@ class RegisterScreenInfo : AppCompatActivity() {
     private lateinit var user : User
 
     private var profilePictureUrl : String? = null
+    private var birthDay : String? = null
 
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         uploadProfilePicture(uri)
@@ -91,12 +100,18 @@ class RegisterScreenInfo : AppCompatActivity() {
                 if (today.get(java.util.Calendar.DAY_OF_YEAR) < selectedDate.get(java.util.Calendar.DAY_OF_YEAR)) {
                     age--
                 }
+
                 if (age >= 18) {
-                    toast("Edad válida",Toast.LENGTH_SHORT)
-                    val birthDateString = selectedDate.time.toString()
-                    user = user.copy(birthDate = birthDateString)
+                    val day = selectedDate.get(java.util.Calendar.DAY_OF_MONTH).toString().padStart(2, '0')
+                    val month = (selectedDate.get(java.util.Calendar.MONTH) + 1).toString().padStart(2, '0')
+                    val year = selectedDate.get(java.util.Calendar.YEAR).toString()
+
+                    birthDay = "$day/$month/$year"
+                    binding.btnBirthdate.text = birthDay
+                    toast("Edad válida", Toast.LENGTH_SHORT)
                 } else {
-                    toast("Debes ser mayor de 18 años",Toast.LENGTH_SHORT)
+                    birthDay = null
+                    toast("Debes ser mayor de 18 años", Toast.LENGTH_SHORT)
                 }
             }
         }
@@ -173,6 +188,7 @@ class RegisterScreenInfo : AppCompatActivity() {
             name = userName,
             surname = userSurname,
             email = userEmail,
+            birthDate = birthDay,
             phoneNumber = userPhone,
             address = userAddress,
             profilePictureUrl = profilePictureUrl,
@@ -181,7 +197,7 @@ class RegisterScreenInfo : AppCompatActivity() {
 
         authViewModel.createUser(userEmail,userPassword,user)
         toast("Se ha agregado a base de datos", Toast.LENGTH_SHORT)
-        }
+    }
 
     private fun uploadProfilePicture(uri: Uri?) {
         if (uri == null) {
