@@ -203,7 +203,9 @@
 
     <string name="Look_orders">Ver pedidos</string>
 
-    <string name="no_orders">No hay pedidos disponibles</string>
+    <string name="no_orders">No hay pedidos pendientes</string>
 
     <string name="no_data">Sin datos</string>
+
+    <string name="no_actual_orders">No hay pedidos</string>
 </resources>

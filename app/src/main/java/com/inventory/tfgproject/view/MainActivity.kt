@@ -15,21 +15,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.BuildConfig
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
-import com.google.firebase.appcheck.appCheck
-import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.initialize
 import com.inventory.tfgproject.AnimationUtil
+import com.inventory.tfgproject.OrderRepository
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.extension.toast
 
 
 class MainActivity : AppCompatActivity() {
+
+    private val orderRepository = OrderRepository()
+
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
 
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main)
+
+        orderRepository.setupProductDeletionListener()
 
         val dstockTextView: TextView = findViewById(R.id.txtNombre)
         val logoImageView: ImageView = findViewById(R.id.imgLogo)

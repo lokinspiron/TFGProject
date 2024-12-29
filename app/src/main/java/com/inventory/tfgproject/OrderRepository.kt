@@ -2,9 +2,12 @@ package com.inventory.tfgproject
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
 import com.inventory.tfgproject.model.OrderWithProduct
 import com.inventory.tfgproject.model.Orders
@@ -146,7 +149,7 @@ class OrderRepository {
         currentUser?.let { user ->
             val userOrderRef = ordersRef.child(user.uid).child(orderId)
 
-            userOrderRef.child("cantidad").setValue(newQuantity)
+            userOrderRef.child("stock").setValue(newQuantity)
                 .addOnSuccessListener {
                     getOrders(callback)
                 }
@@ -156,4 +159,155 @@ class OrderRepository {
                 }
         } ?: callback(emptyList())
     }
+
+    fun updateOrderState(orderId: String, newState: String, callback: (List<OrderWithProduct>) -> Unit) {
+        currentUser?.let { user ->
+            val userOrderRef = ordersRef.child(user.uid).child(orderId)
+
+            userOrderRef.get().addOnSuccessListener { snapshot ->
+                val currentOrder = snapshot.getValue(Orders::class.java)
+                val currentState = currentOrder?.estado
+
+                userOrderRef.child("estado").setValue(newState)
+                    .addOnSuccessListener {
+                        Log.d("OrderRepository", "Order state updated from $currentState to: $newState")
+
+                        currentOrder?.let { safeOrder ->
+                            when {
+                                currentState != "Completado" && newState == "Completado" -> {
+                                    updateProductQuantity(
+                                        safeOrder.productId,
+                                        safeOrder.stock
+                                    ) { success ->
+                                        if (success) {
+                                            Log.d("OrderRepository", "Added ${safeOrder.stock} to product stock")
+                                        } else {
+                                            Log.e("OrderRepository", "Failed to add to product stock")
+                                        }
+                                        getOrders(callback)
+                                    }
+                                }
+                                currentState == "Completado" && newState != "Completado" -> {
+                                    updateProductQuantity(
+                                        safeOrder.productId,
+                                        -safeOrder.stock
+                                    ) { success ->
+                                        if (success) {
+                                            Log.d("OrderRepository", "Removed ${safeOrder.stock} from product stock")
+                                        } else {
+                                            Log.e("OrderRepository", "Failed to remove from product stock")
+                                        }
+                                        getOrders(callback)
+                                    }
+                                }
+                                else -> {
+                                    getOrders(callback)
+                                }
+                            }
+                        } ?: run {
+                            Log.e("OrderRepository", "Order is null")
+                            getOrders(callback)
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("OrderRepository", "Error updating order state", e)
+                        getOrders(callback)
+                    }
+            }.addOnFailureListener { e ->
+                Log.e("OrderRepository", "Error getting order", e)
+                getOrders(callback)
+            }
+        } ?: callback(emptyList())
+    }
+
+    fun deleteOrder(orderId: String, callback: (Boolean) -> Unit) {
+        currentUser?.let { user ->
+            val userOrderRef = ordersRef.child(user.uid).child(orderId)
+            userOrderRef.removeValue()
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("OrderRepository", "Error deleting order", exception)
+                    callback(false)
+                }
+        } ?: callback(false)
+    }
+
+     fun updateProductQuantity(productId: String, quantityToChange: Int, callback: (Boolean) -> Unit) {
+        currentUser?.let { user ->
+            val productRef = productsRef.child(user.uid).child(productId)
+
+            productRef.get().addOnSuccessListener { snapshot ->
+                val product = snapshot.getValue(Product::class.java)
+
+                if (product != null) {
+                    val newQuantity = product.stock + quantityToChange
+
+                    if (newQuantity >= 0) {
+                        productRef.child("stock").setValue(newQuantity)
+                            .addOnSuccessListener {
+                                Log.d("OrderRepository", "Product stock updated from ${product.stock} to $newQuantity")
+                                callback(true)
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("OrderRepository", "Error updating product stock", e)
+                                callback(false)
+                            }
+                    } else {
+                        Log.e("OrderRepository", "Cannot update stock: would result in negative quantity")
+                        callback(false)
+                    }
+                } else {
+                    Log.e("OrderRepository", "Product not found with ID: $productId")
+                    callback(false)
+                }
+            }.addOnFailureListener { e ->
+                Log.e("OrderRepository", "Error getting product", e)
+                callback(false)
+            }
+        } ?: callback(false)
+    }
+
+    fun setupProductDeletionListener() {
+        currentUser?.let { user ->
+            productsRef.child(user.uid).addChildEventListener(object : ChildEventListener {
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                    val deletedProductId = snapshot.key ?: return
+                    deleteOrdersForProduct(deletedProductId)
+                }
+
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {}
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("OrderRepository", "Product listener cancelled: ${error.message}")
+                }
+            })
+        }
+    }
+
+    private fun deleteOrdersForProduct(productId: String) {
+        currentUser?.let { user ->
+            val userOrdersRef = ordersRef.child(user.uid)
+
+            userOrdersRef.orderByChild("productId").equalTo(productId)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        snapshot.children.forEach { orderSnapshot ->
+                            orderSnapshot.ref.removeValue()
+                                .addOnFailureListener { e ->
+                                    Log.e("OrderRepository", "Error deleting order for product $productId", e)
+                                }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("OrderRepository", "Error querying orders for product $productId: ${error.message}")
+                    }
+                })
+        }
+    }
+
+
 }

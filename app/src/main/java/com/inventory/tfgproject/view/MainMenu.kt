@@ -22,6 +22,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseUser
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ActivityMainMenuBinding
+import com.inventory.tfgproject.model.User
 import com.inventory.tfgproject.viewmodel.AuthViewModel
 import com.inventory.tfgproject.viewmodel.UserViewModel
 import de.hdodenhof.circleimageview.CircleImageView
@@ -30,19 +31,28 @@ import de.hdodenhof.circleimageview.CircleImageView
 class MainMenu : AppCompatActivity(){
     private var requestCamara : ActivityResultLauncher<String>? = null
     private lateinit var binding: ActivityMainMenuBinding
-    private val auth : AuthViewModel by viewModels()
-    private val userViewModel : UserViewModel by viewModels()
+    val auth : AuthViewModel by viewModels()
+    val userViewModel : UserViewModel by viewModels()
+
+    private lateinit var headerImageView: CircleImageView
+    private lateinit var headerNameView: TextView
+    private lateinit var headerEmailView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
+
+        val navigationView: NavigationView = binding.navView
+        val headerView = navigationView.getHeaderView(0)
+        headerImageView = headerView.findViewById(R.id.imgProfilePhoto)
+        headerNameView = headerView.findViewById(R.id.txtNameHeader)
+        headerEmailView = headerView.findViewById(R.id.txtEmailHeader)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (binding.drawerlt.isDrawerOpen(GravityCompat.START)) {
                     binding.drawerlt.closeDrawer(GravityCompat.START)
                 } else {
-
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()
                 }
@@ -54,46 +64,39 @@ class MainMenu : AppCompatActivity(){
     }
 
     private fun initViewModels(currentUser: FirebaseUser) {
-        userViewModel.userData.observe(this,Observer{ user ->
+        userViewModel.userData.observe(this, Observer { user ->
             if (user != null) {
-                Log.d("User Data", "User: ${user.name}, ${user.email}")
-                val greetingMessage = getString(R.string.greetings, user.name)
-                binding.txtWave.text = greetingMessage
-                replaceFragment(MenuMainFragment(),greetingMessage)
-                binding.loadingOverlay.visibility = View.GONE
-
-                val navigationView: NavigationView = findViewById(R.id.nav_view)
-                val headerView = navigationView.getHeaderView(0)
-
-                val txtNameHeader: TextView = headerView.findViewById(R.id.txtNameHeader)
-                val txtEmailHeader: TextView = headerView.findViewById(R.id.txtEmailHeader)
-
-                txtNameHeader.text = user.name
-                txtEmailHeader.text = user.email
-
-                val imgProfilePhoto: CircleImageView = binding.root.findViewById(R.id.imgProfilePhoto)
-                Log.d("UserData", "Profile Picture URL: ${user.profilePictureUrl}")
-                if (user.profilePictureUrl.isNullOrEmpty()) {
-                    Glide.with(this)
-                        .load(R.drawable.ic_user_image)
-                        .circleCrop()
-                        .into(imgProfilePhoto)
-                    Log.d("ImgProfilePhoto","Photo is not uploaded")
-                } else {
-                    Glide.with(this)
-                        .load(user.profilePictureUrl)
-                        .circleCrop()
-                        .fitCenter()
-                        .override(200, 200)
-                        .into(imgProfilePhoto)
-                    Log.d("ImgProfilePhoto","Photo is uploaded")
-                }
-            } else {
-                Log.d("User Data", "User data is null")
+                updateUIWithUserData(user)
             }
         })
         userViewModel.loadUserData(currentUser)
     }
+
+    private fun updateUIWithUserData(user: User) {
+        Log.d("User Data", "User: ${user.name}, ${user.email}")
+        val greetingMessage = getString(R.string.greetings, user.name)
+        binding.txtWave.text = greetingMessage
+        replaceFragment(MenuMainFragment(), greetingMessage)
+        binding.loadingOverlay.visibility = View.GONE
+
+        headerNameView.text = user.name
+        headerEmailView.text = user.email
+
+        updateProfileImage(user.profilePictureUrl)
+    }
+
+    private fun updateProfileImage(imageUrl: String?) {
+        Glide.with(this)
+            .load(imageUrl)
+            .placeholder(R.drawable.ic_user_image)
+            .error(R.drawable.ic_user_image)
+            .circleCrop()
+            .into(headerImageView)
+
+        Log.d("ProfileUpdate", "Updated profile picture: $imageUrl")
+    }
+
+
 
     override fun onStart() {
         super.onStart()
@@ -209,6 +212,13 @@ class MainMenu : AppCompatActivity(){
 
     private fun initVisibility(){
         binding.loadingOverlay.visibility = View.VISIBLE
+    }
+
+    fun refreshUserData() {
+        val currentUser = auth.getCurrentUser()
+        if (currentUser != null) {
+            userViewModel.loadUserData(currentUser)
+        }
     }
 
 //    override fun onBackPressed() {

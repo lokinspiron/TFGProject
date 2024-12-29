@@ -68,21 +68,18 @@ class MenuMainFragment : Fragment() {
     private fun observeOrders() {
         orderViewModel.ordersWithProducts.observe(viewLifecycleOwner) { orders ->
             Log.d("MenuMainFragment", "Received orders: ${orders.size}")
-            orderAdapter.setOrders(orders)
-            handleVisibilityStates(orderViewModel.isLoading.value ?: false, orders.isEmpty())
+            val pendingOrders = orders.filter { it.order.estado?.lowercase() == "pendiente" }
+            orderAdapter.setOrders(pendingOrders)
+
         }
     }
 
+    private fun updateVisibilities(isLoading: Boolean, hasPendingOrders: Boolean) {
+        binding.loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
     private fun handleVisibilityStates(isLoading: Boolean, isEmpty: Boolean) {
-        binding.apply {
-            loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            root.findViewById<ConstraintLayout>(R.id.emptyStateContainer).visibility =
-                if (!isLoading && isEmpty) View.VISIBLE else View.GONE
-            rvOrders.visibility =
-                if (!isLoading && !isEmpty) View.VISIBLE else View.GONE
-            btnMoreOrders.visibility =
-                if (!isLoading && !isEmpty) View.VISIBLE else View.GONE
-        }
+        binding.loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun updateEmptyState(isEmpty: Boolean) {
@@ -93,7 +90,6 @@ class MenuMainFragment : Fragment() {
                 loadingProgressBar.visibility = View.VISIBLE
                 root.findViewById<ConstraintLayout>(R.id.emptyStateContainer).visibility = View.GONE
                 rvOrders.visibility = View.GONE
-                btnMoreOrders.visibility = View.GONE
                 return@apply
             }
 
@@ -101,7 +97,6 @@ class MenuMainFragment : Fragment() {
             root.findViewById<ConstraintLayout>(R.id.emptyStateContainer).visibility =
                 if (isEmpty) View.VISIBLE else View.GONE
             rvOrders.visibility = if (isEmpty) View.GONE else View.VISIBLE
-            btnMoreOrders.visibility = if (isEmpty) View.GONE else View.VISIBLE
         }
     }
 
@@ -109,16 +104,15 @@ class MenuMainFragment : Fragment() {
         orderAdapter = OrderAdapter(
             orders = mutableListOf(),
             maxItems = maxOrders,
-            onQuantityChanged = { order, newQuantity ->
-                orderViewModel.updateOrderQuantity(order, newQuantity)
-            }
+            emptyStateBinding = emptyStateBinding,
+            recyclerView = binding.rvOrders
         )
         binding.rvOrders.apply {
             adapter = orderAdapter
             layoutManager = LinearLayoutManager(context)
         }
-        handleVisibilityStates(true, true)
     }
+
 
     private fun initListeners() {
         val btnDrawerToggle= binding.root.findViewById<ImageButton>(R.id.btnDrawerToggle)

@@ -49,15 +49,25 @@ class UserProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
         setupUI()
+        initVisibility()
         userViewModel.loadUserData()
+    }
+
+    private fun initVisibility() {
+        binding.scUserProfile.visibility = View.GONE
+        binding.pbUserProfile.visibility = View.VISIBLE
     }
 
     private fun setupObservers() {
         userViewModel.userData.observe(viewLifecycleOwner) { user ->
             if (user != null) {
+                binding.scUserProfile.visibility = View.VISIBLE
+                binding.pbUserProfile.visibility = View.GONE
                 updateUserData(user)
                 uploadProfilePicture(user.profilePictureUrl)
             } else {
+                binding.scUserProfile.visibility = View.GONE
+                binding.pbUserProfile.visibility = View.VISIBLE
                 showEmptyState()
             }
         }

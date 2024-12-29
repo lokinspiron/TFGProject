@@ -1,5 +1,6 @@
 package com.inventory.tfgproject
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.inventory.tfgproject.databinding.EmptyStateBinding
 import com.inventory.tfgproject.databinding.ItemOrderBinding
 import com.inventory.tfgproject.model.OrderWithProduct
 import com.inventory.tfgproject.model.Orders
@@ -15,15 +17,30 @@ import com.inventory.tfgproject.model.Orders
 class OrderAdapter(
     private var orders: MutableList<OrderWithProduct>,
     private val maxItems: Int,
-    private val onQuantityChanged: (Orders, Int) -> Unit
+    private val emptyStateBinding: EmptyStateBinding,
+    private val recyclerView: RecyclerView
 ) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     fun setOrders(newOrders: List<OrderWithProduct>) {
         Log.d("OrderAdapter", "Setting orders: ${newOrders.size}")
+        val pendingOrders = newOrders.filter { it.order.estado?.lowercase() == "pendiente" }
+
         orders.clear()
-        orders.addAll(newOrders.take(maxItems))
+        orders.addAll(pendingOrders.take(maxItems))
+
+        emptyStateBinding.root.visibility = if (pendingOrders.isEmpty()) View.VISIBLE else View.GONE
+        recyclerView.visibility = if (pendingOrders.isEmpty()) View.GONE else View.VISIBLE
+
+        if (pendingOrders.isEmpty()) {
+            emptyStateBinding.apply {
+                tvEmptyState.text = "No hay pedidos pendientes"
+                ivEmptyState.setImageResource(R.drawable.ic_empty)
+            }
+        }
+
         notifyDataSetChanged()
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val binding = ItemOrderBinding.inflate(
@@ -47,8 +64,8 @@ class OrderAdapter(
         fun bind(orderWithProduct: OrderWithProduct) {
             Log.d("OrderAdapter", "Binding order: ${orderWithProduct.productName}")
             binding.apply {
-                tvOrderProductName.text = orderWithProduct.productName ?: "Unknown"
-                txtState.text = orderWithProduct.order.estado ?: "Unknown"
+                tvOrderProductName.text = orderWithProduct.productName
+                txtState.text = orderWithProduct.order.estado
             }
         }
     }

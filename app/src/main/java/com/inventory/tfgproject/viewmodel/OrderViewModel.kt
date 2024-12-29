@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.inventory.tfgproject.OrderRepository
 import com.inventory.tfgproject.model.OrderWithProduct
 import com.inventory.tfgproject.model.Orders
 import com.inventory.tfgproject.model.Providers
+import kotlinx.coroutines.launch
 
 class OrderViewModel(private val repository: OrderRepository): ViewModel() {
     private val _ordersWithProducts = MutableLiveData<List<OrderWithProduct>>()
@@ -54,5 +56,25 @@ class OrderViewModel(private val repository: OrderRepository): ViewModel() {
 
     fun updateOrderWithProductQuantity(orderWithProduct: OrderWithProduct, newQuantity: Int) {
         updateOrderQuantity(orderWithProduct.order, newQuantity)
+    }
+
+    fun updateOrderState(orderWithProduct: OrderWithProduct, newState: String) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            repository.updateOrderState(orderWithProduct.order.id, newState) { updatedOrders ->
+                _ordersWithProducts.value = updatedOrders
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun deleteOrder(orderWithProduct: OrderWithProduct) {
+        orderWithProduct.order.id.let { orderId ->
+            repository.deleteOrder(orderId) { success ->
+                if (success) {
+                    loadOrders()
+                }
+            }
+        }
     }
 }

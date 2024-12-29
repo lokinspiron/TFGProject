@@ -20,6 +20,25 @@ class ProfileUserViewModel(private val repository: UserRepository) : ViewModel()
     private val _updateSuccess = MutableLiveData<Boolean>()
     val updateSuccess: LiveData<Boolean> = _updateSuccess
 
+    private val _deleteSuccess = MutableLiveData<Boolean>()
+    val deleteSuccess: LiveData<Boolean> = _deleteSuccess
+
+    fun deleteUser() {
+        _isLoading.value = true
+        repository.deleteUser(
+            onSuccess = {
+                _deleteSuccess.postValue(true)
+                _isLoading.value = false
+            },
+            onError = { exception ->
+                _error.postValue(exception.message)
+                _deleteSuccess.postValue(false)
+                _isLoading.value = false
+                Log.e("UserViewModel", "Error deleting user", exception)
+            }
+        )
+    }
+
     fun loadUserData() {
         _isLoading.value = true
         repository.getUserData(

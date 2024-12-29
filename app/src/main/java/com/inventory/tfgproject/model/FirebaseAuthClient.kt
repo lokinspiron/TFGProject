@@ -2,6 +2,7 @@ package com.inventory.tfgproject.model
 
 
 import android.util.Log
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
@@ -58,6 +59,21 @@ class FirebaseAuthClient {
 
     fun logout(){
         auth.signOut()
+    }
+
+    fun reauthenticate(password: String, onComplete: (Boolean) -> Unit) {
+        val user = auth.currentUser
+        val email = user?.email
+
+        if (user != null && email != null) {
+            val credential = EmailAuthProvider.getCredential(email, password)
+            user.reauthenticate(credential)
+                .addOnCompleteListener { task ->
+                    onComplete(task.isSuccessful)
+                }
+        } else {
+            onComplete(false)
+        }
     }
 
 

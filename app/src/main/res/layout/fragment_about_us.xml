@@ -34,6 +34,7 @@
                 android:layout_marginStart="75dp"
                 android:fontFamily="@font/convergence"
                 android:text="@string/our_mission"
+                android:textColor="@color/letters"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
@@ -43,17 +44,19 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="100dp"
                 android:fontFamily="@font/convergence"
+                android:textColor="@color/letters"
                 android:text="@string/and_purpose"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
             <com.codesgood.views.JustifiedTextView
                 android:layout_width="345dp"
-                android:layout_height="220dp"
+                android:layout_height="249dp"
+                android:layout_marginStart="38dp"
                 android:layout_marginTop="38dp"
-                android:layout_marginStart="40dp"
                 android:fontFamily="@font/convergence"
                 android:text="@string/mission_purpose"
+                android:textColor="@color/letters"
                 android:textSize="20sp" />
 
             <TextView
@@ -63,6 +66,7 @@
                 android:layout_marginStart="95dp"
                 android:fontFamily="@font/convergence"
                 android:text="@string/contact_us"
+                android:textColor="@color/letters"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
@@ -70,8 +74,9 @@
                 android:layout_width="345dp"
                 android:layout_height="220dp"
                 android:layout_marginTop="38dp"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="38dp"
                 android:fontFamily="@font/convergence"
+                android:textColor="@color/letters"
                 android:text="@string/contact_us_text"
                 android:textSize="20sp" />
 

@@ -8,8 +8,8 @@
     android:background="@color/backgroundColor2"
     tools:context=".view.SettingsFragment">
 
-    <!-- ScrollView y demás contenedores permanecen igual -->
     <ScrollView
+        android:id="@+id/scUserProfile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -258,4 +258,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/pbUserProfile"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="290dp"
+        android:layout_height="306dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

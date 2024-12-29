@@ -1,6 +1,7 @@
 package com.inventory.tfgproject.view
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -61,14 +62,17 @@ class EditProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
         setupUI()
+        initVisibility()
         userViewModel.loadUserData()
     }
 
     private fun setupObservers() {
         userViewModel.userData.observe(viewLifecycleOwner) { user ->
             user?.let {
+                binding.scEditProfile.visibility = View.VISIBLE
+                binding.pbEditProfile.visibility = View.GONE
                 updateUserData(it)
-                uploadProfilePicture(it.profilePictureUrl)
+                uploadProfilePictures(it.profilePictureUrl)
             }
         }
 
@@ -150,9 +154,45 @@ class EditProfileFragment : Fragment() {
             }
 
             btnDelete.setOnClickListener {
-                activity?.supportFragmentManager?.popBackStack()
+                showDeleteConfirmationDialog()
             }
         }
+    }
+
+    private fun initVisibility(){
+        binding.scEditProfile.visibility = View.GONE
+        binding.pbEditProfile.visibility = View.VISIBLE
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        val dialogFragment = DialogSafeChangeFragment.newInstance(
+            dynamicText = "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.",
+            doItText = "Eliminar Cuenta"
+        )
+        dialogFragment.setOnPositiveClickListener {
+            deleteUser()
+        }
+        dialogFragment.show(parentFragmentManager, "DeleteAccount")
+    }
+
+    private fun deleteUser() {
+        val reauthDialog = ReauthenticateDialogFragment.newInstance()
+        reauthDialog.onAuthSuccess = {
+            userViewModel.deleteUser()
+
+            userViewModel.deleteSuccess.observe(viewLifecycleOwner) { success ->
+                if (success) {
+                    toast("Cuenta eliminada con éxito", LENGTH_SHORT)
+                    activity?.let {
+                        val intent = Intent(it, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        it.finish()
+                    }
+                }
+            }
+        }
+        reauthDialog.show(parentFragmentManager, "ReauthenticateDialog")
     }
 
     private fun validateFields(): Boolean {
@@ -193,12 +233,6 @@ class EditProfileFragment : Fragment() {
                 return false
             }
 
-            if (edtAddressUser.text.toString().trim().isEmpty()) {
-                edtAddressUser.error = "La dirección no puede estar vacía"
-                edtAddressUser.requestFocus()
-                return false
-            }
-
             return true
         }
     }
@@ -222,7 +256,7 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    private fun uploadProfilePicture(imageUrl: String?) {
+    private fun uploadProfilePictures(imageUrl: String?) {
         if (isAdded) {
             Glide.with(requireContext())
                 .load(imageUrl ?: R.drawable.ic_user_image)
@@ -249,6 +283,10 @@ class EditProfileFragment : Fragment() {
         )
 
         userViewModel.updateUserData(updatedUser)
+
+        (activity as? MainMenu)?.let { mainActivity ->
+            mainActivity.refreshUserData()
+        }
     }
 
     private fun uploadProfilePicture(uri: Uri) {
@@ -256,31 +294,33 @@ class EditProfileFragment : Fragment() {
         val imageRef = storageRef.child("profile_pictures/${UUID.randomUUID()}.jpg")
 
         binding.imgProfilePhoto.setImageResource(R.drawable.loading_image)
+        binding.btnSaveProfile.isEnabled = false
+        binding.imgBtnBack.isEnabled = false
+        binding.imgBtnCamera.isEnabled = false
+        binding.btnDelete.isEnabled = false
 
         imageRef.putFile(uri)
             .addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
                     if (isAdded) {
-                        userViewModel.updateProfilePicture(downloadUri.toString())
-
                         Glide.with(requireContext())
                             .load(uri)
                             .placeholder(R.drawable.loading_image)
                             .error(R.drawable.ic_user_image)
                             .into(binding.imgProfilePhoto)
 
-                        toast("Imagen subida con éxito", LENGTH_SHORT)
-                    }
-                }
-            }
-            .addOnFailureListener { exception ->
-                if (isAdded) {
-                    toast("Error al subir la imagen", LENGTH_SHORT)
-                    Log.e("ProfilePicture", "Error uploading image", exception)
+                        userViewModel.updateProfilePicture(downloadUri.toString())
 
-                    Glide.with(requireContext())
-                        .load(R.drawable.ic_user_image)
-                        .into(binding.imgProfilePhoto)
+                        (activity as? MainMenu)?.let { mainActivity ->
+                            mainActivity.refreshUserData()
+                        }
+
+                        toast("Imagen subida con éxito. Guarda los cambios para finalizar.", LENGTH_SHORT)
+
+                        binding.btnSaveProfile.isEnabled = true
+                        binding.imgBtnBack.isEnabled = true
+                        binding.imgBtnCamera.isEnabled = true
+                    }
                 }
             }
     }
@@ -366,5 +406,4 @@ class EditProfileFragment : Fragment() {
         _binding = FragmentEditProfileBinding.inflate(inflater,container,false)
         return binding.root
     }
-
 }

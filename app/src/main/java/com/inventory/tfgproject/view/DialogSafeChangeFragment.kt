@@ -20,6 +20,9 @@ class DialogSafeChangeFragment : DialogFragment() {
     private lateinit var firebaseAuthClient: FirebaseAuthClient
     var onDoItClick: (() -> Unit)? = null
 
+    private var onDismissListener: (() -> Unit)? = null
+
+
     companion object {
         private const val ARG_DYNAMIC_TEXT = "arg_dynamic_text"
         private const val ARG_DO_IT_TEXT = "arg_do_it_text"
@@ -44,12 +47,20 @@ class DialogSafeChangeFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDialogSafeChangeBinding.inflate(inflater, container, false)
-        initListener()
         return binding.root
     }
 
-    private fun initListener() {
+    fun setOnPositiveClickListener(listener: () -> Unit) {
+        onDoItClick = listener
+    }
 
+    fun setOnDismissListener(listener: () -> Unit) {
+        onDismissListener = listener
+    }
+
+    override fun onDismiss(dialog: android.content.DialogInterface) {
+        super.onDismiss(dialog)
+        onDismissListener?.invoke()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

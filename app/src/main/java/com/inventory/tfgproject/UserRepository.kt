@@ -6,12 +6,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.inventory.tfgproject.model.User
 
 class UserRepository {
     private val db = FirebaseDatabase.getInstance()
     private val userRef = db.getReference("users")
     private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val storage = FirebaseStorage.getInstance()
+
 
     fun getUserData(onSuccess: (User?) -> Unit, onError: (Exception) -> Unit) {
         currentUser?.let { users ->
@@ -76,6 +79,34 @@ class UserRepository {
                 .updateChildren(updates)
                 .addOnSuccessListener {
                     onSuccess()
+                }
+                .addOnFailureListener { exception ->
+                    onError(exception)
+                }
+        } ?: onError(Exception("No user logged in"))
+    }
+
+    fun deleteUser(onSuccess: () -> Unit, onError: (Exception) -> Unit) {
+        currentUser?.let { user ->
+            user.photoUrl?.let { photoUrl ->
+                if (photoUrl.toString().contains("profile_pictures")) {
+                    val photoRef = storage.getReferenceFromUrl(photoUrl.toString())
+                    photoRef.delete().addOnFailureListener { exception ->
+                        Log.e("UserRepository", "Error deleting profile picture", exception)
+                    }
+                }
+            }
+
+            userRef.child(user.uid)
+                .removeValue()
+                .addOnSuccessListener {
+                    user.delete()
+                        .addOnSuccessListener {
+                            onSuccess()
+                        }
+                        .addOnFailureListener { exception ->
+                            onError(exception)
+                        }
                 }
                 .addOnFailureListener { exception ->
                     onError(exception)

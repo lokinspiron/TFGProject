@@ -8,9 +8,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
+        android:fillViewport="true"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -85,8 +86,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtEmptyListProducts" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabExportProducts"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/navigation"
+        android:contentDescription="@string/flbtn_add_product"
+        android:visibility="invisible"
+        app:fabCustomSize="55dp"
+        app:layout_constraintBottom_toTopOf="@+id/fabEditProducts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_delete"
+        app:tint="@color/backgroundColor1" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabEditProducts"
@@ -100,7 +117,8 @@
         app:fabCustomSize="55dp"
         app:layout_constraintBottom_toTopOf="@id/fabAddProducts"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_edit" />
+        app:srcCompat="@drawable/ic_delete"
+        app:tint="@color/backgroundColor1"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddProducts"
@@ -114,7 +132,8 @@
         app:fabCustomSize="55dp"
         app:layout_constraintBottom_toTopOf="@id/fabProducts"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add" />
+        app:srcCompat="@drawable/ic_add"
+        app:tint="@color/backgroundColor1"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabProducts"

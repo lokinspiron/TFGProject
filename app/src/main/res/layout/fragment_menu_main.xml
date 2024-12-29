@@ -71,7 +71,7 @@ android:orientation="vertical">
     app:layout_constraintVertical_bias="0.045" />
 
 <include
-    android:id="@+id/include2"
+    android:id="@+id/emptyState"
     layout="@layout/activity_menu_footer"
     android:visibility="invisible"
     app:layout_constraintBottom_toTopOf="parent"
@@ -137,6 +137,7 @@ android:orientation="vertical">
         android:layout_width="238dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:text="@string/Look_orders" />
 
     </LinearLayout>

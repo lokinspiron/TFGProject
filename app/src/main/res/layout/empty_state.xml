@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/convergence"
-        android:text="@string/no_orders"
         android:textColor="@color/letters"
         android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"

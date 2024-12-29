@@ -115,7 +115,7 @@ class CreateOrderDialogFragment: DialogFragment() {
 
            val order = Orders(
                fechaPedido = fullDate,
-               cantidad = quantity,
+               stock = quantity,
                estado = "Pendiente",
                proveedorId = provider.id,
                productId = productId ?: ""
