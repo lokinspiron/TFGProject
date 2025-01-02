@@ -269,5 +269,26 @@ class ProductRepository {
             }
     }
 
+    fun getProduct(productId: String, callback: (Product?) -> Unit) {
+        if(currentUser == null) {
+            callback(null)
+            return
+        }
+
+        productsRef
+            .child(currentUser.uid)
+            .child(productId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val product = snapshot.getValue(Product::class.java)
+                    callback(product)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    callback(null)
+                }
+            })
+    }
+
 
 }

@@ -18,7 +18,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inventory.tfgproject.ExcelExporter
-import com.inventory.tfgproject.Manifest
+import android.Manifest
 import com.inventory.tfgproject.ProductAdapter
 import com.inventory.tfgproject.ProductRepository
 import com.inventory.tfgproject.ProductViewModelFactory
@@ -35,6 +35,11 @@ class InventoryMenuFragment : Fragment() {
     private val productViewModel: ProductViewModel by viewModels() {
         ProductViewModelFactory(ProductRepository())
     }
+
+    private fun initializeExporter() {
+        excelExporter = ExcelExporter(requireContext())
+    }
+
 
     private lateinit var recyclerView : RecyclerView
     private lateinit var productAdapter : ProductAdapter
@@ -124,6 +129,7 @@ class InventoryMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeExporter()
         recyclerView = binding.rvProducts
         productAdapter = ProductAdapter(
             mutableListOf(),
@@ -230,73 +236,73 @@ class InventoryMenuFragment : Fragment() {
             )
         }
 
-//        binding.fabExportProducts.setOnClickListener {
-//            if (checkPermissions()) {
-//                handleExportToExcel()
-//            } else {
-//                requestPermissions()
-//            }
-//        }
+        binding.fabExportProducts.setOnClickListener {
+            if (checkPermissions()) {
+                handleExportToExcel()
+            } else {
+                requestPermissions()
+            }
+        }
     }
 
-//    private fun handleExportToExcel() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            val success = excelExporter.exportProducts(productAdapter.product)
-//            if (!success) {
-//                toast("Error al exportar el archivo Excel", LENGTH_LONG)
-//            }
-//        } else {
-//            toast("Esta función requiere Android 10 o superior", LENGTH_LONG)
-//        }
-//    }
-//
-//    private fun checkPermissions(): Boolean {
-//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//            ContextCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.READ_MEDIA_IMAGES
-//            ) == PackageManager.PERMISSION_GRANTED
-//        } else {
-//            ContextCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE
-//            ) == PackageManager.PERMISSION_GRANTED
-//        }
-//    }
-//
-//    private fun requestPermissions() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
-//                STORAGE_PERMISSION_CODE
-//            )
-//        } else {
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-//                STORAGE_PERMISSION_CODE
-//            )
-//        }
-//    }
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        when (requestCode) {
-//            STORAGE_PERMISSION_CODE -> {
-//                if (grantResults.isNotEmpty() &&
-//                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    handleExportToExcel()
-//                } else {
-//                    toast("Permiso denegado para exportar Excel", LENGTH_SHORT)
-//                }
-//            }
-//            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        }
-//    }
+    private fun handleExportToExcel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val success = excelExporter.exportProducts(productAdapter.product)
+            if (!success) {
+                toast("Error al exportar el archivo Excel", LENGTH_LONG)
+            }
+        } else {
+            toast("Esta función requiere Android 10 o superior", LENGTH_LONG)
+        }
+    }
+
+    private fun checkPermissions(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun requestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                STORAGE_PERMISSION_CODE
+            )
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                STORAGE_PERMISSION_CODE
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            STORAGE_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    handleExportToExcel()
+                } else {
+                    toast("Permiso denegado para exportar Excel", LENGTH_SHORT)
+                }
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
 
     private fun onAddButtonClicked() {
         setVisibility(clicked)
@@ -307,10 +313,12 @@ class InventoryMenuFragment : Fragment() {
 
     private fun setAnimation(clicked: Boolean) {
         if (!clicked) {
+            binding.fabExportProducts.startAnimation(fromBottom)
             binding.fabEditProducts.startAnimation(fromBottom)
             binding.fabAddProducts.startAnimation(fromBottom)
             binding.fabProducts.startAnimation(rotateOpen)
         } else {
+            binding.fabExportProducts.startAnimation(toBottom)
             binding.fabEditProducts.startAnimation(toBottom)
             binding.fabAddProducts.startAnimation(toBottom)
             binding.fabProducts.startAnimation(rotateClose)
@@ -321,9 +329,11 @@ class InventoryMenuFragment : Fragment() {
         if (!clicked) {
             binding.fabAddProducts.visibility = View.VISIBLE
             binding.fabEditProducts.visibility = View.VISIBLE
+            binding.fabExportProducts.visibility = View.VISIBLE
         } else {
             binding.fabAddProducts.visibility = View.INVISIBLE
             binding.fabEditProducts.visibility = View.INVISIBLE
+            binding.fabExportProducts.visibility = View.INVISIBLE
         }
     }
 
@@ -331,9 +341,11 @@ class InventoryMenuFragment : Fragment() {
         if (!clicked) {
             binding.fabEditProducts.isClickable = true
             binding.fabAddProducts.isClickable = true
+            binding.fabExportProducts.isClickable = true
         } else {
             binding.fabEditProducts.isClickable = false
             binding.fabAddProducts.isClickable = false
+            binding.fabExportProducts.isClickable = false
         }
     }
 }

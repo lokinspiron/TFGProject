@@ -322,6 +322,7 @@
 
             <Button
                 android:id="@+id/btnSaveProfile"
+                style="@style/NormalButton"
                 android:layout_width="145dp"
                 android:layout_height="65dp"
                 android:layout_marginTop="20dp"
@@ -337,6 +338,7 @@
 
             <Button
                 android:id="@+id/btnDelete"
+                style="@style/RedButton"
                 android:layout_width="145dp"
                 android:layout_height="65dp"
                 android:layout_marginTop="20dp"

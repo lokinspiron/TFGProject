@@ -12,37 +12,45 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.inventory.tfgproject.model.Product
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ExcelExporter(private val context: Context) {
     @RequiresApi(Build.VERSION_CODES.Q)
     fun exportProducts(products: List<Product>): Boolean {
         return try {
-            val workbook = HSSFWorkbook()
+            val workbook = XSSFWorkbook()
             val sheet = workbook.createSheet("Productos")
 
-            // Create header row
             val headerRow = sheet.createRow(0)
-            val headers = arrayOf("Nombre", "Stock", "Precio")
+            val headers = arrayOf("Nombre", "Stock", "Precio","Unidad")
             headers.forEachIndexed { index, header ->
-                headerRow.createCell(index).setCellValue(header)
+                createCell(headerRow, index, header)
             }
 
-            // Populate data rows
             products.forEachIndexed { index, product ->
                 val row = sheet.createRow(index + 1)
-                row.createCell(0).setCellValue(product.name)
-                row.createCell(1).setCellValue(product.stock.toDouble())
-                row.createCell(2).setCellValue(product.price)
+                createCell(row, 0, product.name)
+                createCell(row, 1, product.stock.toString())
+                createCell(row, 2, product.price.toString())
+                createCell(row, 3, product.currencyUnit)
             }
 
-            for (i in headers.indices) {
-                sheet.autoSizeColumn(i)
-            }
+            val byteStream = ByteArrayOutputStream()
+            workbook.write(byteStream)
+            val byteArray = byteStream.toByteArray()
 
-            val fileName = "Productos_${System.currentTimeMillis()}.xls"
+            val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val fileName = "Inventario_$timestamp.xlsx"
+
             val contentValues = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-                put(MediaStore.MediaColumns.MIME_TYPE, "application/vnd.ms-excel")
+                put(MediaStore.MediaColumns.MIME_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
             }
 
@@ -51,9 +59,10 @@ class ExcelExporter(private val context: Context) {
 
             uri?.let { documentUri ->
                 resolver.openOutputStream(documentUri)?.use { outputStream ->
-                    workbook.write(outputStream)
+                    outputStream.write(byteArray)
                 }
                 showNotification(context, "Archivo guardado", "El archivo se guardó en Descargas/$fileName")
+                workbook.close()
                 true
             } ?: false
 
@@ -63,18 +72,21 @@ class ExcelExporter(private val context: Context) {
         }
     }
 
+    private fun createCell(row: Row, index: Int, value: String) {
+        val cell: Cell = row.createCell(index)
+        cell.setCellValue(value)
+    }
+
     private fun showNotification(context: Context, title: String, message: String) {
         val channelId = "excel_export_channel"
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "Excel Export",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
+        val channel = NotificationChannel(
+            channelId,
+            "Excel Export",
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+        notificationManager.createNotificationChannel(channel)
 
         val notification = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notification)

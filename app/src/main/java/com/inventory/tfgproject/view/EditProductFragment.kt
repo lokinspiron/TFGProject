@@ -18,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -81,6 +82,8 @@ class EditProductFragment : Fragment() {
         super.onCreate(savedInstanceState)
         productId = arguments?.getString("product_id")
         productName = arguments?.getString("product_name")
+        Log.d("EditProduct", "onCreate productId: ${arguments?.getString("product_id")}")
+        productId = arguments?.getString("product_id")
     }
 
     override fun onCreateView(
@@ -93,6 +96,16 @@ class EditProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        productId = arguments?.getString("product_id")
+        productName = arguments?.getString("product_name")
+
+        isCategoriesLoaded = false
+        isProvidersLoaded = false
+        isProductsLoaded = false
+
+        if (productId != null) {
+            productViewModel.loadProduct(productId!!)
+        }
         initVisibility()
         initViewModel()
         initListeners()
@@ -113,10 +126,16 @@ class EditProductFragment : Fragment() {
         }
 
         productViewModel.products.observe(viewLifecycleOwner) { products ->
+            Log.d("EditProduct", "Products loaded: ${products.size}")
             isProductsLoaded = true
-            checkDataLoaded()
-            products.find { it.id == productId }?.let { product ->
-                updateUI(product)
+            if (isCategoriesLoaded && isProvidersLoaded) {
+                Log.d("EditProduct", "All data loaded, looking for product $productId")
+                products.find { it.id == productId }?.let { product ->
+                    Log.d("EditProduct", "Found product: ${product.name}")
+                    updateUI(product)
+                } ?: Log.d("EditProduct", "Product not found")
+            } else {
+                Log.d("EditProduct", "Still waiting for data. Categories: $isCategoriesLoaded, Providers: $isProvidersLoaded")
             }
         }
     }
@@ -156,8 +175,14 @@ class EditProductFragment : Fragment() {
 
     private fun loadData() {
         productViewModel.loadCategories()
-        productViewModel.loadProviders()
-        productViewModel.loadProducts()
+        productViewModel.categories.observe(viewLifecycleOwner) { categories ->
+            productViewModel.loadProviders()
+            productViewModel.providers.observe(viewLifecycleOwner) { providers ->
+                productId?.let {
+                    productViewModel.loadProduct(it)
+                }
+            }
+        }
     }
 
     private fun initVisibility() {
@@ -192,6 +217,7 @@ class EditProductFragment : Fragment() {
     private fun initSpinners() {
         val currencyUnits = resources.getStringArray(R.array.currency_array)
         val weightUnits = resources.getStringArray(R.array.weight_array)
+        val customTypeface = ResourcesCompat.getFont(requireContext(), R.font.convergence)
 
         val currencyAdapter = object : ArrayAdapter<String>(
             requireContext(),
@@ -202,12 +228,14 @@ class EditProductFragment : Fragment() {
                 val textView = super.getView(position, convertView, parent) as TextView
                 textView.text = currencyUnits[position]
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return textView
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val textView = super.getDropDownView(position, convertView, parent) as TextView
                 textView.text = currencyUnits[position]
+                textView.typeface = customTypeface
                 return textView
             }
         }
@@ -231,12 +259,14 @@ class EditProductFragment : Fragment() {
                 val textView = super.getView(position, convertView, parent) as TextView
                 textView.text = weightUnits[position]
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return textView
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val textView = super.getDropDownView(position, convertView, parent) as TextView
                 textView.text = weightUnits[position]
+                textView.typeface = customTypeface
                 return textView
             }
         }
@@ -255,11 +285,6 @@ class EditProductFragment : Fragment() {
 
 
     private fun updateUI(product: Product) {
-        if (!isCategoriesLoaded || !isProvidersLoaded) return
-
-        isInitialLoad = true
-        shouldUpdateDatabase = false
-
         with(binding) {
             edtNameProduct.setText(product.name)
             edtPriceProduct.setText(String.format(getString(R.string.product_price_formats), product.price))
@@ -268,49 +293,49 @@ class EditProductFragment : Fragment() {
             spinnerCurrency.setSelection(getIndexForCurrency(product.currencyUnit))
             spinnerWeight.setSelection(getIndexForWeight(product.weightUnit))
 
-            if (product.imageUrl?.isNotEmpty() == true) {
-                Glide.with(requireContext())
-                    .load(product.imageUrl)
-                    .placeholder(R.drawable.loading_image)
-                    .error(R.drawable.error_image)
-                    .into(imgProduct)
-            }
+            if(isCategoriesLoaded && isProvidersLoaded){
+                if (product.imageUrl?.isNotEmpty() == true) {
+                    Glide.with(requireContext())
+                        .load(product.imageUrl)
+                        .placeholder(R.drawable.loading_image)
+                        .error(R.drawable.error_image)
+                        .into(imgProduct)
+                }
 
-            val categoryAdapter = spinnerCategory.adapter as? ArrayAdapter<Category>
-            if (categoryAdapter != null) {
-                for (i in 0 until categoryAdapter.count) {
-                    val category = categoryAdapter.getItem(i)
-                    if (category?.id == product.categoryId) {
-                        selectedCategory = category
-                        spinnerCategory.setSelection(i)
+                val categoryAdapter = spinnerCategory.adapter as? ArrayAdapter<Category>
+                if (categoryAdapter != null) {
+                    for (i in 0 until categoryAdapter.count) {
+                        val category = categoryAdapter.getItem(i)
+                        if (category?.id == product.categoryId) {
+                            selectedCategory = category
+                            spinnerCategory.setSelection(i)
 
-                        val subcategories = category.subcategory?.values?.toList() ?: emptyList()
-                        updateSubCategorySpinner(subcategories)
+                            val subcategories = category.subcategory?.values?.toList() ?: emptyList()
+                            updateSubCategorySpinner(subcategories)
 
-                        selectSubcategory(product.subcategoryId)
+                            selectSubcategory(product.subcategoryId)
+                            break
+                        }
+                    }
+                }
+
+                val providerAdapter = spinnerProvider.adapter as? ArrayAdapter<Providers>
+                for (i in 0 until (providerAdapter?.count ?: 0)) {
+                    val provider = providerAdapter?.getItem(i)
+                    if (provider?.id == product.providerId) {
+                        spinnerProvider.setSelection(i)
                         break
                     }
                 }
             }
 
-            val providerAdapter = spinnerProvider.adapter as? ArrayAdapter<Providers>
-            for (i in 0 until (providerAdapter?.count ?: 0)) {
-                val provider = providerAdapter?.getItem(i)
-                if (provider?.id == product.providerId) {
-                    spinnerProvider.setSelection(i)
-                    break
-                }
-            }
-
-            isInitialLoad = false
-            shouldUpdateDatabase = true
         }
     }
-
 
     private fun updateCategorySpinner(categories: List<Category>) {
         val itemList = mutableListOf(Category(name = "Selecciona una categoría"))
         itemList.addAll(categories)
+        val customTypeface = ResourcesCompat.getFont(requireContext(), R.font.convergence)
 
         val adapter = object : ArrayAdapter<Category>(
             requireContext(),
@@ -322,6 +347,7 @@ class EditProductFragment : Fragment() {
                 val textView = view.findViewById<TextView>(android.R.id.text1)
                 textView.text = itemList[position].name
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return view
             }
 
@@ -329,6 +355,7 @@ class EditProductFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 val textView = view.findViewById<TextView>(android.R.id.text1)
                 textView.text = itemList[position].name
+                textView.typeface = customTypeface
                 return view
             }
         }
@@ -358,6 +385,8 @@ class EditProductFragment : Fragment() {
         val itemList = mutableListOf(Providers(name = "Selecciona un proveedor"))
         itemList.addAll(providers)
 
+        val customTypeface = ResourcesCompat.getFont(requireContext(), R.font.convergence)
+
         val adapter = object : ArrayAdapter<Providers>(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -368,6 +397,7 @@ class EditProductFragment : Fragment() {
                 val textView = view.findViewById<TextView>(android.R.id.text1)
                 textView.text = itemList[position].name
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return view
             }
 
@@ -375,6 +405,7 @@ class EditProductFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 val textView = view.findViewById<TextView>(android.R.id.text1)
                 textView.text = itemList[position].name
+                textView.typeface = customTypeface
                 return view
             }
         }
@@ -434,6 +465,8 @@ class EditProductFragment : Fragment() {
         val itemList = mutableListOf(Subcategory(name = "Selecciona una subcategoría"))
         itemList.addAll(subCategories)
 
+        val customTypeface = ResourcesCompat.getFont(requireContext(), R.font.convergence)
+
         if (subcategoryAdapter == null) {
             subcategoryAdapter = object : ArrayAdapter<Subcategory>(
                 requireContext(),
@@ -445,6 +478,7 @@ class EditProductFragment : Fragment() {
                     val textView = view.findViewById<TextView>(android.R.id.text1)
                     textView.text = getItem(position)?.name
                     textView.setTextColor(Color.BLACK)
+                    textView.typeface = customTypeface
                     return view
                 }
 
@@ -452,6 +486,7 @@ class EditProductFragment : Fragment() {
                     val view = super.getDropDownView(position, convertView, parent)
                     val textView = view.findViewById<TextView>(android.R.id.text1)
                     textView.text = getItem(position)?.name
+                    textView.typeface = customTypeface
                     return view
                 }
             }.apply {
@@ -470,6 +505,7 @@ class EditProductFragment : Fragment() {
     }
 
     private fun checkDataLoaded() {
+        Log.d("EditProduct", "Checking data: Categories: $isCategoriesLoaded, Products: $isProductsLoaded, Providers: $isProvidersLoaded")
         if (isCategoriesLoaded && isProductsLoaded && isProvidersLoaded) {
             initSpinners()
             binding.apply {
@@ -561,8 +597,6 @@ class EditProductFragment : Fragment() {
     private fun getIndexForWeight(weight: String): Int {
         return resources.getStringArray(R.array.weight_array).indexOf(weight)
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -188,23 +188,20 @@ class MainMenu : AppCompatActivity(){
         startActivity(shareIntent)
     }
 
-    fun replaceFragment(fragment: Fragment,greetingMessage:String?=null) {
+    fun replaceFragment(fragment: Fragment, greetingMessage: String? = null) {
         val fragmentTag = fragment.javaClass.simpleName
-
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-        val existingFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
+        fragmentTransaction.replace(R.id.fcvContent, fragment, fragmentTag)
 
-        if (existingFragment == null) {
-            fragmentTransaction.replace(R.id.fcvContent, fragment, fragmentTag)
-            fragmentTransaction.commit()
-        } else {
-            supportFragmentManager.beginTransaction()
-                .show(existingFragment)
-                .commit()
-            Log.d("FragmentTransaction", "Replacing with subcategory fragment: ")
-
+        if (fragment !is MenuMainFragment &&
+            fragment !is ProviderFragment &&
+            fragment !is InventoryFragment) {
+            fragmentTransaction.addToBackStack(null)
         }
+
+        fragmentTransaction.commit()
+
         greetingMessage?.let {
             binding.txtWave.text = it
         }
@@ -218,6 +215,14 @@ class MainMenu : AppCompatActivity(){
         val currentUser = auth.getCurrentUser()
         if (currentUser != null) {
             userViewModel.loadUserData(currentUser)
+        }
+    }
+
+    fun navigateBack() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
         }
     }
 

@@ -27,7 +27,7 @@ class ProductViewFragment : Fragment() {
     private val productViewModel: ProductViewModel by viewModels {
         ProductViewModelFactory(ProductRepository())
     }
-    private var productId : String? = null
+    var productId : String? = null
     private var productName : String? = null
 
     private var categoriesMap = mutableMapOf<String, Category>()
@@ -88,6 +88,10 @@ class ProductViewFragment : Fragment() {
                     )
                 )
             }
+        }
+
+        binding.imgBtnBack.setOnClickListener{
+            (activity as? MainMenu)?.navigateBack()
         }
 
 

@@ -13,7 +13,6 @@ android:orientation="vertical">
     android:layout_height="wrap_content"
     android:background="@color/backgroundColor1"
     android:visibility="invisible"
-
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.0"
@@ -36,7 +35,7 @@ android:orientation="vertical">
         android:layout_height="wrap_content"
         android:layout_marginStart="130dp"
         android:fontFamily="@font/convergence"
-        android:paddingRight="95dp"
+        android:paddingEnd="95dp"
         android:textAlignment="center"
         android:textColor="@color/backgroundColor2"
         android:textSize="20sp" />
@@ -52,93 +51,131 @@ android:orientation="vertical">
 </androidx.appcompat.widget.Toolbar>
 
 
-<TextView
-    android:id="@+id/txtUsedProducts"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="22dp"
-    android:layout_marginEnd="331dp"
-    android:background="@color/backgroundColor2"
-    android:text="@string/Used_Products"
-    android:textColor="@color/letters"
-    android:textSize="25sp"
-    android:textStyle="bold"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.03"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.045" />
-
-<include
-    android:id="@+id/emptyState"
-    layout="@layout/activity_menu_footer"
-    android:visibility="invisible"
-    app:layout_constraintBottom_toTopOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
-
-<TextView
-    android:id="@+id/txtOrders"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="12dp"
-    android:background="@color/backgroundColor2"
-    android:text="@string/Orders"
-    android:textColor="@color/letters"
-    android:textSize="25sp"
-    android:textStyle="bold"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/txtUsedProducts" />
-
-<LinearLayout
-    android:id="@+id/ordersContainer"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"
-    android:background="@color/navigation"
-    android:orientation="vertical"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/txtOrders">
-
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvOrders"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_order" />
+            android:orientation="vertical" >
 
-        <include
-            android:id="@+id/emptyStateContainer"
-            layout="@layout/empty_state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/txtUsedProducts"
+                android:layout_width="333dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="331dp"
+                android:background="@color/backgroundColor2"
+                android:text="@string/Used_Products"
+                android:textColor="@color/letters"
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
-        <ProgressBar
-            android:id="@+id/loadingProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
+            <LinearLayout
+                android:id="@+id/lowStockContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@color/navigation"
+                android:orientation="vertical">
 
-    </FrameLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        <Button
-        android:id="@+id/btnMoreOrders"
-        android:layout_width="238dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="@string/Look_orders" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowStockProducts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/item_lowstock_product" />
 
-    </LinearLayout>
+                    <ProgressBar
+                        android:id="@+id/loadingProgressBarLowStock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+            <include
+                android:id="@+id/emptyStateLowStock"
+                layout="@layout/empty_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/emptyState"
+                layout="@layout/activity_menu_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txtOrders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/backgroundColor2"
+                android:text="@string/Orders"
+                android:textColor="@color/letters"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/ordersContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:background="@color/navigation"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvOrders"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/item_order" />
+
+                    <include
+                        android:id="@+id/emptyStateContainer"
+                        layout="@layout/empty_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+                    <ProgressBar
+                        android:id="@+id/loadingProgressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/btnMoreOrders"
+                    android:layout_width="238dp"
+                    android:fontFamily="@font/convergence"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/Look_orders" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

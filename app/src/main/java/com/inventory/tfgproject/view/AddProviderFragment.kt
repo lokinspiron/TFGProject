@@ -62,6 +62,10 @@ class AddProviderFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
+        binding.btnCancel.setOnClickListener{
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         binding.imgProvider.setOnClickListener{
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
@@ -90,10 +94,10 @@ class AddProviderFragment : Fragment() {
         var isValid = true
 
         if(binding.edtNameProviderAdd.text.isNullOrBlank()){
-            binding.nameProviderAddContainer.error = "Nombre es requerido"
+            binding.tilName.error = "Nombre es requerido"
             isValid = false
         } else {
-            binding.nameProviderAddContainer.error = null
+            binding.tilName.error = null
         }
 
         return isValid
@@ -138,9 +142,9 @@ class AddProviderFragment : Fragment() {
     }
 
     private fun initEditText(){
-        binding.nameProviderAddContainer.helperText = null
-        binding.addressProviderAddContainer.helperText = null
-        binding.phoneProviderAddContainer.helperText = null
-        binding.emailProviderAddContainer.helperText = null
+        binding.tilName.helperText = null
+        binding.tilAddress.helperText = null
+        binding.tilPhone.helperText = null
+        binding.tilEmail.helperText = null
     }
 }

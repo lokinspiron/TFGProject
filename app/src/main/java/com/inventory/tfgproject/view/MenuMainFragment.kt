@@ -19,18 +19,27 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.inventory.tfgproject.OrderAdapter
 import com.inventory.tfgproject.OrderRepository
 import com.inventory.tfgproject.OrderViewModelFactory
+import com.inventory.tfgproject.ProductLowAdapter
+import com.inventory.tfgproject.ProductRepository
+import com.inventory.tfgproject.ProductViewModelFactory
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.EmptyStateBinding
 import com.inventory.tfgproject.databinding.FragmentMenuMainBinding
 import com.inventory.tfgproject.viewmodel.OrderViewModel
+import com.inventory.tfgproject.viewmodel.ProductViewModel
 
 
 class MenuMainFragment : Fragment() {
     private lateinit var binding : FragmentMenuMainBinding
     private lateinit var emptyStateBinding: EmptyStateBinding
     private lateinit var orderAdapter: OrderAdapter
+    private lateinit var productLowAdapter : ProductLowAdapter
+
     private val orderViewModel: OrderViewModel by viewModels{
         OrderViewModelFactory(OrderRepository())
+    }
+    private val productViewModel: ProductViewModel by viewModels{
+        ProductViewModelFactory(ProductRepository())
     }
 
     private var maxOrders = 5
@@ -54,6 +63,7 @@ class MenuMainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        observeProducts()
         refreshOrders()
         observeOrders()
         observeLoadingState()
@@ -71,6 +81,13 @@ class MenuMainFragment : Fragment() {
             val pendingOrders = orders.filter { it.order.estado?.lowercase() == "pendiente" }
             orderAdapter.setOrders(pendingOrders)
 
+        }
+    }
+
+    private fun observeProducts() {
+        productViewModel.products.observe(viewLifecycleOwner) { products ->
+            Log.d("MenuMainFragment", "Received products: ${products.size}")
+            productLowAdapter.updateProducts(products)
         }
     }
 
@@ -111,6 +128,18 @@ class MenuMainFragment : Fragment() {
             adapter = orderAdapter
             layoutManager = LinearLayoutManager(context)
         }
+
+        val emptyStateLowStock = binding.root.findViewById<View>(R.id.emptyStateLowStock)
+        productLowAdapter = ProductLowAdapter(
+            emptyStateContainer = emptyStateLowStock,
+            recyclerView = binding.rvLowStockProducts,
+            loadingProgressBar = binding.root.findViewById(R.id.loadingProgressBarLowStock)
+        )
+
+        binding.rvLowStockProducts.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = productLowAdapter
+        }
     }
 
 
@@ -125,11 +154,11 @@ class MenuMainFragment : Fragment() {
         bnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.btnHome -> {
-                    replaceFragment(InventoryFragment())
+                    (activity as? MainMenu)?.replaceFragment(InventoryFragment())
                     true
                 }
                 R.id.btnProviders -> {
-                    replaceFragment(ProviderFragment())
+                    (activity as? MainMenu)?.replaceFragment(ProviderFragment())
                     true
                 }
                 else -> false
@@ -166,6 +195,7 @@ class MenuMainFragment : Fragment() {
     private fun refreshOrders() {
         Log.d("MenuMainFragment", "Refreshing orders")
         orderViewModel.loadOrders()
+        productViewModel.loadProducts()
     }
 
     override fun onResume() {

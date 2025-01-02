@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast.LENGTH_SHORT
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.inventory.tfgproject.OrderRepository
@@ -163,7 +164,6 @@ class CreateOrderDialogFragment: DialogFragment() {
                         2 -> clean += "/"
                         4 -> {
                             clean = clean.substring(0, 2) + "/" + clean.substring(2, 4)
-                            // Validar la fecha ingresada
                             if (isValidDate(clean, currentYear)) {
                                 binding.dateOrderContainer.error = null
                             } else {
@@ -187,6 +187,8 @@ class CreateOrderDialogFragment: DialogFragment() {
         val itemList = mutableListOf(Providers(name = "Selecciona un proveedor"))
         itemList.addAll(providers)
 
+        val customTypeface = ResourcesCompat.getFont(requireContext(), com.inventory.tfgproject.R.font.convergence)
+
         val adapter = object : ArrayAdapter<Providers>(
             requireContext(),
             R.layout.simple_spinner_item,
@@ -197,6 +199,7 @@ class CreateOrderDialogFragment: DialogFragment() {
                 val textView = view.findViewById<TextView>(R.id.text1)
                 textView.text = itemList[position].name
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return view
             }
 
@@ -204,6 +207,7 @@ class CreateOrderDialogFragment: DialogFragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 val textView = view.findViewById<TextView>(R.id.text1)
                 textView.text = itemList[position].name
+                textView.typeface = customTypeface
                 return view
             }
         }

@@ -30,4 +30,17 @@
     <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">@color/letters</item>
     </style>
+
+    <style name="RedButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/btn_red_shape</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/convergence</item>
+    </style>
+    <style name="NormalButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/btn_shape</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:textColor">@color/letters</item>
+        <item name="android:fontFamily">@font/convergence</item>
+    </style>
 </resources>

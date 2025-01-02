@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -76,6 +77,10 @@ class AddProductFragment : Fragment() {
         binding.imgProduct.setOnClickListener{
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
+
+        binding.btnCancelAddProduct.setOnClickListener{
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
     private fun saveProduct() {
@@ -86,7 +91,7 @@ class AddProductFragment : Fragment() {
             val priceValue = binding.edtPriceProductAdd.text.toString().toDoubleOrNull() ?: 0.0
 
             val weightUnit = binding.spinnerWeight.selectedItem.toString()
-            val currencyUnit = binding.spinnerPrice.selectedItem.toString()
+            val currencyUnit = binding.spinnerCurrency.selectedItem.toString()
 
             val category = binding.spinnerCategory.selectedItem as? Category
             val subCategory = binding.spinnerSubCategory.selectedItem as? Subcategory
@@ -201,6 +206,7 @@ class AddProductFragment : Fragment() {
     private fun initSpinners() {
         val currencyUnits = arrayOf("EUR", "USD")
         val weightUnits = arrayOf("kg", "g", "lb", "lt")
+        val customTypeface = ResourcesCompat.getFont(requireContext(), com.inventory.tfgproject.R.font.convergence)
 
         val currencyAdapter = object : ArrayAdapter<String>(
             requireContext(),
@@ -211,17 +217,19 @@ class AddProductFragment : Fragment() {
                 val textView = super.getView(position, convertView, parent) as TextView
                 textView.text = currencyUnits[position]
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return textView
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val textView = super.getDropDownView(position, convertView, parent) as TextView
                 textView.text = currencyUnits[position]
+                textView.typeface = customTypeface
                 return textView
             }
         }
         currencyAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-        binding.spinnerPrice.adapter = currencyAdapter
+        binding.spinnerCurrency.adapter = currencyAdapter
 
         val weightAdapter = object : ArrayAdapter<String>(
             requireContext(),
@@ -232,12 +240,14 @@ class AddProductFragment : Fragment() {
                 val textView = super.getView(position, convertView, parent) as TextView
                 textView.text = weightUnits[position]
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return textView
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val textView = super.getDropDownView(position, convertView, parent) as TextView
                 textView.text = weightUnits[position]
+                textView.typeface = customTypeface
                 return textView
             }
         }
@@ -250,6 +260,8 @@ class AddProductFragment : Fragment() {
         val itemList = mutableListOf(Category(name= "Selecciona una categoría"))
         itemList.addAll(categories)
 
+        val customTypeface = ResourcesCompat.getFont(requireContext(), com.inventory.tfgproject.R.font.convergence)
+
         val adapter = object : ArrayAdapter<Category>(
             requireContext(),
             R.layout.simple_spinner_item,
@@ -260,6 +272,7 @@ class AddProductFragment : Fragment() {
                 val textView = view.findViewById<TextView>(R.id.text1)
                 textView.text = itemList[position].name
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return view
             }
 
@@ -267,7 +280,7 @@ class AddProductFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 val textView = view.findViewById<TextView>(R.id.text1)
                 textView.text = itemList[position].name
-
+                textView.typeface = customTypeface
                 return view
             }
         }
@@ -280,6 +293,8 @@ class AddProductFragment : Fragment() {
         val itemList = mutableListOf(Subcategory(name = "Selecciona una subcategoría"))
         itemList.addAll(subCategories)
 
+        val customTypeface = ResourcesCompat.getFont(requireContext(), com.inventory.tfgproject.R.font.convergence)
+
         val adapter = object : ArrayAdapter<Subcategory>(
             requireContext(),
             R.layout.simple_spinner_item,
@@ -290,6 +305,7 @@ class AddProductFragment : Fragment() {
                 val textView = view.findViewById<TextView>(R.id.text1)
                 textView.text = itemList[position].name
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return view
             }
 
@@ -297,6 +313,7 @@ class AddProductFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 val textView = view.findViewById<TextView>(R.id.text1)
                 textView.text = itemList[position].name
+                textView.typeface = customTypeface
                 return view
             }
         }
@@ -310,6 +327,8 @@ class AddProductFragment : Fragment() {
         val itemList = mutableListOf(Providers(name = "Selecciona un proveedor"))
         itemList.addAll(providers)
 
+        val customTypeface = ResourcesCompat.getFont(requireContext(), com.inventory.tfgproject.R.font.convergence)
+
         val adapter = object : ArrayAdapter<Providers>(
             requireContext(),
             R.layout.simple_spinner_item,
@@ -320,6 +339,7 @@ class AddProductFragment : Fragment() {
                 val textView = view.findViewById<TextView>(R.id.text1)
                 textView.text = itemList[position].name
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return view
             }
 
@@ -327,6 +347,7 @@ class AddProductFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 val textView = view.findViewById<TextView>(R.id.text1)
                 textView.text = itemList[position].name
+                textView.typeface = customTypeface
                 return view
             }
         }

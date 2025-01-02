@@ -1,5 +1,6 @@
 package com.inventory.tfgproject.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -125,6 +126,15 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
                     _products.postValue(updatedProducts)
                 }
                 _deleteProductStatus.postValue(success)
+            }
+        }
+    }
+
+    fun loadProduct(productId: String) {
+        repository.getProduct(productId) { product ->
+            product?.let {
+                val currentProducts = _products.value ?: emptyList()
+                _products.postValue(currentProducts + it)
             }
         }
     }

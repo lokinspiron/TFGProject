@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast.LENGTH_SHORT
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.inventory.tfgproject.ProviderRepository
@@ -112,10 +113,14 @@ class ProviderViewFragment : Fragment() {
                     .commit()
             }
         }
+
     }
 
     private fun setupProductsSpinner(products: List<Product>) {
         val productNames = products.map { it.name }
+
+        val customTypeface = ResourcesCompat.getFont(requireContext(), R.font.convergence)
+
         val adapter = object : ArrayAdapter<String>(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -125,19 +130,21 @@ class ProviderViewFragment : Fragment() {
                 val textView = super.getView(position, convertView, parent) as TextView
                 textView.text = productNames[position]
                 textView.setTextColor(Color.BLACK)
+                textView.typeface = customTypeface
                 return textView
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val textView = super.getDropDownView(position, convertView, parent) as TextView
                 textView.text = productNames[position]
+                textView.typeface = customTypeface
                 return textView
             }
         }
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerProvider.adapter = adapter
+        binding.spinnerProduct.adapter = adapter
 
-        binding.spinnerProvider.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinnerProduct.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedProductId = products[position].id
                 binding.btnLookProduct.isEnabled = true
@@ -157,10 +164,15 @@ class ProviderViewFragment : Fragment() {
 
     private fun initViewModel() {
         providerViewModel.providers.observe(viewLifecycleOwner) { providers ->
+            binding.pbProvider.visibility = View.GONE
+            binding.scViewProvider.visibility = View.VISIBLE
             providers.find { it.id == providerId }?.let { provider ->
                 updateUI(provider)
-                binding.pbProvider.visibility = View.GONE
-                binding.scViewProvider.visibility = View.VISIBLE
+            } ?: run {
+                binding.txtNameProvider.text = "Sin datos"
+                binding.txtAddressProvider.text = "Sin datos"
+                binding.txtEmail.text = "Sin datos"
+                binding.txtPhone.text = "Sin datos"
             }
         }
 
@@ -179,9 +191,9 @@ class ProviderViewFragment : Fragment() {
     private fun updateUI(provider: Providers) {
         with(binding) {
             txtNameProvider.text = provider.name
-            txtAddressProvider.text = provider.address
-            txtPriceperProduct.text = provider.email
-            txtWeightperProduct.text = provider.phoneNumber
+            txtAddressProvider.text = if (provider.address.isNullOrEmpty()) "Sin datos" else provider.address
+            txtEmail.text = if (provider.email.isNullOrEmpty()) "Sin datos" else provider.email
+            txtPhone.text = if (provider.phoneNumber.isNullOrEmpty()) "Sin datos" else provider.phoneNumber
 
             if (provider.imageUrl?.isNotEmpty() == true) {
                 Glide.with(requireContext())

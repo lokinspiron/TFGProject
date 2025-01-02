@@ -89,8 +89,8 @@
             android:background="@color/navigation"
             android:fitsSystemWindows="false"
             app:headerLayout="@layout/nav_header"
-            app:itemIconTint="@color/letters"
-            app:itemTextColor="@color/letters"
+            app:itemIconTint="@color/nav_text_selector"
+            app:itemTextColor="@color/nav_text_selector"
             app:menu="@menu/nav_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 

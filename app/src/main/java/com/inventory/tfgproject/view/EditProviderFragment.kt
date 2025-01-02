@@ -189,23 +189,17 @@ class EditProviderFragment : Fragment() {
     }
 
     private fun saveChanges() {
+        if (!validateInputs()) {
+            toast("Por favor, corrija los errores", LENGTH_SHORT)
+            return
+        }
+
         val updates = mutableMapOf<String, Any>()
-
         binding.apply {
-            val name = edtNameProvider.text.toString()
-            if (name.isBlank()) {
-                edtNameProvider.error = "El nombre no puede estar vacío"
-                return
-            }
-
-            val address = edtAddressProvider.text.toString()
-            val email = edtEmailProvider.text.toString()
-            val phone = edtPhoneProvider.text.toString()
-
-            updates["name"] = name
-            updates["address"] = address
-            updates["email"] = email
-            updates["phoneNumber"] = phone
+            updates["name"] = edtNameProvider.text.toString()
+            updates["address"] = edtAddressProvider.text.toString()
+            updates["email"] = edtEmailProvider.text.toString()
+            updates["phoneNumber"] = edtPhoneProvider.text.toString()
 
             if (defaultPictureUrl != null) {
                 updates["imageUrl"] = defaultPictureUrl!!
@@ -215,6 +209,35 @@ class EditProviderFragment : Fragment() {
         providerId?.let { id ->
             providerViewModel.updateProvider(id, updates)
         }
+    }
+
+    private fun validateInputs(): Boolean {
+        var isValid = true
+        binding.apply {
+            if (edtNameProvider.text.toString().isBlank()) {
+                edtNameProvider.error = "El nombre no puede estar vacío"
+                isValid = false
+            }
+
+            val email = edtEmailProvider.text.toString()
+            if (email.isNotEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                edtEmailProvider.error = "Formato de correo electrónico inválido"
+                isValid = false
+            }
+
+            val phone = edtPhoneProvider.text.toString()
+            if (phone.isNotEmpty() && !phone.matches(Regex("^[0-9]{9}$"))) {
+                edtPhoneProvider.error = "El número debe tener 9 dígitos"
+                isValid = false
+            }
+
+            val address = edtAddressProvider.text.toString()
+            if (address.isNotEmpty() && address.length < 5) {
+                edtAddressProvider.error = "La dirección debe tener al menos 5 caracteres"
+                isValid = false
+            }
+        }
+        return isValid
     }
 
     override fun onDestroyView() {

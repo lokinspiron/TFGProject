@@ -86,7 +86,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/lltQuantity"
+                    android:id="@+id/lltAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -94,7 +94,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="2dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/convergence"
@@ -105,17 +105,17 @@
 
                     <TextView
                         android:id="@+id/txtAddressProvider"
-                        android:layout_width="0dp"
+                        android:layout_width="119dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/convergence"
-                        android:textColor="@color/letters"
                         android:gravity="end"
-                        android:textSize="25sp" />
+                        android:textColor="@color/letters"
+                        android:textSize="22sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/lltPrice"
+                    android:id="@+id/lltEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -124,7 +124,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="16dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/convergence"
@@ -134,18 +134,18 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txtPriceperProduct"
-                        android:layout_width="0dp"
+                        android:id="@+id/txtEmail"
+                        android:layout_width="199dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/convergence"
-                        android:textColor="@color/letters"
                         android:gravity="end"
-                        android:textSize="25sp" />
+                        android:textColor="@color/letters"
+                        android:textSize="22sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/lltWeight"
+                    android:id="@+id/lltPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -154,17 +154,17 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="1dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/convergence"
                         android:text="@string/phone_provider"
                         android:textColor="@color/letters"
                         android:textSize="25sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txtWeightperProduct"
+                        android:id="@+id/txtPhone"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -175,7 +175,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/lltProvider"
+                    android:id="@+id/lltProducts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -194,11 +194,12 @@
                         android:textStyle="bold"/>
 
                     <Spinner
-                        android:id="@+id/spinnerProvider"
+                        android:id="@+id/spinnerProduct"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/convergence"
+                        android:layout_marginTop="5dp"
                         android:textColor="@color/letters"
                         android:gravity="end"
                         android:textSize="25sp">
@@ -215,7 +216,7 @@
                     android:orientation="horizontal"/>
 
                 <LinearLayout
-                    android:id="@+id/lltSubcategory"
+                    android:id="@+id/lltBtnProduct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -225,6 +226,7 @@
 
                     <Button
                         android:id="@+id/btnLookProduct"
+                        style="@style/NormalButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/look_product"
@@ -233,12 +235,11 @@
 
                     </Button>
                 </LinearLayout>
-
-
             </LinearLayout>
 
             <Button
                 android:id="@+id/btnMakeOrder"
+                style="@style/NormalButton"
                 android:layout_width="380dp"
                 android:layout_height="52dp"
                 android:layout_gravity="center_horizontal"
