@@ -21,6 +21,14 @@ class OrderViewModel(private val repository: OrderRepository): ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _selectedProvider = MutableLiveData<Providers?>()
+    val selectedProvider: LiveData<Providers?> = _selectedProvider
+
+
+    fun setSelectedProvider(provider: Providers?) {
+        _selectedProvider.value = provider
+    }
+
     fun loadProviders() {
         _isLoading.value = true
         repository.getProviders { providers ->

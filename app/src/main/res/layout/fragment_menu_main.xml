@@ -91,6 +91,13 @@ android:orientation="vertical">
                         android:layout_height="wrap_content"
                         tools:listitem="@layout/item_lowstock_product" />
 
+                    <include
+                        android:id="@+id/emptyStateLowStock"
+                        layout="@layout/empty_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
                     <ProgressBar
                         android:id="@+id/loadingProgressBarLowStock"
                         android:layout_width="wrap_content"
@@ -99,16 +106,7 @@ android:orientation="vertical">
                         android:visibility="gone" />
 
                 </FrameLayout>
-
-
             </LinearLayout>
-
-            <include
-                android:id="@+id/emptyStateLowStock"
-                layout="@layout/empty_state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
 
             <include
                 android:id="@+id/emptyState"
@@ -135,7 +133,6 @@ android:orientation="vertical">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:background="@color/navigation"
                 android:orientation="vertical">
 
                 <FrameLayout

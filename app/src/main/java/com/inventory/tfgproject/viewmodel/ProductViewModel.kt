@@ -35,15 +35,18 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
     private val _deleteProductStatus = MutableLiveData<Boolean>()
     val deleteProductStatus: LiveData<Boolean> = _deleteProductStatus
 
+    private val _isLoadingProducts = MutableLiveData<Boolean>()
+    val isLoadingProducts: LiveData<Boolean> = _isLoadingProducts
 
-    fun loadProducts(){
-        repository.getProducts { newProducts ->
-            val currentProducts = _products.value
-            if (currentProducts != newProducts) {
-                _products.postValue(newProducts)
-            }
+
+    fun loadProducts() {
+        _isLoadingProducts.postValue(true)
+        repository.getProducts { products ->
+            _products.postValue(products)
+            _isLoadingProducts.postValue(false)
         }
     }
+
     fun loadCategories() {
         repository.getCategories { categories ->
             _categories.postValue(categories)

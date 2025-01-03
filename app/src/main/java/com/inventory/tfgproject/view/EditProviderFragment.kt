@@ -3,6 +3,8 @@ package com.inventory.tfgproject.view
 import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -87,7 +89,6 @@ class EditProviderFragment : Fragment() {
         providerViewModel.deleteProviderStatus.observe(viewLifecycleOwner) { success ->
             if (success) {
                 toast("Proveedor eliminado exitosamente", LENGTH_SHORT)
-                requireActivity().onBackPressed()
             } else {
                 toast("Error al eliminar el proveedor", LENGTH_SHORT)
                 binding.pbEditProduct.visibility = View.GONE
@@ -129,6 +130,9 @@ class EditProviderFragment : Fragment() {
         providerId?.let { id ->
             providerViewModel.deleteProvider(id)
         }
+        Handler(Looper.getMainLooper()).postDelayed({
+            (activity as? MainMenu)?.replaceFragment(ProviderFragment())
+        }, 500)
     }
 
     private fun showSaveConfirmationDialog() {

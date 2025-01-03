@@ -45,9 +45,11 @@
 
         <Button
             android:id="@+id/btnAddCategory"
+            style="@style/AlternativeButton"
             android:layout_width="235dp"
             android:layout_height="54dp"
             android:text="@string/save_change"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +86,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilNameCategory"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="341dp"
             android:layout_height="85dp"
             android:textColorHint="@color/letters"
@@ -109,6 +112,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilSubcategory"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="341dp"
             android:layout_height="64dp"
             android:textColorHint="@color/backgroundColor1"

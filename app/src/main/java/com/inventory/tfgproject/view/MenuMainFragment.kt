@@ -63,17 +63,61 @@ class MenuMainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+
+        // Estado inicial de carga
+        handleProductsVisibilityStates(isLoading = true, isEmpty = true)
+
+        // Observadores
+        observeLoadingStateProducts()
         observeProducts()
-        refreshOrders()
-        observeOrders()
         observeLoadingState()
+        observeOrders()
+
+        // Cargar datos
+        refreshOrders()
     }
 
     private fun observeLoadingState() {
         orderViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             handleVisibilityStates(isLoading, orderViewModel.ordersWithProducts.value?.isEmpty() ?: true)
         }
+
     }
+    private fun observeLoadingStateProducts() {
+        productViewModel.isLoadingProducts.observe(viewLifecycleOwner) { isLoading ->
+            Log.d("MenuMainFragment", "Loading state changed: $isLoading")
+            val isEmpty = productViewModel.products.value?.filter { it.stock <= 5 }?.isEmpty() ?: true
+            handleProductsVisibilityStates(isLoading, isEmpty)
+        }
+    }
+
+    private fun handleProductsVisibilityStates(isLoading: Boolean, isEmpty: Boolean) {
+        Log.d("MenuMainFragment", "Handling visibility - Loading: $isLoading, Empty: $isEmpty")
+
+        binding.apply {
+            // Primero manejamos el loading
+            loadingProgressBarLowStock.visibility = if (isLoading) View.VISIBLE else View.GONE
+
+            // El contenedor siempre visible
+            lowStockContainer.visibility = View.VISIBLE
+
+            // Manejamos la visibilidad de la lista y el empty state
+            if (!isLoading) {
+                // Si no está cargando, mostramos uno u otro
+                rvLowStockProducts.visibility = if (isEmpty) View.GONE else View.VISIBLE
+                emptyStateLowStock.root.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                emptyStateLowStock.tvEmptyState.apply {
+                    text = "No hay productos con stock bajo"
+                    visibility = if (isEmpty) View.VISIBLE else View.GONE
+                }
+            } else {
+                // Durante la carga, ocultamos ambos
+                rvLowStockProducts.visibility = View.GONE
+                emptyStateLowStock.root.visibility = View.GONE
+            }
+        }
+    }
+
 
     private fun observeOrders() {
         orderViewModel.ordersWithProducts.observe(viewLifecycleOwner) { orders ->
@@ -86,10 +130,21 @@ class MenuMainFragment : Fragment() {
 
     private fun observeProducts() {
         productViewModel.products.observe(viewLifecycleOwner) { products ->
-            Log.d("MenuMainFragment", "Received products: ${products.size}")
-            productLowAdapter.updateProducts(products)
+            Log.d("MenuMainFragment", "Products observer triggered with ${products?.size} products")
+
+            val lowStockProducts = products?.filter { it.stock <= 5 } ?: emptyList()
+            Log.d("MenuMainFragment", "Low stock products: ${lowStockProducts.size}")
+
+            productLowAdapter.updateProducts(lowStockProducts)
+
+            // Actualizamos el estado de visibilidad
+            handleProductsVisibilityStates(
+                isLoading = false,
+                isEmpty = lowStockProducts.isEmpty()
+            )
         }
     }
+
 
     private fun updateVisibilities(isLoading: Boolean, hasPendingOrders: Boolean) {
         binding.loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -129,11 +184,11 @@ class MenuMainFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
 
-        val emptyStateLowStock = binding.root.findViewById<View>(R.id.emptyStateLowStock)
+        val emptyStateLowStock = binding.emptyStateLowStock.root
         productLowAdapter = ProductLowAdapter(
             emptyStateContainer = emptyStateLowStock,
             recyclerView = binding.rvLowStockProducts,
-            loadingProgressBar = binding.root.findViewById(R.id.loadingProgressBarLowStock)
+            loadingProgressBar = binding.loadingProgressBarLowStock
         )
 
         binding.rvLowStockProducts.apply {

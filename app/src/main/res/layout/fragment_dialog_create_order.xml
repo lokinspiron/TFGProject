@@ -19,33 +19,38 @@
 
         <Button
             android:id="@+id/btnGmail"
+            style="@style/NormalButton"
             android:layout_width="125dp"
             android:layout_height="48dp"
+            android:drawableLeft="@drawable/ic_gmail"
             android:fontFamily="@font/convergence"
             android:text="@string/gmail"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.197"
+            app:layout_constraintHorizontal_bias="0.234"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.906" />
 
         <Button
             android:id="@+id/btnPhone"
+            style="@style/NormalButton"
             android:layout_width="125dp"
             android:layout_height="48dp"
+            android:drawableLeft="@drawable/ic_phone"
             android:fontFamily="@font/convergence"
             android:text="@string/phone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.805"
+            app:layout_constraintHorizontal_bias="0.768"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.906" />
 
         <Button
             android:id="@+id/btnMakeOrder"
-            android:layout_width="266dp"
+            style="@style/NormalButton"
+            android:layout_width="325dp"
             android:layout_height="56dp"
             android:layout_marginStart="38dp"
             android:fontFamily="@font/convergence"
@@ -53,7 +58,7 @@
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.403"
+            app:layout_constraintHorizontal_bias="0.364"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.75" />
@@ -88,7 +93,7 @@
 
         <Spinner
             android:id="@+id/spinnerProvider"
-            android:layout_width="353dp"
+            android:layout_width="325dp"
             android:layout_height="45dp"
             android:background="@drawable/spinner_border_color"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -100,7 +105,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/quantityOrderContainer"
             style="@style/TextInputLayoutStyle"
-            android:layout_width="353dp"
+            android:layout_width="325dp"
             android:layout_height="71dp"
             android:layout_marginTop="25dp"
             android:imeOptions="actionNext"
@@ -128,7 +133,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dateOrderContainer"
             style="@style/TextInputLayoutStyle"
-            android:layout_width="353dp"
+            android:layout_width="325dp"
             android:layout_height="71dp"
             android:layout_marginTop="5dp"
             android:imeOptions="actionNext"

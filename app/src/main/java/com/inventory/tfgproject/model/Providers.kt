@@ -7,4 +7,8 @@ data class Providers(
     val email:String? = null,
     val phoneNumber: String? = null,
     val imageUrl: String? = null
-)
+){
+    override fun toString(): String {
+        return "Provider(id=$id, name=$name, email=$email, phone=$phoneNumber)"
+    }
+}

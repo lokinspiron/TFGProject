@@ -148,14 +148,18 @@ class ProviderRepository {
     }
 
     fun deleteProvider(providerId: String, callback: (Boolean) -> Unit) {
-        providersRef.child(providerId)
-            .removeValue()
-            .addOnSuccessListener {
-                callback(true)
-            }
-            .addOnFailureListener {
-                callback(false)
-            }
+        currentUser?.let { user ->
+            providersRef
+                .child(user.uid)
+                .child(providerId)
+                .removeValue()
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                }
+        } ?: callback(false)
     }
 
 }

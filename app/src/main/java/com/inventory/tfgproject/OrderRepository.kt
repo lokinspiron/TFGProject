@@ -89,32 +89,24 @@ class OrderRepository {
 
 
     fun getProviders(callback: (List<Providers>) -> Unit) {
-        if (currentUser == null) {
-            Log.e("ProductRepository", "No user logged in")
-            callback(emptyList())
-            return
-        }
-
-        val userProvidersRef = providersRef.child(currentUser.uid)
+        val userProvidersRef = providersRef.child(currentUser?.uid ?: return callback(emptyList()))
 
         userProvidersRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val userProviders = mutableListOf<Providers>()
-
-                snapshot.children.forEach { providerSnapshot ->
-                    val id = providerSnapshot.key ?: ""
-                    val name = providerSnapshot.child("name").getValue(String::class.java) ?: ""
-
-                    val provider = Providers(id = id, name = name)
-                    userProviders.add(provider)
+                val userProviders = snapshot.children.mapNotNull { providerSnapshot ->
+                    Providers(
+                        id = providerSnapshot.key ?: "",
+                        name = providerSnapshot.child("name").getValue(String::class.java) ?: "",
+                        email = providerSnapshot.child("email").getValue(String::class.java) ?: "",
+                        phoneNumber = providerSnapshot.child("phoneNumber").getValue(String::class.java) ?: "",
+                        address = providerSnapshot.child("address").getValue(String::class.java) ?: "",
+                        imageUrl = providerSnapshot.child("imageUrl").getValue(String::class.java) ?: ""
+                    )
                 }
-
-                Log.d("ProductRepository", "User Providers loaded: $userProviders")
                 callback(userProviders)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e("ProductRepository", "Error fetching user providers: ${error.message}")
                 callback(emptyList())
             }
         })

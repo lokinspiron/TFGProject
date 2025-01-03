@@ -57,6 +57,7 @@ class AddProviderFragment : Fragment() {
     private fun initListeners(){
         binding.btnAddProvider.setOnClickListener{
             saveProvider()
+            toast("Se ha añadido correctamente al proveedor", LENGTH_SHORT)
         }
         binding.imgBtnBack.setOnClickListener{
             requireActivity().supportFragmentManager.popBackStack()
@@ -94,10 +95,10 @@ class AddProviderFragment : Fragment() {
         var isValid = true
 
         if(binding.edtNameProviderAdd.text.isNullOrBlank()){
-            binding.tilName.error = "Nombre es requerido"
+            binding.tilNameProvider.error = "Nombre es requerido"
             isValid = false
         } else {
-            binding.tilName.error = null
+            binding.tilNameProvider.error = null
         }
 
         return isValid
@@ -142,7 +143,7 @@ class AddProviderFragment : Fragment() {
     }
 
     private fun initEditText(){
-        binding.tilName.helperText = null
+        binding.tilNameProvider.helperText = null
         binding.tilAddress.helperText = null
         binding.tilPhone.helperText = null
         binding.tilEmail.helperText = null

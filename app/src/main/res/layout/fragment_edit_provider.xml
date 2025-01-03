@@ -71,24 +71,27 @@
             </FrameLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilNameProvider"
+                android:id="@+id/nameProviderAddContainer"
                 style="@style/TextInputLayoutStyle2"
                 android:layout_width="345dp"
                 android:layout_height="65dp"
-                android:layout_marginTop="11dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:textColorHint="@color/backgroundColor1"
                 android:imeOptions="actionNext"
-                android:textColorHint="@color/letters"
-                android:hint="@string/name_product">
+                app:helperText="@string/required"
+                app:helperTextTextColor="@android:color/holo_red_dark">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtNameProvider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/convergence"
+                    android:hint="@string/add_product_name"
+                    android:inputType="text"
                     android:gravity="center"
                     android:lines="1"
-                    android:textColor="@color/letters"
+                    android:textColor="@color/backgroundColor1"
                     android:textSize="25sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>

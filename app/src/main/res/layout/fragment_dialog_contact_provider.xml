@@ -9,8 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cltAddCategory"
         android:name="com.inventory.tfgproject.view.AddCategoryFragment"
-        android:layout_width="650dp"
-        android:layout_height="350dp"
+        android:layout_width="658dp"
+        android:layout_height="339dp"
         android:background="@color/backgroundColor1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,46 +20,54 @@
 
         <Button
             android:id="@+id/btnGmail"
+            style="@style/NormalButton"
             android:layout_width="295dp"
             android:layout_height="56dp"
+            android:drawableLeft="@drawable/ic_gmail"
             android:fontFamily="@font/convergence"
             android:text="@string/gmail"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.547" />
+            app:layout_constraintVertical_bias="0.544" />
 
         <Button
             android:id="@+id/btnPhone"
+            style="@style/NormalButton"
             android:layout_width="295dp"
             android:layout_height="56dp"
+            android:drawableLeft="@drawable/ic_phone"
             android:fontFamily="@font/convergence"
             android:text="@string/phone"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.795" />
+            app:layout_constraintVertical_bias="0.836" />
 
         <Button
-            android:id="@+id/btnMakeOrder"
+            android:id="@+id/btnWhatsapp"
+            style="@style/NormalButton"
             android:layout_width="295dp"
             android:layout_height="56dp"
             android:layout_marginStart="38dp"
+            android:layout_marginEnd="38dp"
+            android:drawableLeft="@drawable/ic_whatsapp"
+            android:drawablePadding="5dp"
             android:fontFamily="@font/convergence"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="@string/whatsapp"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.441"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.278" />
+            app:layout_constraintVertical_bias="0.258" />
 
         <ImageView
             android:id="@+id/imgClose"
@@ -68,10 +76,10 @@
             android:src="@drawable/ic_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintHorizontal_bias="0.77"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.013"
+            app:layout_constraintVertical_bias="0.0"
             app:tint="@color/backgroundColor2" />
 
         <TextView
@@ -81,7 +89,7 @@
             android:fontFamily="@font/convergence"
             android:text="@string/contact"
             android:textColor="@color/backgroundColor2"
-            android:textSize="30sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -41,15 +41,17 @@ class ProductRepository {
     }
     fun getProducts(callback: (List<Product>) -> Unit){
         if(currentUser == null) {
-            Log.e("ProductRepository","No user loged in")
+            Log.e("ProductRepository","No user logged in")
             callback(emptyList())
             return
         }
 
+        Log.d("ProductRepository", "Starting to fetch products for user: ${currentUser.uid}")
         val userProductRef = productsRef.child(currentUser.uid)
 
         userProductRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d("ProductRepository", "Data snapshot received: ${snapshot.exists()}")
                 val userProducts = mutableListOf<Product>()
                 snapshot.children.forEach { productSnapshot ->
                     val id = productSnapshot.key?: ""

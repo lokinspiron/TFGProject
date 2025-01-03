@@ -129,11 +129,10 @@ class EditProductFragment : Fragment() {
             Log.d("EditProduct", "Products loaded: ${products.size}")
             isProductsLoaded = true
             if (isCategoriesLoaded && isProvidersLoaded) {
-                Log.d("EditProduct", "All data loaded, looking for product $productId")
                 products.find { it.id == productId }?.let { product ->
-                    Log.d("EditProduct", "Found product: ${product.name}")
                     updateUI(product)
-                } ?: Log.d("EditProduct", "Product not found")
+
+                }
             } else {
                 Log.d("EditProduct", "Still waiting for data. Categories: $isCategoriesLoaded, Providers: $isProvidersLoaded")
             }
@@ -147,6 +146,8 @@ class EditProductFragment : Fragment() {
 
         binding.btnSaveChanges.setOnClickListener{
             saveChanges()
+            toast("Se ha actualizado el producto", LENGTH_SHORT)
+            (activity as? MainMenu)?.replaceFragment(InventoryMenuFragment())
         }
 
         binding.btnDelete.setOnClickListener{
@@ -161,15 +162,22 @@ class EditProductFragment : Fragment() {
         )
         dialog.onDoItClick = {
             deleteProvider()
-            toast("Se ha actualizado el producto")
+            toast("Se ha eliminado el producto")
         }
-        dialog.show(parentFragmentManager, "DeleteProviderDialog")
+        dialog.show(parentFragmentManager, "DeleteProductDialog")
     }
 
     private fun deleteProvider() {
         binding.pbEditProduct.visibility = View.VISIBLE
         productId?.let { id ->
             productViewModel.deleteProduct(id)
+            Handler(Looper.getMainLooper()).postDelayed({
+                val productFragment = InventoryMenuFragment()
+                activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.replace(R.id.fcvContent, productFragment)
+                    ?.commit()
+            }, 500)
         }
     }
 
@@ -328,7 +336,8 @@ class EditProductFragment : Fragment() {
                     }
                 }
             }
-
+            binding.pbEditProduct.visibility = View.GONE
+            binding.scViewProduct.visibility = View.VISIBLE
         }
     }
 

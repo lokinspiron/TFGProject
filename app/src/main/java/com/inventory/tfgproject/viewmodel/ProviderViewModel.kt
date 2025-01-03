@@ -26,6 +26,9 @@ class ProviderViewModel(private val repository: ProviderRepository): ViewModel()
     private val _deleteProviderStatus = MutableLiveData<Boolean>()
     val deleteProviderStatus: LiveData<Boolean> = _deleteProviderStatus
 
+    private val _selectedProvider = MutableLiveData<Providers?>()
+    val selectedProvider: LiveData<Providers?> = _selectedProvider
+
 
     fun loadProviders(){
         repository.getProviders { providers ->
@@ -55,5 +58,9 @@ class ProviderViewModel(private val repository: ProviderRepository): ViewModel()
         repository.deleteProvider(providerId) { success ->
             _deleteProviderStatus.postValue(success)
         }
+    }
+
+    fun setSelectedProvider(provider: Providers?) {
+        _selectedProvider.value = provider
     }
 }

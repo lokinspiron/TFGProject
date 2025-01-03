@@ -48,9 +48,9 @@ class ProviderFragment : Fragment() {
         recyclerView = binding.rvProviders
         providerAdapter = ProviderAdapter(
             providers = mutableListOf(),
-            onCreateOrderClick = {
-                val dialog = DialogContactProviderFragment()
-                dialog.show(childFragmentManager,"Contact Provider")
+            onCreateOrderClick = { provider ->
+                val dialog = DialogContactProviderFragment.newInstance(provider)
+                dialog.show(childFragmentManager, "Contact Provider")
             },
             onProviderClick = { provider ->
                 Log.d("ProviderClick", "Clicked provider ${provider.name}")

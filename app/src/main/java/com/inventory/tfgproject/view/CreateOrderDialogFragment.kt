@@ -1,13 +1,17 @@
 package com.inventory.tfgproject.view
 
 import android.R
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast.LENGTH_SHORT
@@ -33,6 +37,10 @@ class CreateOrderDialogFragment: DialogFragment() {
     private lateinit var binding : FragmentDialogCreateOrderBinding
     private var providerId: String? = null
     private var productId: String? = null
+
+    private val providerViewModel: ProviderViewModel by viewModels {
+        ProviderViewModelFactory(ProviderRepository())
+    }
 
     private val orderViewModel: OrderViewModel by viewModels {
         OrderViewModelFactory(OrderRepository())
@@ -69,6 +77,8 @@ class CreateOrderDialogFragment: DialogFragment() {
         initListeners()
         setupDateFormatter()
         setupSpinner()
+        setupGmailButton()
+        setupPhoneButton()
     }
 
     private fun initListeners() {
@@ -134,10 +144,20 @@ class CreateOrderDialogFragment: DialogFragment() {
         binding.edtDateOrder.text?.clear()
     }
 
-    private fun setupSpinner(){
+    private fun setupSpinner() {
         orderViewModel.loadProviders()
         orderViewModel.providers.observe(viewLifecycleOwner) { providers ->
             updateProviderSpinner(providers)
+        }
+
+        binding.spinnerProvider.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedProvider = parent?.getItemAtPosition(position) as? Providers
+                orderViewModel.setSelectedProvider(selectedProvider)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                orderViewModel.setSelectedProvider(null)
+            }
         }
     }
 
@@ -184,10 +204,14 @@ class CreateOrderDialogFragment: DialogFragment() {
     }
 
     private fun updateProviderSpinner(providers: List<Providers>) {
-        val itemList = mutableListOf(Providers(name = "Selecciona un proveedor"))
-        itemList.addAll(providers)
-
+        val defaultProvider = Providers(name = "Selecciona un proveedor")
+        val itemList = mutableListOf(defaultProvider)
         val customTypeface = ResourcesCompat.getFont(requireContext(), com.inventory.tfgproject.R.font.convergence)
+
+        providers.forEach { provider ->
+            Log.d("CreateOrderDialog", "Adding provider: $provider")
+            itemList.add(provider.copy())
+        }
 
         val adapter = object : ArrayAdapter<Providers>(
             requireContext(),
@@ -254,6 +278,49 @@ class CreateOrderDialogFragment: DialogFragment() {
     private fun getFullDate(dateStr: String): String {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         return "$dateStr/$currentYear"
+    }
+
+    private fun setupGmailButton() {
+        binding.btnGmail.setOnClickListener {
+            val provider = binding.spinnerProvider.selectedItem as? Providers
+            if(provider?.email.isNullOrEmpty()) {
+                toast("No hay correo electrónico registrado para este proveedor", LENGTH_SHORT)
+                return@setOnClickListener
+            }
+
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:${provider?.email}")
+            }
+
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                toast("No se encontró aplicación de correo", LENGTH_SHORT)
+            }
+        }
+    }
+
+    private fun setupPhoneButton() {
+        binding.btnPhone.setOnClickListener {
+            val provider = binding.spinnerProvider.selectedItem as? Providers
+            Log.d("CreateOrderDialog", "Provider: ${provider?.toString()}")
+            Log.d("CreateOrderDialog", "Phone: ${provider?.phoneNumber}")
+
+            if (provider?.phoneNumber.isNullOrEmpty()) {
+                toast("No hay número de teléfono registrado para este proveedor", LENGTH_SHORT)
+                return@setOnClickListener
+            }
+
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:${provider?.phoneNumber}")
+            }
+
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                toast("No se pudo iniciar la aplicación de teléfono", LENGTH_SHORT)
+            }
+        }
     }
 
 }
