@@ -7,10 +7,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import java.util.Locale
-import com.inventory.tfgproject.viewmodel.CategoryViewModel
 
 class FirebaseAuthClient {
-    private val auth = FirebaseAuth.getInstance()
+    val auth = FirebaseAuth.getInstance()
     private val db = FirebaseDatabase.getInstance().reference
 
     init {
@@ -46,10 +45,10 @@ class FirebaseAuthClient {
             }
     }
 
-    fun signInWithEmail(email: String, password: String, onComplete: (Boolean) -> Unit) {
+    fun signInWithEmail(email: String, password: String, callback: (Boolean, Exception?) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-                onComplete(task.isSuccessful)
+                callback(task.isSuccessful, task.exception)
             }
     }
 

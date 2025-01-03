@@ -19,12 +19,12 @@
         <Button
             android:id="@+id/btnCancel"
             style="@style/RedButton"
-            android:layout_width="145dp"
+            android:layout_width="165dp"
             android:layout_height="48dp"
             android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.227"
+            app:layout_constraintHorizontal_bias="0.179"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.802" />
@@ -32,12 +32,12 @@
         <Button
             android:id="@+id/btnDoIt"
             style="@style/AlternativeButton"
-            android:layout_width="145dp"
+            android:layout_width="165dp"
             android:layout_height="48dp"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.753"
+            app:layout_constraintHorizontal_bias="0.826"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.802" />

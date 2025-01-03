@@ -98,7 +98,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLoginContainer"
-            style="@style/TextInputLayoutStyle"
+            style="@style/TextInputLayoutStyle3"
             android:layout_width="368dp"
             android:layout_height="92dp"
             android:textColorHint="@color/backgroundColor2"
@@ -129,7 +129,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordLoginContainer"
-            style="@style/TextInputLayoutStyle"
+            style="@style/TextInputLayoutStyle3"
             android:layout_width="372dp"
             android:layout_height="92dp"
             android:imeOptions="actionDone"
@@ -160,6 +160,31 @@
                 tools:ignore="RtlSymmetry" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/txtForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/convergence"
+            android:text="@string/forgot_password"
+            android:textColor="@color/backgroundColor2"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/passwordLoginContainer"
+            app:layout_constraintTop_toBottomOf="@+id/passwordLoginContainer" />
+
+        <ProgressBar
+            android:id="@+id/pbLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:indeterminateTint="@color/backgroundColor2"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/txtO"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -177,5 +202,7 @@
         app:layout_constraintStart_toStartOf="@+id/imgLogo4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.49" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

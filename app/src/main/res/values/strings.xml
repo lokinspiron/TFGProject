@@ -210,4 +210,6 @@
     <string name="no_actual_orders">No hay pedidos</string>
 
     <string name="quantity_">Cantidad</string>
+
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
 </resources>

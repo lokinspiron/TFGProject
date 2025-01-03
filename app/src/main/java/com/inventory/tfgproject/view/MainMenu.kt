@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.forEach
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -140,8 +141,12 @@ class MainMenu : AppCompatActivity(){
         }
 
         val fabMenu = binding.root.findViewById<FloatingActionButton>(R.id.fabMenu)
-        fabMenu.setOnClickListener{
-            replaceFragment(InventoryFragment(),"Inventario")
+        fabMenu.setOnClickListener {
+            bnvMenu.menu.setGroupCheckable(0, true, false)
+            bnvMenu.menu.forEach { item -> item.isChecked = false }
+            bnvMenu.menu.setGroupCheckable(0, true, true)
+
+            replaceFragment(InventoryFragment(), "Inventario")
         }
 
         val navMenu = binding.root.findViewById<NavigationView>(R.id.nav_view)

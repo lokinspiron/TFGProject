@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -91,39 +92,69 @@ class LoginScreen : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            val validEmail = binding.emailLoginContainer.helperText == null
-            val validPassword = binding.passwordLoginContainer.helperText == null
-
             val email = binding.edtEmailLogin.text.toString().trim()
             val password = binding.edtPasswordLogin.text.toString().trim()
 
-            if (validEmail && validPassword && email.isNotEmpty() && password.isNotEmpty()) {
-                signInVerification(email,password)
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    signInVerification(email, password)
+                } else {
+                    binding.emailLoginContainer.helperText = "Introduce un correo válido"
+                }
             } else {
                 invalidForm()
             }
         }
+
         binding.imgGoogle.setOnClickListener {
             launchGoogleSignIn()
         }
+
+        binding.txtForgotPassword.setOnClickListener {
+            val email = binding.edtEmailLogin.text.toString().trim()
+            if (email.isNotEmpty() && binding.emailLoginContainer.helperText == null) {
+                authViewModel.resetPassword(email)
+                toast("Se ha enviado el correo para restablecer la contraseña", LENGTH_SHORT)
+            } else {
+                binding.emailLoginContainer.helperText = "Introduce un correo válido"
+            }
+        }
     }
 
-    private fun signInVerification(email:String, password:String){
-        authViewModel.signStatus.observe(this,Observer {isSuccessful ->
-            if(isSuccessful){
+    private fun signInVerification(email: String, password: String) {
+        binding.btnLogin.isEnabled = false
+        binding.pbLogin.visibility = View.VISIBLE
+
+        binding.emailLoginContainer.helperText = null
+        binding.passwordLoginContainer.helperText = null
+        authViewModel.clearError()
+
+        authViewModel.signStatus.observe(this) { isSuccessful ->
+            binding.btnLogin.isEnabled = true
+            binding.pbLogin.visibility = View.GONE
+
+            if (isSuccessful) {
                 val user = authViewModel.getCurrentUser()
-                if(user != null && user.isEmailVerified){
-                    toast("Correo verificado. Accediendo a la cuenta...", Toast.LENGTH_SHORT)
+                if (user != null && user.isEmailVerified) {
+                    toast("Accediendo a la cuenta...", Toast.LENGTH_SHORT)
                     startActivity(Intent(this, MainMenu::class.java))
-                }else {
+                } else {
                     registerLoadingScreen()
                 }
-            }else {
-                binding.emailLoginContainer.helperText = "El correo no existe o es incorrecto"
-                binding.passwordLoginContainer.helperText = "La contraseña es incorrecta"
             }
-        })
-        authViewModel.signInUser(email,password)
+        }
+
+        authViewModel.authError.observe(this) { errorMessage ->
+            errorMessage?.let {
+                when {
+                    it.contains("correo") -> binding.emailLoginContainer.helperText = it
+                    it.contains("contraseña") -> binding.passwordLoginContainer.helperText = it
+                    else -> toast(it, Toast.LENGTH_SHORT)
+                }
+            }
+        }
+
+        authViewModel.signInUser(email, password)
     }
 
     private fun invalidForm() {
@@ -164,6 +195,14 @@ class LoginScreen : AppCompatActivity() {
                 setContentView(viewLoading)
             }
         })
+
+        authViewModel.resetPasswordStatus.observe(this) { isSuccessful ->
+            if (isSuccessful) {
+                toast("Se ha enviado un correo para restablecer tu contraseña", Toast.LENGTH_LONG)
+            } else {
+                toast("Error al enviar el correo de recuperación", Toast.LENGTH_SHORT)
+            }
+        }
     }
 
     private fun validPassword(): String? {
