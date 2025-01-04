@@ -212,4 +212,12 @@
     <string name="quantity_">Cantidad</string>
 
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+
+    <string name="clear_search">Buscar</string>
+
+    <string name="search_products">Buscar productos</string>
+
+    <string name="search_providers">Buscar proveedores</string>
+
+    <string name="add_product_barcode">Código de barras</string>
 </resources>

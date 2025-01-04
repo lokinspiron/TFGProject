@@ -2,14 +2,13 @@ package com.inventory.tfgproject.view
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -21,7 +20,7 @@ import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderF
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.initialize
 import com.inventory.tfgproject.AnimationUtil
-import com.inventory.tfgproject.OrderRepository
+import com.inventory.tfgproject.repository.OrderRepository
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.extension.toast
 
@@ -58,11 +57,13 @@ class MainActivity : AppCompatActivity() {
                 val currentUser = FirebaseAuth.getInstance().currentUser
 
                 if (currentUser != null) {
-                    startActivity(Intent(this, MainMenu::class.java))
+                    if (currentUser.isEmailVerified) {
+                        startActivity(Intent(this, MainMenu::class.java))
+                    } else {
+                        startActivity(Intent(this, LoginActivity::class.java)) }
                 } else {
                     startActivity(Intent(this, LoginActivity::class.java))
                 }
-                finish()
             }
         }, 4000)
 
@@ -72,5 +73,15 @@ class MainActivity : AppCompatActivity() {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (!hasFocus) {
+            currentFocus?.let { view ->
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        }
     }
 }

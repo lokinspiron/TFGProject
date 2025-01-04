@@ -131,7 +131,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/convergence"
-                android:hint="@string/add_category_name" />
+                android:hint="@string/add_category_name"
+                android:textColor="@color/letters"/>
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

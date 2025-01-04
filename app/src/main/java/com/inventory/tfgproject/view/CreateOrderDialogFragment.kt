@@ -18,18 +18,15 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.inventory.tfgproject.OrderRepository
-import com.inventory.tfgproject.OrderViewModelFactory
-import com.inventory.tfgproject.ProductRepository
-import com.inventory.tfgproject.ProductViewModelFactory
-import com.inventory.tfgproject.ProviderRepository
-import com.inventory.tfgproject.ProviderViewModelFactory
+import com.inventory.tfgproject.repository.OrderRepository
+import com.inventory.tfgproject.modelFactory.OrderViewModelFactory
+import com.inventory.tfgproject.repository.ProviderRepository
+import com.inventory.tfgproject.modelFactory.ProviderViewModelFactory
 import com.inventory.tfgproject.databinding.FragmentDialogCreateOrderBinding
 import com.inventory.tfgproject.extension.toast
 import com.inventory.tfgproject.model.Orders
 import com.inventory.tfgproject.model.Providers
 import com.inventory.tfgproject.viewmodel.OrderViewModel
-import com.inventory.tfgproject.viewmodel.ProductViewModel
 import com.inventory.tfgproject.viewmodel.ProviderViewModel
 import java.util.Calendar
 

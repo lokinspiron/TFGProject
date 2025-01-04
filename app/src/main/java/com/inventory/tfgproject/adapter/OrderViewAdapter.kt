@@ -1,4 +1,4 @@
-package com.inventory.tfgproject
+package com.inventory.tfgproject.adapter
 
 import android.content.res.ColorStateList
 import android.graphics.Color

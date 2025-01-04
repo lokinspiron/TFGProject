@@ -3,6 +3,7 @@ package com.inventory.tfgproject.model
 data class Product(
     val id: String = "",
     var name: String = "",
+    var barcode: String? = null,
     var stock: Int = 0,
     var price: Double = 0.0,
     var currencyUnit: String = "EUR",

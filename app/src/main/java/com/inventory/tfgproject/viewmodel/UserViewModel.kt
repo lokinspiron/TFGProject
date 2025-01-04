@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -11,13 +12,24 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.inventory.tfgproject.model.User
+import com.inventory.tfgproject.repository.UserRepository
+import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
+
+    private val userRepository = UserRepository()
+
     private val _profileImage = MutableLiveData<String?>(null)
     val profileImage: LiveData<String?> get() = _profileImage
 
     private val _userData = MutableLiveData<User?>()
     val userData: LiveData<User?> get() = _userData
+
+    private val _deleteSuccess = MutableLiveData<Boolean>()
+    val deleteSuccess : LiveData<Boolean> get() = _deleteSuccess
+
+    private val _error = MutableLiveData<String>()
+    val error : LiveData<String> get() = _error
 
     private var valueEventListener: ValueEventListener? = null
     private var userRef: DatabaseReference? = null

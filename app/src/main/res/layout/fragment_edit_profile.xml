@@ -299,23 +299,24 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilAddressContainer"
+                        android:id="@+id/tilAddress"
                         style="@style/TextInputLayoutStyle2"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
-                        android:lines="1"
-                        android:imeOptions="actionDone">
+                        android:imeOptions="actionNext"
+                        android:textColorHint="@color/letters">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtAddressUser"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/convergence"
-                            android:gravity="end"
-                            android:lines="1"
-                            android:textColor="@color/letters"
-                            android:textSize="18sp" />
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textPostalAddress"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:textColor="@color/letters"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>

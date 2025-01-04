@@ -1,6 +1,5 @@
 package com.inventory.tfgproject.view
 
-import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -16,8 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
-import com.inventory.tfgproject.ProviderRepository
-import com.inventory.tfgproject.ProviderViewModelFactory
+import com.inventory.tfgproject.repository.ProviderRepository
+import com.inventory.tfgproject.modelFactory.ProviderViewModelFactory
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.FragmentEditProviderBinding
 import com.inventory.tfgproject.extension.toast
@@ -106,7 +105,11 @@ class EditProviderFragment : Fragment() {
         }
 
         binding.btnSaveChanges.setOnClickListener {
-            showSaveConfirmationDialog()
+            if (validateInputs()) {
+                showSaveConfirmationDialog()
+            } else {
+                toast("Por favor, corrija los errores", LENGTH_SHORT)
+            }
         }
 
         binding.btnDelete.setOnClickListener {
@@ -116,7 +119,7 @@ class EditProviderFragment : Fragment() {
 
     private fun showDeleteDialog() {
         val dialog = DialogSafeChangeFragment.newInstance(
-            "¿Está seguro que desea eliminar este proveedor?",
+            "Estás a punto de eliminar este proveedor",
             "Eliminar"
         )
         dialog.onDoItClick = {
@@ -137,11 +140,12 @@ class EditProviderFragment : Fragment() {
 
     private fun showSaveConfirmationDialog() {
         val dialog = DialogSafeChangeFragment.newInstance(
-            "¿Está seguro que desea guardar los cambios?",
+            "¿Guardar cambios?",
             "Guardar"
         )
         dialog.onDoItClick = {
             saveChanges()
+            (activity as? MainMenu)?.replaceFragment(ProviderFragment())
         }
         dialog.show(parentFragmentManager, "SaveChangesDialog")
     }
@@ -193,11 +197,6 @@ class EditProviderFragment : Fragment() {
     }
 
     private fun saveChanges() {
-        if (!validateInputs()) {
-            toast("Por favor, corrija los errores", LENGTH_SHORT)
-            return
-        }
-
         val updates = mutableMapOf<String, Any>()
         binding.apply {
             updates["name"] = edtNameProvider.text.toString()

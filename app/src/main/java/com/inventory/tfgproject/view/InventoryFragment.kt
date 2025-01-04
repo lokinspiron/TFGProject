@@ -15,9 +15,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.inventory.tfgproject.CategoryAdapter
+import com.inventory.tfgproject.adapter.CategoryAdapter
 import com.inventory.tfgproject.R
-import com.inventory.tfgproject.SubcategoryAdapter
+import com.inventory.tfgproject.adapter.SubcategoryAdapter
 import com.inventory.tfgproject.databinding.DialogAddSubcategoryBinding
 import com.inventory.tfgproject.databinding.FragmentInventoryBinding
 import com.inventory.tfgproject.viewmodel.CategoryViewModel
@@ -154,19 +154,29 @@ class InventoryFragment : Fragment() {
             .setView(dialogBinding.root)
             .create()
 
+        dialogBinding.btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
         dialogBinding.btnAddSubcategory.setOnClickListener {
             val subcategoryName = dialogBinding.edtSubcategoryName.text.toString().trim()
-            if (subcategoryName.isNotEmpty()) {
-                val subcategory = Subcategory(
-                    id = UUID.randomUUID().toString(),
-                    name = subcategoryName
-                )
-                categoryViewModel.addSubcategoryToCategory(category, subcategory)
-                dialog.dismiss()
+
+            if (subcategoryName.isEmpty()) {
+                dialogBinding.tilAddSubcategory.error = "El nombre no puede estar vacío"
+                return@setOnClickListener
             }
+
+            val subcategory = Subcategory(
+                id = UUID.randomUUID().toString(),
+                name = subcategoryName
+            )
+            categoryViewModel.addSubcategoryToCategory(category, subcategory)
+            dialog.dismiss()
         }
+
         dialog.show()
     }
+
     private fun onAddButtonClicked(){
         setAnimation(clicked)
         setClickable(clicked)

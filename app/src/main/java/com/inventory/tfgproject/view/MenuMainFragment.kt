@@ -1,14 +1,11 @@
 package com.inventory.tfgproject.view
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
@@ -16,12 +13,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.inventory.tfgproject.OrderAdapter
-import com.inventory.tfgproject.OrderRepository
-import com.inventory.tfgproject.OrderViewModelFactory
-import com.inventory.tfgproject.ProductLowAdapter
-import com.inventory.tfgproject.ProductRepository
-import com.inventory.tfgproject.ProductViewModelFactory
+import com.inventory.tfgproject.adapter.OrderAdapter
+import com.inventory.tfgproject.repository.OrderRepository
+import com.inventory.tfgproject.modelFactory.OrderViewModelFactory
+import com.inventory.tfgproject.adapter.ProductLowAdapter
+import com.inventory.tfgproject.repository.ProductRepository
+import com.inventory.tfgproject.modelFactory.ProductViewModelFactory
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.EmptyStateBinding
 import com.inventory.tfgproject.databinding.FragmentMenuMainBinding

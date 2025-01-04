@@ -1,17 +1,14 @@
-package com.inventory.tfgproject
+package com.inventory.tfgproject.adapter
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.EmptyStateBinding
 import com.inventory.tfgproject.databinding.ItemOrderBinding
 import com.inventory.tfgproject.model.OrderWithProduct
-import com.inventory.tfgproject.model.Orders
 
 
 class OrderAdapter(

@@ -1,4 +1,4 @@
-package com.inventory.tfgproject
+package com.inventory.tfgproject.repository
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
@@ -6,8 +6,6 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.MutableData
-import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
 import com.inventory.tfgproject.model.OrderWithProduct
 import com.inventory.tfgproject.model.Orders

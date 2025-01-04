@@ -1,16 +1,14 @@
-package com.inventory.tfgproject
+package com.inventory.tfgproject.adapter
 
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.ItemLowstockProductBinding
 import com.inventory.tfgproject.model.Product
 import com.inventory.tfgproject.view.MainMenu

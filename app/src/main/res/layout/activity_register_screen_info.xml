@@ -27,7 +27,7 @@
             android:text="@string/information_add"
             android:textAlignment="center"
             android:textColor="@color/backgroundColor2"
-            android:textSize="34sp"
+            android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
@@ -37,11 +37,13 @@
 
         <Button
             android:id="@+id/btnContinue"
+            style="@style/AlternativeButton"
             android:layout_width="266dp"
             android:layout_height="67dp"
             android:fontFamily="@font/convergence"
             android:text="@string/continue_Register"
             android:textSize="29sp"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +53,7 @@
 
         <Button
             android:id="@+id/btnCancel"
+            style="@style/RedButton"
             android:layout_width="266dp"
             android:layout_height="67dp"
             android:backgroundTint="@color/red_button"
@@ -65,7 +68,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/addressRegisterContainer"
-            style="@style/TextInputLayoutStyle"
+            style="@style/TextInputLayoutStyle3"
             android:layout_width="350dp"
             android:layout_height="76dp"
             android:imeOptions="actionNext"
@@ -91,7 +94,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phoneRegisterContainer"
-            style="@style/TextInputLayoutStyle"
+            style="@style/TextInputLayoutStyle3"
             android:layout_width="350dp"
             android:layout_height="76dp"
             android:imeOptions="actionDone"

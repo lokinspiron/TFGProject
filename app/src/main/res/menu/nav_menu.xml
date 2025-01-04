@@ -11,10 +11,6 @@
             android:icon="@drawable/ic_home"
             android:title="@string/navigation_drawer_home" />
         <item
-            android:id="@+id/nav_scan"
-            android:icon="@drawable/ic_scanner"
-            android:title="@string/navigation_drawer_scan"/>
-        <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_share"
             android:title="@string/navigation_drawer_share"/>

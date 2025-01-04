@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.inventory.tfgproject.ProviderRepository
+import com.inventory.tfgproject.repository.ProviderRepository
 import com.inventory.tfgproject.model.Product
 import com.inventory.tfgproject.model.Providers
 import kotlinx.coroutines.launch
@@ -29,6 +29,9 @@ class ProviderViewModel(private val repository: ProviderRepository): ViewModel()
     private val _selectedProvider = MutableLiveData<Providers?>()
     val selectedProvider: LiveData<Providers?> = _selectedProvider
 
+    private val _saveSuccess = MutableLiveData<Boolean>()
+    val saveSuccess: LiveData<Boolean> = _saveSuccess
+
 
     fun loadProviders(){
         repository.getProviders { providers ->
@@ -37,10 +40,19 @@ class ProviderViewModel(private val repository: ProviderRepository): ViewModel()
     }
 
     fun saveProvider(provider: Providers){
-        repository.addProvider(provider){success,providers ->
-            _saveProviderStatus.postValue(Pair(success,providers))
+        viewModelScope.launch {
+            try {
+                repository.addProvider(provider){success,providers ->
+                    _saveProviderStatus.postValue(Pair(success,providers))
+                }
+                _saveSuccess.value = true
+            } catch (e: Exception) {
+                _saveSuccess.value = false
+            }
         }
     }
+
+
 
     fun loadProviderProducts(providerId: String) {
         repository.getProductsByProviderId(providerId) { products ->

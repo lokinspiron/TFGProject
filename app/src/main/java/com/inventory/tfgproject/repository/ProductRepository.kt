@@ -1,4 +1,4 @@
-package com.inventory.tfgproject
+package com.inventory.tfgproject.repository
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth

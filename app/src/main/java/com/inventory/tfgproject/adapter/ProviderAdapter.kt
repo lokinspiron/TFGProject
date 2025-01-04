@@ -1,15 +1,14 @@
-package com.inventory.tfgproject
+package com.inventory.tfgproject.adapter
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.inventory.tfgproject.R
 import com.inventory.tfgproject.model.Providers
 
 class ProviderAdapter(

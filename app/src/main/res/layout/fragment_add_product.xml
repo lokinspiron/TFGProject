@@ -71,7 +71,9 @@
                 android:textColorHint="@color/backgroundColor1"
                 android:imeOptions="actionNext"
                 app:helperText="@string/required"
-                app:helperTextTextColor="@android:color/holo_red_dark">
+                app:helperTextTextColor="@color/red_button"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/error_color">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtNameProductAdd"
@@ -92,22 +94,24 @@
                 style="@style/TextInputLayoutStyle2"
                 android:layout_width="345dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="17dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
                 android:textColorHint="@color/letters"
-                android:layout_marginBottom="16dp"
                 app:helperText="@string/required"
-                app:helperTextTextColor="@android:color/holo_red_dark">
+                app:helperTextTextColor="@android:color/holo_red_dark"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/error_color">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtQuantityProductAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/convergence"
+                    android:gravity="end"
                     android:hint="@string/add_product_quantity"
                     android:inputType="number"
                     android:lines="1"
-                    android:gravity="end"
                     android:textColor="@color/letters"
                     android:textSize="22sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -116,7 +120,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/barcodeProductAddContainer"
+                    style="@style/TextInputLayoutStyle2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/letters">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtBarcodeProductAdd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/convergence"
+                        android:hint="@string/add_product_barcode"
+                        android:inputType="text"
+                        android:lines="1"
+                        android:gravity="right"
+                        android:textColor="@color/letters"
+                        android:textSize="22sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/btnBarcodeScan"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/desc_floating"
+                    android:src="@drawable/ic_barcode"
+                    app:tint="@color/black" />
+            </LinearLayout>
+            <androidx.camera.view.PreviewView
+                android:id="@+id/previewView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -128,7 +174,9 @@
                     android:textColorHint="@color/backgroundColor1"
                     app:helperText="@string/required"
                     app:helperTextTextColor="@android:color/holo_red_dark"
-                    android:hint="@string/add_product_perprice">
+                    android:hint="@string/add_product_perprice"
+                    app:errorEnabled="true"
+                    app:errorTextColor="@color/error_color">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtPriceProductAdd"
@@ -146,7 +194,7 @@
                     android:id="@+id/spinnerCurrency"
                     android:layout_width="100dp"
                     android:layout_height="52dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="1dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="8dp"
@@ -169,7 +217,9 @@
                     android:textColorHint="@color/backgroundColor1"
                     app:helperText="@string/required"
                     app:helperTextTextColor="@android:color/holo_red_dark"
-                    android:hint="@string/add_product_perweight">
+                    android:hint="@string/add_product_perweight"
+                    app:errorEnabled="true"
+                    app:errorTextColor="@color/error_color">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtWeightProductAdd"
@@ -188,7 +238,7 @@
                     android:layout_width="100dp"
                     android:layout_height="52dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="1dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/spinner_border_color"/>

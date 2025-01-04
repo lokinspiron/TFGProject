@@ -46,6 +46,7 @@
 
     <Button
         android:id="@+id/btnMakeOrders"
+        style="@style/AlternativeButton"
         android:layout_width="167dp"
         android:layout_height="45dp"
         android:layout_marginTop="208dp"
@@ -54,6 +55,7 @@
         android:fontFamily="@font/convergence"
         android:text="@string/make_order"
         android:textSize="12sp"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,6 +1,5 @@
 package com.inventory.tfgproject.view
 
-import android.app.AlertDialog
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -23,8 +22,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
-import com.inventory.tfgproject.ProductRepository
-import com.inventory.tfgproject.ProductViewModelFactory
+import com.inventory.tfgproject.repository.ProductRepository
+import com.inventory.tfgproject.modelFactory.ProductViewModelFactory
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.FragmentEditProductBinding
 import com.inventory.tfgproject.extension.toast
@@ -68,11 +67,15 @@ class EditProductFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(productId: String, productName: String): EditProductFragment {
+        fun newInstance(productId: String, productName: String, categoryId: String? = null, categoryName: String? = null, subcategoryId: String? = null, subcategoryName: String? = null): EditProductFragment {
             val fragment = EditProductFragment()
             val args = Bundle()
             args.putString("product_id", productId)
             args.putString("product_name", productName)
+            args.putString("category_id", categoryId)
+            args.putString("category_name", categoryName)
+            args.putString("subcategory_id", subcategoryId)
+            args.putString("subcategory_name", subcategoryName)
             fragment.arguments = args
             return fragment
         }
@@ -131,7 +134,6 @@ class EditProductFragment : Fragment() {
             if (isCategoriesLoaded && isProvidersLoaded) {
                 products.find { it.id == productId }?.let { product ->
                     updateUI(product)
-
                 }
             } else {
                 Log.d("EditProduct", "Still waiting for data. Categories: $isCategoriesLoaded, Providers: $isProvidersLoaded")
@@ -147,17 +149,20 @@ class EditProductFragment : Fragment() {
         binding.btnSaveChanges.setOnClickListener{
             saveChanges()
             toast("Se ha actualizado el producto", LENGTH_SHORT)
-            (activity as? MainMenu)?.replaceFragment(InventoryMenuFragment())
         }
 
         binding.btnDelete.setOnClickListener{
             showDeleteDialog()
         }
+
+        binding.imgBtnBack.setOnClickListener{
+            (activity as? MainMenu)?.navigateBack()
+        }
     }
 
     private fun showDeleteDialog() {
         val dialog = DialogSafeChangeFragment.newInstance(
-            "¿Está seguro que desea eliminar este producto?",
+            "Estás a punto de eliminar este producto?",
             "Eliminar"
         )
         dialog.onDoItClick = {
@@ -171,13 +176,32 @@ class EditProductFragment : Fragment() {
         binding.pbEditProduct.visibility = View.VISIBLE
         productId?.let { id ->
             productViewModel.deleteProduct(id)
-            Handler(Looper.getMainLooper()).postDelayed({
-                val productFragment = InventoryMenuFragment()
-                activity?.supportFragmentManager
-                    ?.beginTransaction()
-                    ?.replace(R.id.fcvContent, productFragment)
-                    ?.commit()
-            }, 500)
+            val categoryId = arguments?.getString("category_id")
+            val categoryName = arguments?.getString("category_name")
+            val subcategoryId = arguments?.getString("subcategory_id")
+            val subcategoryName = arguments?.getString("subcategory_name")
+
+            val inventoryFragment = when {
+                subcategoryId != null -> {
+                    InventoryMenuFragment.newInstanceForSubcategory(
+                        subcategoryId = subcategoryId,
+                        subcategoryName = subcategoryName
+                    )
+                }
+                categoryId != null -> {
+                    InventoryMenuFragment.newInstanceForCategory(
+                        categoryId = categoryId,
+                        categoryName = categoryName ?: "Todo"
+                    )
+                }
+                else -> {
+                    InventoryMenuFragment.newInstanceForCategory(
+                        categoryId = "",
+                        categoryName = "Todo"
+                    )
+                }
+            }
+            (activity as? MainMenu)?.replaceFragment(inventoryFragment)
         }
     }
 
@@ -443,7 +467,7 @@ class EditProductFragment : Fragment() {
         }
 
         val storageRef = FirebaseStorage.getInstance().reference
-        val defaultPictureRef = storageRef.child("default/${UUID.randomUUID()}.jpg")
+        val defaultPictureRef = storageRef.child("products/${UUID.randomUUID()}.jpg")
 
         defaultPictureRef.putFile(uri)
             .addOnSuccessListener {

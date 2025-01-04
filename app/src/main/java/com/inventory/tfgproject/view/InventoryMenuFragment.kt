@@ -19,9 +19,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inventory.tfgproject.ExcelExporter
 import android.Manifest
-import com.inventory.tfgproject.ProductAdapter
-import com.inventory.tfgproject.ProductRepository
-import com.inventory.tfgproject.ProductViewModelFactory
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
+import com.inventory.tfgproject.adapter.ProductAdapter
+import com.inventory.tfgproject.repository.ProductRepository
+import com.inventory.tfgproject.modelFactory.ProductViewModelFactory
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.FragmentInventoryMenuBinding
 import com.inventory.tfgproject.extension.toast
@@ -129,6 +132,7 @@ class InventoryMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initSearchView()
         initializeExporter()
         recyclerView = binding.rvProducts
         productAdapter = ProductAdapter(
@@ -136,7 +140,15 @@ class InventoryMenuFragment : Fragment() {
             onProductClick = { product ->
                 Log.d("ProductClick", "Clicked product ${product.name}")
                 (activity as? MainMenu)?.replaceFragment(
-                    ProductViewFragment.newInstance(product.id,product.name))
+                    ProductViewFragment.newInstance(
+                        product.id,
+                        product.name,
+                        categoryId,
+                        categoryName,
+                        subcategoryId,
+                        subcategoryName
+                    )
+                )
             },
             onQuantityChanged = { product, newQuantity ->
                 productViewModel.updateProductQuantity(product.id, newQuantity)
@@ -162,9 +174,69 @@ class InventoryMenuFragment : Fragment() {
         initViewModel()
     }
 
+    private fun initSearchView() {
+        val searchEditText = binding.searchLayout.root.findViewById<EditText>(R.id.searchEditText)
+        searchEditText.hint = "Buscar productos"
+
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                filterProducts(s.toString())
+            }
+        })
+    }
+
+    private fun filterProducts(query: String) {
+        val allProducts = productViewModel.products.value ?: emptyList()
+
+        val filteredProducts = when {
+            query.isEmpty() -> when {
+                categoryName == "Todo" -> allProducts
+                !subcategoryId.isNullOrEmpty() -> allProducts.filter { it.subcategoryId == subcategoryId }
+                !categoryId.isNullOrEmpty() -> allProducts.filter { it.categoryId == categoryId }
+                else -> emptyList()
+            }
+            else -> {
+                val baseList = when {
+                    categoryName == "Todo" -> allProducts
+                    !subcategoryId.isNullOrEmpty() -> allProducts.filter { it.subcategoryId == subcategoryId }
+                    !categoryId.isNullOrEmpty() -> allProducts.filter { it.categoryId == categoryId }
+                    else -> emptyList()
+                }
+                baseList.filter { product ->
+                    product.name.contains(query, ignoreCase = true)
+                }
+            }
+        }
+
+        productAdapter.product.clear()
+        productAdapter.product.addAll(filteredProducts)
+        productAdapter.notifyDataSetChanged()
+
+        updateVisibility(filteredProducts)
+    }
+
+    private fun updateVisibility(products: List<Product>) {
+        if (products.isEmpty()) {
+            binding.imgNoContent.visibility = View.VISIBLE
+            binding.txtEmptyListProducts.visibility = View.VISIBLE
+            binding.txtAddProducts.visibility = View.VISIBLE
+        } else {
+            binding.imgNoContent.visibility = View.GONE
+            binding.txtEmptyListProducts.visibility = View.GONE
+            binding.txtAddProducts.visibility = View.GONE
+        }
+
+        val displayName = subcategoryName ?: categoryName
+        binding.txtCategory.text = getString(R.string.category_products, displayName, products.size)
+    }
+
+
     private fun showDeleteConfirmationDialog(product: Product) {
         val deleteDialog = DialogSafeChangeFragment.newInstance(
-            dynamicText = "¿Estás seguro de que deseas eliminar este producto?",
+            dynamicText = "Estás a punto eliminar este producto",
             doItText = "Eliminar Producto"
         )
         deleteDialog.setOnPositiveClickListener {
@@ -179,6 +251,7 @@ class InventoryMenuFragment : Fragment() {
             binding.rvProducts.visibility = View.VISIBLE
             binding.txtCategory.visibility = View.VISIBLE
             binding.fabProducts.visibility = View.VISIBLE
+            binding.searchLayout.root.visibility = View.VISIBLE
 
             val filteredProducts = when {
                 categoryName == "Todo" -> allProducts
@@ -193,19 +266,7 @@ class InventoryMenuFragment : Fragment() {
                 productAdapter.notifyDataSetChanged()
             }
 
-            val displayName = subcategoryName ?: categoryName
-            val productCount = filteredProducts.size
-            binding.txtCategory.text = getString(R.string.category_products, displayName, productCount)
-
-            if (filteredProducts.isEmpty()) {
-                binding.imgNoContent.visibility = View.VISIBLE
-                binding.txtEmptyListProducts.visibility = View.VISIBLE
-                binding.txtAddProducts.visibility = View.VISIBLE
-            } else {
-                binding.imgNoContent.visibility = View.GONE
-                binding.txtEmptyListProducts.visibility = View.GONE
-                binding.txtAddProducts.visibility = View.GONE
-            }
+            updateVisibility(filteredProducts)
         }
         productViewModel.loadProducts()
     }
@@ -217,6 +278,7 @@ class InventoryMenuFragment : Fragment() {
         binding.txtEmptyListProducts.visibility = View.GONE
         binding.txtAddProducts.visibility = View.GONE
         binding.fabProducts.visibility = View.GONE
+        binding.searchLayout.root.visibility = View.GONE
         binding.pbProduct.visibility = View.VISIBLE
     }
 
@@ -225,7 +287,7 @@ class InventoryMenuFragment : Fragment() {
             onAddButtonClicked()
         }
         binding.fabAddProducts.setOnClickListener {
-            (activity as? MainMenu)?.replaceFragment(AddProductFragment(), " Añadir Producto")
+            (activity as? MainMenu)?.replaceFragment(AddProductFragment())
 
         }
         binding.fabEditProducts.setOnClickListener {

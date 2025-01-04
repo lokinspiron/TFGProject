@@ -15,6 +15,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -155,9 +156,6 @@ class MainMenu : AppCompatActivity(){
                 R.id.nav_home -> {
                     replaceFragment(MenuMainFragment(),getString(R.string.greetings,userViewModel.userData.value?.name))
                 }
-                R.id.nav_scan -> {
-                    replaceFragment(ScanCodeFragment(),"Escaneo")
-                }
                 R.id.nav_share -> {
                     share()
                 }
@@ -207,9 +205,15 @@ class MainMenu : AppCompatActivity(){
 
         fragmentTransaction.commit()
 
-        greetingMessage?.let {
-            binding.txtWave.text = it
+        val headerText = greetingMessage ?: when (fragment) {
+            is MenuMainFragment -> getString(R.string.greetings, userViewModel.userData.value?.name)
+            is ProviderFragment -> "Proveedores"
+            is InventoryFragment -> "Inventario"
+            is UserProfileFragment -> "Perfil"
+            is AboutUsFragment -> "Acerca de nosotros"
+            else -> binding.txtWave.text.toString()
         }
+        binding.txtWave.text = headerText
     }
 
     private fun initVisibility(){
@@ -223,20 +227,59 @@ class MainMenu : AppCompatActivity(){
         }
     }
 
+    private fun updateHeaderTextForCurrentFragment() {
+
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fcvContent)
+
+        Log.d("Navigation", "Current fragment: ${currentFragment?.javaClass?.simpleName}")
+
+        val headerText = when (currentFragment) {
+            is MenuMainFragment -> {
+                val greeting = getString(R.string.greetings, userViewModel.userData.value?.name)
+                Log.d("Navigation", "Setting greeting: $greeting")
+                greeting
+            }
+            is ProviderFragment -> "Proveedores"
+            is InventoryFragment -> "Inventario"
+            is UserProfileFragment -> "Perfil"
+            is AboutUsFragment -> "Acerca de nosotros"
+            else -> {
+                val defaultGreeting = getString(R.string.greetings, userViewModel.userData.value?.name)
+                Log.d("Navigation", "Using default greeting: $defaultGreeting")
+                defaultGreeting
+            }
+        }
+
+        binding.txtWave.text = headerText
+    }
+
     fun navigateBack() {
         if (supportFragmentManager.backStackEntryCount > 0) {
+            val backStackListener = object : FragmentManager.OnBackStackChangedListener {
+                override fun onBackStackChanged() {
+                    binding.root.post {
+                        val currentFragment = supportFragmentManager.findFragmentById(R.id.fcvContent)
+                        Log.d("Navigation", "Fragment después de pop: ${currentFragment?.javaClass?.simpleName}")
+
+                        val headerText = when (currentFragment) {
+                            is MenuMainFragment -> getString(R.string.greetings, userViewModel.userData.value?.name)
+                            is ProviderFragment -> "Proveedores"
+                            is InventoryFragment -> "Inventario"
+                            is UserProfileFragment -> "Perfil"
+                            is AboutUsFragment -> "Acerca de nosotros"
+                            else -> getString(R.string.greetings, userViewModel.userData.value?.name)
+                        }
+
+                        binding.txtWave.text = headerText
+                    }
+                    supportFragmentManager.removeOnBackStackChangedListener(this)
+                }
+            }
+
+            supportFragmentManager.addOnBackStackChangedListener(backStackListener)
             supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }
     }
-
-//    override fun onBackPressed() {
-//        val drawerlt: DrawerLayout = findViewById(R.id.drawerlt)
-//        if (drawerlt.isDrawerOpen(GravityCompat.START)) {
-//            drawerlt.closeDrawer(GravityCompat.START)
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
 }

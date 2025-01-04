@@ -1,9 +1,9 @@
-package com.inventory.tfgproject
+package com.inventory.tfgproject.modelFactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.inventory.tfgproject.repository.UserRepository
 import com.inventory.tfgproject.viewmodel.ProfileUserViewModel
-import com.inventory.tfgproject.viewmodel.UserViewModel
 
 class ProfileUserViewModelFactory(private val repository: UserRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

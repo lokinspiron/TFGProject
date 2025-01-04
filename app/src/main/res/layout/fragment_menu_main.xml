@@ -65,11 +65,12 @@ android:orientation="vertical">
                 android:layout_width="333dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="331dp"
                 android:background="@color/backgroundColor2"
                 android:text="@string/Used_Products"
                 android:textColor="@color/letters"
+                android:fontFamily="@font/convergence"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -78,7 +79,6 @@ android:orientation="vertical">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:background="@color/navigation"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -120,12 +120,13 @@ android:orientation="vertical">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="8dp"
                 android:background="@color/backgroundColor2"
                 android:text="@string/Orders"
                 android:textColor="@color/letters"
                 android:textSize="25sp"
+                android:fontFamily="@font/convergence"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -164,12 +165,14 @@ android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btnMoreOrders"
+                    style="@style/AlternativeButton"
                     android:layout_width="238dp"
                     android:fontFamily="@font/convergence"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:text="@string/Look_orders" />
+                    android:text="@string/Look_orders"
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
         </LinearLayout>

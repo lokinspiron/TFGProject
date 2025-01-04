@@ -48,7 +48,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/nameRegisterContainer"
-                    style="@style/TextInputLayoutStyle"
+                    style="@style/TextInputLayoutStyle3"
                     android:layout_width="350dp"
                     android:layout_height="76dp"
                     android:layout_marginStart="28dp"
@@ -76,7 +76,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/surnameRegisterContainer"
-                    style="@style/TextInputLayoutStyle"
+                    style="@style/TextInputLayoutStyle3"
                     android:layout_width="350dp"
                     android:layout_height="76dp"
                     android:layout_marginStart="28dp"
@@ -104,7 +104,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailRegisterContainer"
-                    style="@style/TextInputLayoutStyle"
+                    style="@style/TextInputLayoutStyle3"
                     android:layout_width="350dp"
                     android:layout_height="76dp"
                     android:layout_marginStart="28dp"
@@ -132,7 +132,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passwordRegisterContainer"
-                    style="@style/TextInputLayoutStyle"
+                    style="@style/TextInputLayoutStyle3"
                     android:layout_width="350dp"
                     android:layout_height="76dp"
                     android:layout_marginStart="28dp"
@@ -163,7 +163,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/confirmPasswordRegisterContainer"
-                    style="@style/TextInputLayoutStyle"
+                    style="@style/TextInputLayoutStyle3"
                     android:layout_width="350dp"
                     android:layout_height="76dp"
                     android:layout_marginStart="28dp"

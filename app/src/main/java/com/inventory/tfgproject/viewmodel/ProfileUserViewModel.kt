@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.inventory.tfgproject.UserRepository
+import com.inventory.tfgproject.repository.UserRepository
 import com.inventory.tfgproject.model.User
 
 class ProfileUserViewModel(private val repository: UserRepository) : ViewModel() {

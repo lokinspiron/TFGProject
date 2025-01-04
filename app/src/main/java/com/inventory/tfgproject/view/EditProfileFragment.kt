@@ -2,11 +2,8 @@ package com.inventory.tfgproject.view
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -19,20 +16,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import com.inventory.tfgproject.ProfileUserViewModelFactory
+import com.inventory.tfgproject.modelFactory.ProfileUserViewModelFactory
 import com.inventory.tfgproject.R
-import com.inventory.tfgproject.UserRepository
+import com.inventory.tfgproject.repository.UserRepository
 import com.inventory.tfgproject.databinding.FragmentEditProfileBinding
-import com.inventory.tfgproject.databinding.FragmentInventoryBinding
 import com.inventory.tfgproject.extension.toast
 import com.inventory.tfgproject.model.User
 import com.inventory.tfgproject.viewmodel.ProfileUserViewModel
-import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

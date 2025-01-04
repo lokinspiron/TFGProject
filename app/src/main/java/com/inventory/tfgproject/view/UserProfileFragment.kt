@@ -1,27 +1,20 @@
 package com.inventory.tfgproject.view
 
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.firebase.storage.FirebaseStorage
-import com.inventory.tfgproject.UserRepository
-import com.inventory.tfgproject.ProfileUserViewModelFactory
+import com.inventory.tfgproject.repository.UserRepository
+import com.inventory.tfgproject.modelFactory.ProfileUserViewModelFactory
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.databinding.FragmentUserProfileBinding
 import com.inventory.tfgproject.extension.toast
 import com.inventory.tfgproject.model.User
 import com.inventory.tfgproject.viewmodel.ProfileUserViewModel
-import com.inventory.tfgproject.viewmodel.UserViewModel
-import java.util.UUID
 
 class UserProfileFragment : Fragment() {
     private var _binding : FragmentUserProfileBinding? = null

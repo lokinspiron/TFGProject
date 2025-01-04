@@ -9,5 +9,6 @@
         <item>kg</item>
         <item>g</item>
         <item>lb</item>
+        <item>lt</item>
     </string-array>
 </resources>

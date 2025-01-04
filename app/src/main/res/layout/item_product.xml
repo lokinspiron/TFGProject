@@ -24,12 +24,12 @@
     <TextView
         android:id="@+id/txtNameProduct"
         android:layout_width="185dp"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
         android:fontFamily="@font/convergence"
         android:textAlignment="center"
         android:textColor="@color/letters"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
@@ -37,17 +37,29 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtPhone"
-        android:layout_width="185dp"
-        android:layout_height="25dp"
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="196dp"
         android:fontFamily="@font/convergence"
-        android:textAlignment="center"
+        android:textColor="@color/letters"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/txtCurrency"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="196dp"
+        android:fontFamily="@font/convergence"
         android:textColor="@color/letters"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtPrice"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button

@@ -28,18 +28,26 @@ class FirebaseAuthClient {
                         userRef.setValue(user)
                             .addOnCompleteListener {
                                 if (it.isSuccessful) {
-                                    onComplete(true)
+                                    firebaseUser.sendEmailVerification()
+                                        .addOnCompleteListener { emailTask ->
+                                            if (emailTask.isSuccessful) {
+                                                Log.d("Auth", "Verification email sent")
+                                            } else {
+                                                Log.e("Auth", "Failed to send verification email")
+                                            }
+                                            onComplete(true)
+                                        }
                                 } else {
                                     onComplete(false)
-                                    Log.d("Auth", "Crear usuario en base de datos")
+                                    Log.d("Auth", "Failed to create user in database")
                                 }
                             }
                     } else {
-                        Log.e("Auth", "Error: FirebaseUser es null")
+                        Log.e("Auth", "Error: FirebaseUser is null")
                         onComplete(false)
                     }
                 } else {
-                    Log.e("Auth", "Error al crear usuario: ${task.exception?.message}")
+                    Log.e("Auth", "Error creating user: ${task.exception?.message}")
                     onComplete(false)
                 }
             }
@@ -60,7 +68,7 @@ class FirebaseAuthClient {
         auth.signOut()
     }
 
-    fun reauthenticate(password: String, onComplete: (Boolean) -> Unit) {
+    fun reAuthenticate(password: String, onComplete: (Boolean) -> Unit) {
         val user = auth.currentUser
         val email = user?.email
 

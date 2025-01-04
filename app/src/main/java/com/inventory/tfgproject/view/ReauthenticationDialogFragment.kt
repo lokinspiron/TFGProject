@@ -33,7 +33,7 @@ class ReauthenticateDialogFragment : DialogFragment() {
         binding.btnConfirm.setOnClickListener {
             val password = binding.edtPassword.text.toString()
             if (password.isNotEmpty()) {
-                firebaseAuthClient.reauthenticate(password) { success ->
+                firebaseAuthClient.reAuthenticate(password) { success ->
                     if (success) {
                         onAuthSuccess?.invoke()
                         dismiss()

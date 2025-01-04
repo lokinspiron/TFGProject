@@ -1,6 +1,5 @@
 package com.inventory.tfgproject.view
 
-import android.app.AlertDialog
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -14,12 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.inventory.tfgproject.OrderAdapter
-import com.inventory.tfgproject.OrderRepository
-import com.inventory.tfgproject.OrderViewAdapter
-import com.inventory.tfgproject.OrderViewModelFactory
-import com.inventory.tfgproject.R
-import com.inventory.tfgproject.databinding.FragmentMenuMainBinding
+import com.inventory.tfgproject.repository.OrderRepository
+import com.inventory.tfgproject.adapter.OrderViewAdapter
+import com.inventory.tfgproject.modelFactory.OrderViewModelFactory
 import com.inventory.tfgproject.databinding.FragmentOrdersBinding
 import com.inventory.tfgproject.viewmodel.OrderViewModel
 
@@ -81,7 +77,7 @@ class OrdersFragment : Fragment() {
                 val orderToDelete = orderViewAdapter.getOrderAt(position)
 
                 val dialogFragment = DialogSafeChangeFragment.newInstance(
-                    "¿Estás seguro de que deseas eliminar este pedido?",
+                    "Estas a punto de eliminar un pedido",
                     "Eliminar"
                 )
 

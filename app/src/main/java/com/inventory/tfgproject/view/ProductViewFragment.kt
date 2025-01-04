@@ -6,10 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.inventory.tfgproject.ProductRepository
-import com.inventory.tfgproject.ProductViewModelFactory
+import com.inventory.tfgproject.repository.ProductRepository
+import com.inventory.tfgproject.modelFactory.ProductViewModelFactory
 import com.inventory.tfgproject.R
 import com.inventory.tfgproject.model.Product
 import com.inventory.tfgproject.databinding.FragmentProductViewBinding
@@ -30,15 +29,32 @@ class ProductViewFragment : Fragment() {
     var productId : String? = null
     private var productName : String? = null
 
+    private var categoryId: String? = null
+    private var categoryName: String? = null
+    private var subcategoryId: String? = null
+    private var subcategoryName: String? = null
+
+
     private var categoriesMap = mutableMapOf<String, Category>()
     private var providersMap = mutableMapOf<String, Providers>()
 
-    companion object{
-        fun newInstance(productId: String, productName: String): ProductViewFragment{
+    companion object {
+        fun newInstance(
+            productId: String,
+            productName: String,
+            categoryId: String? = null,
+            categoryName: String? = null,
+            subcategoryId: String? = null,
+            subcategoryName: String? = null
+        ): ProductViewFragment {
             val fragment = ProductViewFragment()
             val args = Bundle()
             args.putString("product_id", productId)
             args.putString("product_name", productName)
+            args.putString("category_id", categoryId)
+            args.putString("category_name", categoryName)
+            args.putString("subcategory_id", subcategoryId)
+            args.putString("subcategory_name", subcategoryName)
             fragment.arguments = args
             return fragment
         }
@@ -46,7 +62,12 @@ class ProductViewFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        productId = arguments?.getString("product_id")
+        productName = arguments?.getString("product_name")
+        categoryId = arguments?.getString("category_id")
+        categoryName = arguments?.getString("category_name")
+        subcategoryId = arguments?.getString("subcategory_id")
+        subcategoryName = arguments?.getString("subcategory_name")
     }
 
     override fun onCreateView(
@@ -84,7 +105,11 @@ class ProductViewFragment : Fragment() {
                 (activity as? MainMenu)?.replaceFragment(
                     EditProductFragment.newInstance(
                         productId = product.id,
-                        productName = product.name
+                        productName = product.name,
+                        categoryId = arguments?.getString("category_id"),
+                        categoryName = arguments?.getString("category_name"),
+                        subcategoryId = arguments?.getString("subcategory_id"),
+                        subcategoryName = arguments?.getString("subcategory_name")
                     )
                 )
             }

@@ -31,27 +31,33 @@
                 app:tint="@color/black"/>
 
             <FrameLayout
-                android:layout_width="243dp"
-                android:layout_height="206dp"
+                android:id="@+id/profileImageContainer"
+                android:layout_width="240dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="8dp">
 
                 <ImageView
                     android:id="@+id/imgProvider"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/logo_dstock"/>
+                    android:contentDescription="@string/desc_floating"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/logo_dstock" />
 
                 <ImageView
                     android:id="@+id/imgBtnCamera"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="bottom|end"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/circle_background"
+                    android:contentDescription="@string/desc_floating"
+                    android:elevation="4dp"
+                    android:padding="8dp"
                     android:src="@drawable/ic_camera"
-                    app:tint="@color/black"/>
+                    app:tint="@color/black" />
             </FrameLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -86,7 +92,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
+                android:imeOptions="actionNext"
                 android:textColorHint="@color/letters"
                 android:hint="@string/address">
 
@@ -95,8 +102,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/convergence"
+                    android:imeOptions="actionNext"
+                    android:inputType="text|textPostalAddress"
                     android:textAlignment="center"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -106,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="16dp"
+                android:imeOptions="actionNext"
                 android:textColorHint="@color/letters"
                 android:hint="@string/email">
 
@@ -116,6 +126,7 @@
                     android:inputType="textEmailAddress"
                     android:fontFamily="@font/convergence"
                     android:textAlignment="center"
+                    android:imeOptions="actionNext"
                     android:textSize="20sp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="16dp"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/letters"
                 android:hint="@string/phone">
 
@@ -136,6 +148,7 @@
                     android:inputType="phone"
                     android:fontFamily="@font/convergence"
                     android:textAlignment="center"
+                    android:imeOptions="actionDone"
                     android:textSize="20sp"/>
             </com.google.android.material.textfield.TextInputLayout>
 

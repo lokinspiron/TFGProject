@@ -189,7 +189,7 @@ class LoginScreen : AppCompatActivity() {
         authViewModel.isEmailVerified.observe(this, Observer{isVerified ->
             if(isVerified){
                 authViewModel.stopVerificationCheck()
-                toast("Correo verificado", Toast.LENGTH_SHORT)
+                toast("Correo verificado", LENGTH_SHORT)
                 startActivity(Intent(this,MainMenu::class.java))
             }else{
                 setContentView(viewLoading)
@@ -200,7 +200,7 @@ class LoginScreen : AppCompatActivity() {
             if (isSuccessful) {
                 toast("Se ha enviado un correo para restablecer tu contraseña", Toast.LENGTH_LONG)
             } else {
-                toast("Error al enviar el correo de recuperación", Toast.LENGTH_SHORT)
+                toast("Error al enviar el correo de recuperación", LENGTH_SHORT)
             }
         }
     }

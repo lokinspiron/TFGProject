@@ -14,9 +14,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
-import com.inventory.tfgproject.ProviderRepository
-import com.inventory.tfgproject.ProviderViewModelFactory
-import com.inventory.tfgproject.R
+import com.inventory.tfgproject.repository.ProviderRepository
+import com.inventory.tfgproject.modelFactory.ProviderViewModelFactory
 import com.inventory.tfgproject.databinding.FragmentAddProviderBinding
 import com.inventory.tfgproject.extension.toast
 import com.inventory.tfgproject.model.Providers
@@ -57,7 +56,7 @@ class AddProviderFragment : Fragment() {
     private fun initListeners(){
         binding.btnAddProvider.setOnClickListener{
             saveProvider()
-            toast("Se ha añadido correctamente al proveedor", LENGTH_SHORT)
+
         }
         binding.imgBtnBack.setOnClickListener{
             requireActivity().supportFragmentManager.popBackStack()
@@ -72,33 +71,72 @@ class AddProviderFragment : Fragment() {
         }
     }
 
-    private fun saveProvider(){
-        if(validateInputs()){
-            val name = binding.edtNameProviderAdd.text.toString()
-            val address = binding.edtAddressProviderAdd.text.toString()
-            val email = binding.edtEmailProviderAdd.text.toString()
-            val phone = binding.edtPhoneProviderAdd.text.toString()
-
-            val provider = Providers(
-                name = name,
-                address = address,
-                email = email,
-                phoneNumber = phone,
-                imageUrl = defaultProviderUrl
-            )
-            providerViewModel.saveProvider(provider)
+    private fun saveProvider() {
+        if (!validateInputs()) {
+            return  // Si la validación falla, salimos temprano
         }
-        clearForm()
+
+        val name = binding.edtNameProviderAdd.text.toString().trim()
+        val address = binding.edtAddressProviderAdd.text.toString().trim()
+        val email = binding.edtEmailProviderAdd.text.toString().trim()
+        val phone = binding.edtPhoneProviderAdd.text.toString().trim()
+
+        // Validación adicional para el nombre
+        if (name.isEmpty()) {
+            binding.tilNameProvider.error = "El nombre es requerido"
+            binding.edtNameProviderAdd.requestFocus()
+            return
+        }
+
+        // Creamos el proveedor
+        val provider = Providers(
+            name = name,
+            address = address,
+            email = email,
+            phoneNumber = phone,
+            imageUrl = defaultProviderUrl
+        )
+
+        // Observamos el resultado del guardado
+        providerViewModel.saveProvider(provider)
+        providerViewModel.saveSuccess.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                toast("Se ha añadido correctamente al proveedor", LENGTH_SHORT)
+                clearForm()
+                requireActivity().supportFragmentManager.popBackStack()
+            } else {
+                toast("Error al guardar el proveedor", LENGTH_SHORT)
+            }
+        }
     }
 
     private fun validateInputs(): Boolean {
         var isValid = true
 
-        if(binding.edtNameProviderAdd.text.isNullOrBlank()){
-            binding.tilNameProvider.error = "Nombre es requerido"
+        if (binding.edtNameProviderAdd.text.toString().trim().isEmpty()) {
+            binding.tilNameProvider.error = "El nombre es requerido"
+            binding.edtNameProviderAdd.requestFocus()
             isValid = false
         } else {
             binding.tilNameProvider.error = null
+        }
+
+        val email = binding.edtEmailProviderAdd.text.toString().trim()
+        if (email.isNotEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.tilEmail.error = "Email inválido"
+            if (isValid) binding.edtEmailProviderAdd.requestFocus()
+            isValid = false
+        } else {
+            binding.tilEmail.error = null
+        }
+
+        val phone = binding.edtPhoneProviderAdd.text.toString().trim()
+        if (phone.isNotEmpty() && !phone.matches(Regex("^[0-9]{9}$"))) {
+            binding.tilPhone.error = "Teléfono inválido (9 dígitos)"
+            if (isValid) binding.edtPhoneProviderAdd.requestFocus()
+            isValid = false
+        } else {
+            binding.tilPhone.error = null
         }
 
         return isValid

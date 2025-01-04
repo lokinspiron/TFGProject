@@ -27,7 +27,7 @@ class StockNotificationWorker(
 
             val notificationWork = OneTimeWorkRequestBuilder<StockNotificationWorker>()
                 .setInputData(inputData)
-                .setInitialDelay(10, TimeUnit.MINUTES)
+                .setInitialDelay(1, TimeUnit.MINUTES)
                 .build()
 
             WorkManager.getInstance(context)

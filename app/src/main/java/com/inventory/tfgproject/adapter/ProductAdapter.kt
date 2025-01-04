@@ -1,4 +1,4 @@
-package com.inventory.tfgproject
+package com.inventory.tfgproject.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.inventory.tfgproject.R
+import com.inventory.tfgproject.StockNotificationWorker
 import com.inventory.tfgproject.model.Product
 import java.util.Locale
 
@@ -39,7 +41,7 @@ class ProductAdapter(
         holder.bind(product[position], null)
     }
 
-    override fun onBindViewHolder(holder: ProductViewHolder, position: Int,payloads: MutableList<Any>) {
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isNotEmpty()) {
             val payload = payloads[0]
             if (payload is Int) {
@@ -55,7 +57,8 @@ class ProductAdapter(
     inner class ProductViewHolder(itemView : View): RecyclerView.ViewHolder(itemView){
         private val imgProduct : ImageView = itemView.findViewById(R.id.imgProduct)
         private val txtNameProduct : TextView = itemView.findViewById(R.id.txtNameProduct)
-        private val txtPhone : TextView = itemView.findViewById(R.id.txtPhone)
+        private val txtPrice: TextView = itemView.findViewById(R.id.txtPrice)
+        private val txtCurrency: TextView = itemView.findViewById(R.id.txtCurrency)
         private val btnMakeOrders = itemView.findViewById<Button>(R.id.btnMakeOrders)
         private val txtQuantity: TextView = itemView.findViewById(R.id.txtQuantity)
         private val btnIncrement: ImageButton = itemView.findViewById(R.id.btnPlus)
@@ -70,6 +73,9 @@ class ProductAdapter(
                 itemView.setOnClickListener {
                     onProductClick?.invoke(product)
                 }
+
+                txtPrice.text = String.format(Locale.ROOT, "%.2f", product.price)
+                txtCurrency.text = product.currencyUnit
 
                 if (product.imageUrl.isNullOrEmpty()) {
                     imgProduct.setImageResource(R.drawable.logo_dstock)

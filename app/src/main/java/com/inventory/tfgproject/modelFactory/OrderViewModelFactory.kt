@@ -1,7 +1,8 @@
-package com.inventory.tfgproject
+package com.inventory.tfgproject.modelFactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.inventory.tfgproject.repository.OrderRepository
 import com.inventory.tfgproject.viewmodel.OrderViewModel
 
 class OrderViewModelFactory(private val repository: OrderRepository) : ViewModelProvider.Factory {

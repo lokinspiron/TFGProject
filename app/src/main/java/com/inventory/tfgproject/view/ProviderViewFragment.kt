@@ -13,13 +13,10 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.inventory.tfgproject.ProviderRepository
-import com.inventory.tfgproject.ProviderViewModelFactory
+import com.inventory.tfgproject.repository.ProviderRepository
+import com.inventory.tfgproject.modelFactory.ProviderViewModelFactory
 import com.inventory.tfgproject.R
-import com.inventory.tfgproject.databinding.FragmentInventoryBinding
-import com.inventory.tfgproject.databinding.FragmentProductViewBinding
 import com.inventory.tfgproject.databinding.FragmentProviderViewBinding
-import com.inventory.tfgproject.databinding.FragmentSettingsBinding
 import com.inventory.tfgproject.extension.toast
 import com.inventory.tfgproject.model.Product
 import com.inventory.tfgproject.model.Providers
@@ -98,10 +95,16 @@ class ProviderViewFragment : Fragment() {
 
         binding.btnLookProduct.setOnClickListener {
             selectedProductId?.let { productId ->
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fcvContent, ProductViewFragment.newInstance(productId, ""))
-                    .addToBackStack(null)
-                    .commit()
+                try {
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fcvContent, ProductViewFragment.newInstance(productId, ""))
+                        .addToBackStack(null)
+                        .commit()
+                } catch (e: Exception) {
+                    toast("Error al abrir el producto", LENGTH_SHORT)
+                }
+            } ?: run {
+                toast("No se pudo cargar el producto", LENGTH_SHORT)
             }
         }
 

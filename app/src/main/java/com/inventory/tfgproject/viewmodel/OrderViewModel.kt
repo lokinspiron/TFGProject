@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.inventory.tfgproject.OrderRepository
+import com.inventory.tfgproject.repository.OrderRepository
 import com.inventory.tfgproject.model.OrderWithProduct
 import com.inventory.tfgproject.model.Orders
 import com.inventory.tfgproject.model.Providers

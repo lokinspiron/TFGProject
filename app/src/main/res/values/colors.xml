@@ -16,6 +16,7 @@
     <color name="textInputColor" tools:override="true">#b147ff</color>
     <color name="red_button">#fc5656</color>
     <color name="blue_button">#585aff</color>
+    <color name="error_color">#ff0202</color>
 
 
 

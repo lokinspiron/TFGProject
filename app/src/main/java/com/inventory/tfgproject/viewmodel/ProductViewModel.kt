@@ -1,12 +1,10 @@
 package com.inventory.tfgproject.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.inventory.tfgproject.ProductRepository
-import com.inventory.tfgproject.StockNotificationWorker
+import com.inventory.tfgproject.repository.ProductRepository
 import com.inventory.tfgproject.model.Category
 import com.inventory.tfgproject.model.Product
 import com.inventory.tfgproject.model.Providers
