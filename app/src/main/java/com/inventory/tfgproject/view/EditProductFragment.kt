@@ -166,13 +166,13 @@ class EditProductFragment : Fragment() {
             "Eliminar"
         )
         dialog.onDoItClick = {
-            deleteProvider()
+            deleteProduct()
             toast("Se ha eliminado el producto")
         }
         dialog.show(parentFragmentManager, "DeleteProductDialog")
     }
 
-    private fun deleteProvider() {
+    private fun deleteProduct() {
         binding.pbEditProduct.visibility = View.VISIBLE
         productId?.let { id ->
             productViewModel.deleteProduct(id)

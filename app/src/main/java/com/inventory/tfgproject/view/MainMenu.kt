@@ -52,8 +52,8 @@ class MainMenu : AppCompatActivity(){
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (binding.drawerlt.isDrawerOpen(GravityCompat.START)) {
-                    binding.drawerlt.closeDrawer(GravityCompat.START)
+                if (binding.menudrawerlt.isDrawerOpen(GravityCompat.START)) {
+                    binding.menudrawerlt.closeDrawer(GravityCompat.START)
                 } else {
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()
@@ -77,7 +77,7 @@ class MainMenu : AppCompatActivity(){
     private fun updateUIWithUserData(user: User) {
         Log.d("User Data", "User: ${user.name}, ${user.email}")
         val greetingMessage = getString(R.string.greetings, user.name)
-        binding.txtWave.text = greetingMessage
+        binding.txtActivityWave.text = greetingMessage
         replaceFragment(MenuMainFragment(), greetingMessage)
         binding.loadingOverlay.visibility = View.GONE
 
@@ -102,8 +102,8 @@ class MainMenu : AppCompatActivity(){
 
     override fun onStart() {
         super.onStart()
-        val btnDrawerToggle: ImageButton = findViewById(R.id.btnDrawerToggle)
-        val drawerlt: DrawerLayout = findViewById(R.id.drawerlt)
+        val btnDrawerToggle: ImageButton = findViewById(R.id.toolbarDrawerToggle)
+        val drawerlt: DrawerLayout = findViewById(R.id.menudrawerlt)
         initListeners(btnDrawerToggle, drawerlt)
         replaceFragment(MenuMainFragment())
 
@@ -141,7 +141,7 @@ class MainMenu : AppCompatActivity(){
             }
         }
 
-        val fabMenu = binding.root.findViewById<FloatingActionButton>(R.id.fabMenu)
+        val fabMenu = binding.root.findViewById<FloatingActionButton>(R.id.fabMainMenu)
         fabMenu.setOnClickListener {
             bnvMenu.menu.setGroupCheckable(0, true, false)
             bnvMenu.menu.forEach { item -> item.isChecked = false }
@@ -211,9 +211,9 @@ class MainMenu : AppCompatActivity(){
             is InventoryFragment -> "Inventario"
             is UserProfileFragment -> "Perfil"
             is AboutUsFragment -> "Acerca de nosotros"
-            else -> binding.txtWave.text.toString()
+            else -> binding.txtActivityWave.text.toString()
         }
-        binding.txtWave.text = headerText
+        binding.txtActivityWave.text = headerText
     }
 
     private fun initVisibility(){
@@ -250,7 +250,7 @@ class MainMenu : AppCompatActivity(){
             }
         }
 
-        binding.txtWave.text = headerText
+        binding.txtActivityWave.text = headerText
     }
 
     fun navigateBack() {
@@ -270,7 +270,7 @@ class MainMenu : AppCompatActivity(){
                             else -> getString(R.string.greetings, userViewModel.userData.value?.name)
                         }
 
-                        binding.txtWave.text = headerText
+                        binding.txtActivityWave.text = headerText
                     }
                     supportFragmentManager.removeOnBackStackChangedListener(this)
                 }

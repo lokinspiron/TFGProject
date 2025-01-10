@@ -169,7 +169,7 @@
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="7dp"
                     android:textColorHint="@color/backgroundColor2"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     app:counterTextColor="@color/backgroundColor2"
                     app:helperText="@string/required"
                     app:helperTextTextColor="@android:color/holo_red_light"
@@ -193,7 +193,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/btnContinue"
+                    android:id="@+id/btnContinueRegister"
                     android:layout_width="307dp"
                     android:layout_height="81dp"
                     android:layout_marginStart="50dp"

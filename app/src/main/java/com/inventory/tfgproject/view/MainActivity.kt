@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this, LoginActivity::class.java))
                 }
             }
-        }, 4000)
+        }, 1000)
 
     }
 

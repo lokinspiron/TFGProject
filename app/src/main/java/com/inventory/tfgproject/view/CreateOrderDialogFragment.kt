@@ -35,9 +35,6 @@ class CreateOrderDialogFragment: DialogFragment() {
     private var providerId: String? = null
     private var productId: String? = null
 
-    private val providerViewModel: ProviderViewModel by viewModels {
-        ProviderViewModelFactory(ProviderRepository())
-    }
 
     private val orderViewModel: OrderViewModel by viewModels {
         OrderViewModelFactory(OrderRepository())

@@ -91,7 +91,7 @@ class LoginScreen : AppCompatActivity() {
             }
         }
 
-        binding.btnLogin.setOnClickListener {
+        binding.btnLoginScreen.setOnClickListener {
             val email = binding.edtEmailLogin.text.toString().trim()
             val password = binding.edtPasswordLogin.text.toString().trim()
 
@@ -122,7 +122,7 @@ class LoginScreen : AppCompatActivity() {
     }
 
     private fun signInVerification(email: String, password: String) {
-        binding.btnLogin.isEnabled = false
+        binding.btnLoginScreen.isEnabled = false
         binding.pbLogin.visibility = View.VISIBLE
 
         binding.emailLoginContainer.helperText = null
@@ -130,7 +130,7 @@ class LoginScreen : AppCompatActivity() {
         authViewModel.clearError()
 
         authViewModel.signStatus.observe(this) { isSuccessful ->
-            binding.btnLogin.isEnabled = true
+            binding.btnLoginScreen.isEnabled = true
             binding.pbLogin.visibility = View.GONE
 
             if (isSuccessful) {
@@ -215,10 +215,11 @@ class LoginScreen : AppCompatActivity() {
 
     private fun validEmail(): String? {
         val email = binding.edtEmailLogin.text.toString().trim()
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            return "Introduce un correo válido"
+        return if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            "Introduce un correo válido"
+        } else {
+            null
         }
-        return null
     }
 
     @SuppressLint("SimpleDateFormat")

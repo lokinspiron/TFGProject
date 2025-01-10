@@ -45,10 +45,7 @@ class ProductRepository {
             callback(emptyList())
             return
         }
-
-        Log.d("ProductRepository", "Starting to fetch products for user: ${currentUser.uid}")
         val userProductRef = productsRef.child(currentUser.uid)
-
         userProductRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 Log.d("ProductRepository", "Data snapshot received: ${snapshot.exists()}")
@@ -77,19 +74,17 @@ class ProductRepository {
                         providerId = providerId,
                         imageUrl = imageUrl
                     )
-
                     userProducts.add(product)
                 }
                 callback(userProducts)
             }
-
             override fun onCancelled(error: DatabaseError) {
-                Log.e("ProductRepository","Error fetching product")
                 callback(emptyList())
             }
-
         })
     }
+
+
     fun getCategories(callback: (List<Category>) -> Unit) {
         if (currentUser == null) {
             Log.e("ProductRepository", "No user logged in")

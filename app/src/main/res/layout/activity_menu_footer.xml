@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,6 +20,7 @@
         app:itemTextColor="@color/bottom_nav_text_colors"
         app:tint="@color/backgroundColor1"
         app:fabCradleMargin="10dp"
+        app:fabAlignmentMode="center"
         app:fabCradleRoundedCornerRadius="50dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,21 +31,20 @@
             android:background="@android:color/transparent"
             app:itemIconTint="@color/bottom_nav_colors"
             app:itemTextColor="@color/bottom_nav_text_colors"
-            app:menu="@menu/bottom_menu">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="165dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="@color/white"
-                android:contentDescription="@string/desc_floating"
-                android:src="@drawable/logo_dstock"
-                app:maxImageSize="50dp"
-                app:tint="@null" />
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
+            app:menu="@menu/bottom_menu"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMainMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/desc_floating"
+        android:src="@drawable/logo_dstock"
+        app:layout_anchor="@id/babMenu"
+        app:layout_anchorGravity="center"
+        app:maxImageSize="50dp"
+        app:tint="@null" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

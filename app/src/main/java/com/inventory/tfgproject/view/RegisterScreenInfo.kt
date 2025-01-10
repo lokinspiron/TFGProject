@@ -66,7 +66,7 @@ class RegisterScreenInfo : AppCompatActivity() {
     private fun initListener() {
 
         binding.phoneRegisterContainer.helperText = null
-        binding.btnContinue.setOnClickListener {
+        binding.btnContinueInfo.setOnClickListener {
             registerLoadingScreen()
         }
         binding.edtPhoneRegister.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
@@ -158,7 +158,6 @@ class RegisterScreenInfo : AppCompatActivity() {
                 toast("Error al verificar el correo",Toast.LENGTH_SHORT)
             }
         })
-
     }
 
     private fun registerNewUserAuth(viewLoading: View) {

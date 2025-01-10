@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerlt"
+        android:id="@+id/menudrawerlt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -43,6 +43,7 @@
 
 
             <include
+                android:id="@+id/menu_main_footer"
                 layout="@layout/activity_menu_footer"
                 android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="parent"
@@ -51,7 +52,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/txtWave"
+                android:id="@+id/txtActivityWave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

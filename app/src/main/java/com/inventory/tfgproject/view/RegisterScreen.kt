@@ -67,7 +67,7 @@ class RegisterScreen : AppCompatActivity() {
     }
 
     private fun initListener() {
-        binding.btnContinue.setOnClickListener {
+        binding.btnContinueRegister.setOnClickListener {
            val validName = binding.nameRegisterContainer.helperText == null
             val validSurname = binding.surnameRegisterContainer.helperText == null
             val validEmail = binding.emailRegisterContainer.helperText == null
@@ -75,11 +75,11 @@ class RegisterScreen : AppCompatActivity() {
             val validConfirm = binding.confirmPasswordRegisterContainer.helperText == null
 
             if(validEmail && validPassword && validName && validSurname && validConfirm){
-                binding.btnContinue.isEnabled = false
+                binding.btnContinueRegister.isEnabled = false
                 initRegisterInfo()
 
-                binding.btnContinue.postDelayed({
-                    binding.btnContinue.isEnabled=true
+                binding.btnContinueRegister.postDelayed({
+                    binding.btnContinueRegister.isEnabled=true
                 },2000)
             }else {
                 invalidForm()

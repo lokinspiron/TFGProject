@@ -26,7 +26,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.common.annotations.VisibleForTesting
 import com.google.firebase.storage.FirebaseStorage
 import com.inventory.tfgproject.repository.ProductRepository
 import com.inventory.tfgproject.modelFactory.ProductViewModelFactory
@@ -42,13 +44,18 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 
-class AddProductFragment : Fragment() {
+class AddProductFragment() : Fragment() {
 
-    private var _binding: FragmentAddProductBinding? = null
-    private val binding get() = _binding!!
-    private val productViewModel: ProductViewModel by viewModels {
-        ProductViewModelFactory(ProductRepository())
+    var _binding: FragmentAddProductBinding? = null
+    val binding get() = _binding!!
+
+    @VisibleForTesting
+    val productViewModel: ProductViewModel by viewModels {
+        customViewModelFactory ?: ProductViewModelFactory(ProductRepository())
     }
+
+    var customViewModelFactory: ViewModelProvider.Factory? = null
+
     private val _subCategories = MutableLiveData<List<Subcategory>>()
     val subCategories: LiveData<List<Subcategory>> = _subCategories
 
@@ -132,7 +139,7 @@ class AddProductFragment : Fragment() {
     }
 
 
-    private fun saveProduct() {
+    fun saveProduct() {
         if (validateInputs()) {
             val name = binding.edtNameProductAdd.text.toString()
             val barcode = binding.edtBarcodeProductAdd.text.toString()
@@ -173,7 +180,7 @@ class AddProductFragment : Fragment() {
 
     }
 
-    private fun validateInputs(): Boolean {
+    fun validateInputs(): Boolean {
         var isValid = true
 
         if (binding.edtNameProductAdd.text.isNullOrBlank()) {
@@ -207,7 +214,7 @@ class AddProductFragment : Fragment() {
         return isValid
     }
 
-    private fun clearForm() {
+    fun clearForm() {
         defaultPictureUrl = "https://firebasestorage.googleapis.com/v0/b/d-stock-01.firebasestorage.app/o/default%2Flogo_dstock.png?alt=media&token=afc390aa-dc96-42a5-b96f-1f85c5effa83"
 
         binding.edtNameProductAdd.text?.clear()
@@ -462,7 +469,6 @@ class AddProductFragment : Fragment() {
                 val cameraProvider = cameraProviderFuture.get(20, TimeUnit.SECONDS)
                 cameraProvider.unbindAll()
 
-                // Configuración de la cámara
                 val preview = Preview.Builder()
                     .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                     .build()

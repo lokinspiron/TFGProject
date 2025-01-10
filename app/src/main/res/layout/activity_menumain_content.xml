@@ -10,7 +10,7 @@
         android:background="@color/backgroundColor1">
 
         <ImageButton
-            android:id="@+id/btnDrawerToggle"
+            android:id="@+id/toolbarDrawerToggle"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@android:color/transparent"

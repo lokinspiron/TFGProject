@@ -73,7 +73,7 @@ class AddProviderFragment : Fragment() {
 
     private fun saveProvider() {
         if (!validateInputs()) {
-            return  // Si la validación falla, salimos temprano
+            return
         }
 
         val name = binding.edtNameProviderAdd.text.toString().trim()
@@ -81,14 +81,12 @@ class AddProviderFragment : Fragment() {
         val email = binding.edtEmailProviderAdd.text.toString().trim()
         val phone = binding.edtPhoneProviderAdd.text.toString().trim()
 
-        // Validación adicional para el nombre
         if (name.isEmpty()) {
             binding.tilNameProvider.error = "El nombre es requerido"
             binding.edtNameProviderAdd.requestFocus()
             return
         }
 
-        // Creamos el proveedor
         val provider = Providers(
             name = name,
             address = address,
@@ -97,7 +95,6 @@ class AddProviderFragment : Fragment() {
             imageUrl = defaultProviderUrl
         )
 
-        // Observamos el resultado del guardado
         providerViewModel.saveProvider(provider)
         providerViewModel.saveSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {

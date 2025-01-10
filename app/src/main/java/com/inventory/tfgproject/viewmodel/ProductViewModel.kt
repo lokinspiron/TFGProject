@@ -11,7 +11,7 @@ import com.inventory.tfgproject.model.Providers
 import com.inventory.tfgproject.model.Subcategory
 import kotlinx.coroutines.launch
 
-class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
+open class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>> = _categories
 
