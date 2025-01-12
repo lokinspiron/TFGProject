@@ -16,9 +16,6 @@
         android:id="@+id/babMenu"
         android:layout_gravity="bottom"
         android:backgroundTint="@color/navigation"
-        app:itemIconTint="@color/bottom_nav_colors"
-        app:itemTextColor="@color/bottom_nav_text_colors"
-        app:tint="@color/backgroundColor1"
         app:fabCradleMargin="10dp"
         app:fabAlignmentMode="center"
         app:fabCradleRoundedCornerRadius="50dp">
@@ -29,10 +26,11 @@
             android:id="@+id/bnvMenu"
             android:layout_marginEnd="20dp"
             android:background="@android:color/transparent"
+            app:labelVisibilityMode="labeled"
+            app:itemIconSize="24dp"
             app:itemIconTint="@color/bottom_nav_colors"
             app:itemTextColor="@color/bottom_nav_text_colors"
             app:menu="@menu/bottom_menu"/>
-
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

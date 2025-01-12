@@ -50,8 +50,6 @@ class OrderRepository {
                     val totalOrders = snapshot.childrenCount.toInt()
                     var processedOrders = 0
 
-                    Log.d("OrderRepository", "Total orders to process: $totalOrders")
-
                     if (totalOrders == 0) {
                         callback(emptyList())
                         return
@@ -60,16 +58,13 @@ class OrderRepository {
                     snapshot.children.forEach { orderSnapshot ->
                         val order = orderSnapshot.getValue(Orders::class.java)
                         order?.let { safeOrder ->
-                            Log.d("OrderRepository", "Processing order with product ID: ${safeOrder.productId}")
                             val orderWithId = safeOrder.copy(id = orderSnapshot.key ?: safeOrder.id)
 
                             getProduct(safeOrder.productId) { product ->
-                                Log.d("OrderRepository", "Adding order with product name: ${product.name}")
                                 ordersList.add(OrderWithProduct(orderWithId, product.name))
                                 processedOrders++
 
                                 if (processedOrders == totalOrders) {
-                                    Log.d("OrderRepository", "All orders processed. Total: ${ordersList.size}")
                                     callback(ordersList)
                                 }
                             }
@@ -115,13 +110,10 @@ class OrderRepository {
             Log.d("OrderRepository", "Fetching product for user: ${user.uid}, productId: $productId")
             productsRef.child(user.uid).child(productId).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    Log.d("OrderRepository", "Product snapshot: $snapshot")
                     val product = snapshot.getValue(Product::class.java)
                     if (product != null) {
-                        Log.d("OrderRepository", "Product found: ${product.name}")
                         callback(product)
                     } else {
-                        Log.e("OrderRepository", "Product not found for ID: $productId")
                         callback(Product(name = "Product Not Found"))
                     }
                 }
@@ -160,7 +152,6 @@ class OrderRepository {
 
                 userOrderRef.child("estado").setValue(newState)
                     .addOnSuccessListener {
-                        Log.d("OrderRepository", "Order state updated from $currentState to: $newState")
 
                         currentOrder?.let { safeOrder ->
                             when {
@@ -170,7 +161,6 @@ class OrderRepository {
                                         safeOrder.stock
                                     ) { success ->
                                         if (success) {
-                                            Log.d("OrderRepository", "Added ${safeOrder.stock} to product stock")
                                         } else {
                                             Log.e("OrderRepository", "Failed to add to product stock")
                                         }
@@ -183,7 +173,6 @@ class OrderRepository {
                                         -safeOrder.stock
                                     ) { success ->
                                         if (success) {
-                                            Log.d("OrderRepository", "Removed ${safeOrder.stock} from product stock")
                                         } else {
                                             Log.e("OrderRepository", "Failed to remove from product stock")
                                         }
@@ -195,16 +184,13 @@ class OrderRepository {
                                 }
                             }
                         } ?: run {
-                            Log.e("OrderRepository", "Order is null")
                             getOrders(callback)
                         }
                     }
                     .addOnFailureListener { e ->
-                        Log.e("OrderRepository", "Error updating order state", e)
                         getOrders(callback)
                     }
             }.addOnFailureListener { e ->
-                Log.e("OrderRepository", "Error getting order", e)
                 getOrders(callback)
             }
         } ?: callback(emptyList())
@@ -237,23 +223,18 @@ class OrderRepository {
                     if (newQuantity >= 0) {
                         productRef.child("stock").setValue(newQuantity)
                             .addOnSuccessListener {
-                                Log.d("OrderRepository", "Product stock updated from ${product.stock} to $newQuantity")
                                 callback(true)
                             }
                             .addOnFailureListener { e ->
-                                Log.e("OrderRepository", "Error updating product stock", e)
                                 callback(false)
                             }
                     } else {
-                        Log.e("OrderRepository", "Cannot update stock: would result in negative quantity")
                         callback(false)
                     }
                 } else {
-                    Log.e("OrderRepository", "Product not found with ID: $productId")
                     callback(false)
                 }
             }.addOnFailureListener { e ->
-                Log.e("OrderRepository", "Error getting product", e)
                 callback(false)
             }
         } ?: callback(false)
@@ -271,7 +252,6 @@ class OrderRepository {
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e("OrderRepository", "Product listener cancelled: ${error.message}")
                 }
             })
         }
@@ -287,7 +267,6 @@ class OrderRepository {
                         snapshot.children.forEach { orderSnapshot ->
                             orderSnapshot.ref.removeValue()
                                 .addOnFailureListener { e ->
-                                    Log.e("OrderRepository", "Error deleting order for product $productId", e)
                                 }
                         }
                     }

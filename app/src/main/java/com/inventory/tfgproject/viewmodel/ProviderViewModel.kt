@@ -32,6 +32,9 @@ class ProviderViewModel(private val repository: ProviderRepository): ViewModel()
     private val _saveSuccess = MutableLiveData<Boolean>()
     val saveSuccess: LiveData<Boolean> = _saveSuccess
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
 
     fun loadProviders(){
         repository.getProviders { providers ->
@@ -51,8 +54,6 @@ class ProviderViewModel(private val repository: ProviderRepository): ViewModel()
             }
         }
     }
-
-
 
     fun loadProviderProducts(providerId: String) {
         repository.getProductsByProviderId(providerId) { products ->

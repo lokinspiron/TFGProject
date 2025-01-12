@@ -20,6 +20,7 @@
         <item name="hintTextColor">@color/backgroundColor1</item>
         <item name="hintTextAppearance">@style/HintTextAppearance</item>
         <item name="android:textColorHint">@color/letters</item>
+        <item name="errorTextColor">@color/error_color</item>
     </style>
 
     <style name="TextInputLayoutStyle2" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -31,6 +32,7 @@
         <item name="hintTextColor">@color/color_Focused</item>
         <item name="hintTextAppearance">@style/HintTextAppearance</item>
         <item name="android:textColorHint">@color/letters</item>
+        <item name="errorTextColor">@color/error_color</item>
     </style>
 
     <style name="TextInputLayoutStyle3" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -42,6 +44,7 @@
         <item name="hintTextColor">@color/backgroundColor2</item>
         <item name="hintTextAppearance">@style/HintTextAppearance</item>
         <item name="android:textColorHint">@color/letters</item>
+        <item name="errorTextColor">@color/error_color</item>
     </style>
 
     <style name="HintTextAppearance" parent="TextAppearance.Design.Hint">

@@ -21,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
@@ -148,16 +149,29 @@ class RegisterScreenInfo : AppCompatActivity() {
 
     }
 
-    private fun emailVerification(viewLoading: View){
-        authViewModel.isEmailVerified.observe(this, Observer{isVerified ->
-            if(isVerified){
+    private fun emailVerification(viewLoading: View) {
+        authViewModel.isEmailVerified.observe(this, Observer { isVerified ->
+            if (isVerified) {
                 authViewModel.stopVerificationCheck()
                 toast("Correo verificado", Toast.LENGTH_SHORT)
-                startActivity(Intent(this,MainMenu::class.java))
-            }else{
-                toast("Error al verificar el correo",Toast.LENGTH_SHORT)
+                startActivity(Intent(this, MainMenu::class.java))
+            } else {
+                showVerificationFailedDialog()
             }
         })
+    }
+
+    private fun showVerificationFailedDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Verificación de correo")
+            .setMessage("No se pudo verificar el correo electrónico. Inténtalo de nuevo.")
+            .setPositiveButton("Reintentar") { _, _ ->
+                authViewModel.sendVerificationEmail()
+            }
+            .setNegativeButton("Cancelar") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun registerNewUserAuth(viewLoading: View) {
@@ -195,7 +209,6 @@ class RegisterScreenInfo : AppCompatActivity() {
         )
 
         authViewModel.createUser(userEmail,userPassword,user)
-        toast("Se ha agregado a base de datos", Toast.LENGTH_SHORT)
     }
 
     private fun uploadProfilePicture(uri: Uri?) {

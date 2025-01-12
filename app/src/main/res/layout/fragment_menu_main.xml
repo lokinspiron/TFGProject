@@ -5,6 +5,8 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:gravity="center_horizontal"
+android:layout_marginTop="12dp"
+android:layout_marginBottom="21dp"
 android:orientation="vertical">
 
 <androidx.appcompat.widget.Toolbar
@@ -65,7 +67,7 @@ android:orientation="vertical">
                 android:layout_width="333dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="331dp"
                 android:background="@color/backgroundColor2"
                 android:text="@string/Used_Products"
@@ -106,10 +108,22 @@ android:orientation="vertical">
                         android:visibility="gone" />
 
                 </FrameLayout>
+
+                <Button
+                    android:id="@+id/btnMoreProducts"
+                    style="@style/AlternativeButton"
+                    android:layout_width="238dp"
+                    android:fontFamily="@font/convergence"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/Look_products"
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <include
-                android:id="@+id/emptyState"
+                android:id="@+id/menu_footer"
                 layout="@layout/activity_menu_footer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,7 +162,7 @@ android:orientation="vertical">
                         tools:listitem="@layout/item_order" />
 
                     <include
-                        android:id="@+id/emptyStateContainer"
+                        android:id="@+id/emptyStateOrders"
                         layout="@layout/empty_state"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -172,6 +186,66 @@ android:orientation="vertical">
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:text="@string/Look_orders"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/providersContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtProvidersMenuMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/backgroundColor2"
+                    android:text="@string/Providers"
+                    android:textColor="@color/letters"
+                    android:textSize="25sp"
+                    android:fontFamily="@font/convergence"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvProvidersMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/item_provider_menu" />
+
+                    <include
+                        android:id="@+id/emptyStateProviders"
+                        layout="@layout/empty_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+                    <ProgressBar
+                        android:id="@+id/loadingProgressBarProviders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/btnMoreProviders"
+                    style="@style/AlternativeButton"
+                    android:layout_width="238dp"
+                    android:fontFamily="@font/convergence"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/Look_providers"
                     android:textColor="@color/white"/>
 
             </LinearLayout>

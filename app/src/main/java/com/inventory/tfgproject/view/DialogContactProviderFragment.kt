@@ -95,6 +95,7 @@ class DialogContactProviderFragment: DialogFragment() {
 
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse("https://api.whatsapp.com/send?phone=${provider?.phoneNumber}")
+                setPackage("com.whatsapp.w4b") //Whatsapp Business
             }
 
             try {

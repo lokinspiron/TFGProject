@@ -304,7 +304,7 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:textColorHint="@color/letters">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -314,7 +314,6 @@
                             android:fontFamily="@font/convergence"
                             android:imeOptions="actionNext"
                             android:inputType="text|textPostalAddress"
-                            android:textAlignment="center"
                             android:textSize="20sp"
                             android:textColor="@color/letters"/>
                     </com.google.android.material.textfield.TextInputLayout>

@@ -194,13 +194,15 @@
 
                 <Button
                     android:id="@+id/btnContinueRegister"
+                    style="@style/AlternativeButton"
                     android:layout_width="307dp"
-                    android:layout_height="81dp"
+                    android:layout_height="75dp"
                     android:layout_marginStart="50dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/convergence"
                     android:text="@string/continue_Register"
-                    android:textSize="35sp" />
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/txtOrRegister"

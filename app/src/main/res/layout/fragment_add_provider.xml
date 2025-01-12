@@ -95,6 +95,7 @@
                 android:layout_marginTop="16dp"
                 android:imeOptions="actionNext"
                 android:textColorHint="@color/letters"
+
                 android:hint="@string/address">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -104,6 +105,7 @@
                     android:fontFamily="@font/convergence"
                     android:imeOptions="actionNext"
                     android:inputType="text|textPostalAddress"
+                    android:textColor="@color/backgroundColor1"
                     android:textAlignment="center"
                     android:textSize="20sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -125,6 +127,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
                     android:fontFamily="@font/convergence"
+                    android:textColor="@color/backgroundColor1"
                     android:textAlignment="center"
                     android:imeOptions="actionNext"
                     android:textSize="20sp"/>
@@ -148,6 +151,7 @@
                     android:inputType="phone"
                     android:fontFamily="@font/convergence"
                     android:textAlignment="center"
+                    android:textColor="@color/backgroundColor1"
                     android:imeOptions="actionDone"
                     android:textSize="20sp"/>
             </com.google.android.material.textfield.TextInputLayout>

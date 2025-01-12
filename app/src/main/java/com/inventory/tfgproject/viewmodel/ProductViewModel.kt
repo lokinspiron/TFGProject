@@ -51,12 +51,6 @@ open class ProductViewModel(private val repository: ProductRepository) : ViewMod
         }
     }
 
-    fun loadSubCategories() {
-        repository.getSubCategories { subCategories ->
-            _subCategories.postValue(subCategories)
-        }
-    }
-
     fun loadProviders() {
         repository.getProviders { providers ->
             _providers.postValue(providers)

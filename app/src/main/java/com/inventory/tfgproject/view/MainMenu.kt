@@ -31,7 +31,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 
 class MainMenu : AppCompatActivity(){
-    private var requestCamara : ActivityResultLauncher<String>? = null
     private lateinit var binding: ActivityMainMenuBinding
     val auth : AuthViewModel by viewModels()
     val userViewModel : UserViewModel by viewModels()
@@ -39,6 +38,8 @@ class MainMenu : AppCompatActivity(){
     private lateinit var headerImageView: CircleImageView
     private lateinit var headerNameView: TextView
     private lateinit var headerEmailView: TextView
+
+    private var isNavigating = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +77,12 @@ class MainMenu : AppCompatActivity(){
 
     private fun updateUIWithUserData(user: User) {
         Log.d("User Data", "User: ${user.name}, ${user.email}")
-        val greetingMessage = getString(R.string.greetings, user.name)
+        binding.txtActivityWave.visibility = View.VISIBLE
+        val greetingMessage = if (user.name.isEmpty()) {
+            getString(R.string.greetings, "Usuario")
+        } else {
+            getString(R.string.greetings, user.name)
+        }
         binding.txtActivityWave.text = greetingMessage
         replaceFragment(MenuMainFragment(), greetingMessage)
         binding.loadingOverlay.visibility = View.GONE
@@ -127,17 +133,20 @@ class MainMenu : AppCompatActivity(){
         val bnvMenu = binding.root.findViewById<BottomNavigationView>(R.id.bnvMenu)
 
         bnvMenu.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.btnHome -> {
-                    replaceFragment(MenuMainFragment(),getString(R.string.greetings,userViewModel.userData.value?.name))
-                    true
+            if (!isNavigating) {
+                when (item.itemId) {
+                    R.id.btnHome -> {
+                        replaceFragment(MenuMainFragment(), getString(R.string.greetings, userViewModel.userData.value?.name))
+                        true
+                    }
+                    R.id.btnProviders -> {
+                        replaceFragment(ProviderFragment(), "Proveedores")
+                        true
+                    }
+                    else -> false
                 }
-                R.id.btnProviders -> {
-                    replaceFragment(ProviderFragment(),"Proveedores")
-                    true
-
-                }
-                else -> false
+            } else {
+                true
             }
         }
 
@@ -192,6 +201,8 @@ class MainMenu : AppCompatActivity(){
     }
 
     fun replaceFragment(fragment: Fragment, greetingMessage: String? = null) {
+        isNavigating = true
+
         val fragmentTag = fragment.javaClass.simpleName
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
@@ -205,6 +216,30 @@ class MainMenu : AppCompatActivity(){
 
         fragmentTransaction.commit()
 
+        val bnvMenu = binding.root.findViewById<BottomNavigationView>(R.id.bnvMenu)
+        when (fragment) {
+            is MenuMainFragment -> {
+                bnvMenu.menu.setGroupCheckable(0, true, true)
+                val menuItem = bnvMenu.menu.findItem(R.id.btnHome)
+                menuItem?.isChecked = true
+            }
+            is ProviderFragment -> {
+                bnvMenu.menu.setGroupCheckable(0, true, true)
+                val menuItem = bnvMenu.menu.findItem(R.id.btnProviders)
+                menuItem?.isChecked = true
+            }
+            is InventoryFragment -> {
+                bnvMenu.menu.setGroupCheckable(0, false, false)
+                bnvMenu.menu.forEach { item -> item.isChecked = false }
+                bnvMenu.menu.setGroupCheckable(0, true, true)
+            }
+            else -> {
+                bnvMenu.menu.setGroupCheckable(0, false, false)
+                bnvMenu.menu.forEach { item -> item.isChecked = false }
+                bnvMenu.menu.setGroupCheckable(0, true, true)
+            }
+        }
+
         val headerText = greetingMessage ?: when (fragment) {
             is MenuMainFragment -> getString(R.string.greetings, userViewModel.userData.value?.name)
             is ProviderFragment -> "Proveedores"
@@ -214,10 +249,13 @@ class MainMenu : AppCompatActivity(){
             else -> binding.txtActivityWave.text.toString()
         }
         binding.txtActivityWave.text = headerText
+
+        isNavigating = false
     }
 
     private fun initVisibility(){
         binding.loadingOverlay.visibility = View.VISIBLE
+        binding.txtActivityWave.visibility = View.GONE
     }
 
     fun refreshUserData() {
@@ -227,40 +265,12 @@ class MainMenu : AppCompatActivity(){
         }
     }
 
-    private fun updateHeaderTextForCurrentFragment() {
-
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fcvContent)
-
-        Log.d("Navigation", "Current fragment: ${currentFragment?.javaClass?.simpleName}")
-
-        val headerText = when (currentFragment) {
-            is MenuMainFragment -> {
-                val greeting = getString(R.string.greetings, userViewModel.userData.value?.name)
-                Log.d("Navigation", "Setting greeting: $greeting")
-                greeting
-            }
-            is ProviderFragment -> "Proveedores"
-            is InventoryFragment -> "Inventario"
-            is UserProfileFragment -> "Perfil"
-            is AboutUsFragment -> "Acerca de nosotros"
-            else -> {
-                val defaultGreeting = getString(R.string.greetings, userViewModel.userData.value?.name)
-                Log.d("Navigation", "Using default greeting: $defaultGreeting")
-                defaultGreeting
-            }
-        }
-
-        binding.txtActivityWave.text = headerText
-    }
-
     fun navigateBack() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             val backStackListener = object : FragmentManager.OnBackStackChangedListener {
                 override fun onBackStackChanged() {
                     binding.root.post {
                         val currentFragment = supportFragmentManager.findFragmentById(R.id.fcvContent)
-                        Log.d("Navigation", "Fragment después de pop: ${currentFragment?.javaClass?.simpleName}")
-
                         val headerText = when (currentFragment) {
                             is MenuMainFragment -> getString(R.string.greetings, userViewModel.userData.value?.name)
                             is ProviderFragment -> "Proveedores"

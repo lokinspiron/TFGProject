@@ -15,12 +15,15 @@ import com.inventory.tfgproject.view.MainMenu
 import com.inventory.tfgproject.view.ProductViewFragment
 
 class ProductLowAdapter(
-    private val emptyStateContainer: View?,
-    private val recyclerView: RecyclerView?,
-    private val loadingProgressBar: View?
-) : RecyclerView.Adapter<ProductLowAdapter.ProductLowViewHolder>() {
-
-    private var products: List<Product> = listOf()
+    emptyStateContainer: View?,
+    recyclerView: RecyclerView?,
+    loadingProgressBar: View?
+) : BaseListAdapter<Product>(
+    emptyStateContainer,
+    recyclerView,
+    loadingProgressBar,
+    "No hay productos con stock bajo"
+) {
     private val LOW_STOCK_THRESHOLD = 5
 
     inner class ProductLowViewHolder(private val binding: ItemLowstockProductBinding) :
@@ -50,40 +53,18 @@ class ProductLowAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductLowViewHolder {
-        val binding = ItemLowstockProductBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return ProductLowViewHolder(
+            ItemLowstockProductBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         )
-        return ProductLowViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ProductLowViewHolder, position: Int) {
-        holder.bind(products[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as ProductLowViewHolder).bind(items[position])
     }
 
-    override fun getItemCount(): Int = products.size
-
-    fun updateProducts(newProducts: List<Product>) {
-        products = newProducts
-        notifyDataSetChanged()
-        Log.d("ProductLowAdapter", "Updated adapter with ${products.size} products")
-    }
-
-    private fun updateEmptyState(isEmpty: Boolean) {
-        loadingProgressBar?.visibility = View.GONE
-
-        emptyStateContainer?.let { container ->
-            container.visibility = if (isEmpty) View.VISIBLE else View.GONE
-            container.findViewById<TextView>(R.id.tvEmptyState)?.apply {
-                text = "No hay productos con stock bajo"
-                visibility = if (isEmpty) View.VISIBLE else View.GONE
-            }
-            container.findViewById<ImageView>(R.id.ivEmptyState)?.visibility =
-                if (isEmpty) View.VISIBLE else View.GONE
-        }
-
-        recyclerView?.visibility = if (isEmpty) View.GONE else View.VISIBLE
-    }
 }

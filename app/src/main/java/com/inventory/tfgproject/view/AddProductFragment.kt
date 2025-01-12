@@ -43,13 +43,11 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
-
 class AddProductFragment() : Fragment() {
 
     var _binding: FragmentAddProductBinding? = null
     val binding get() = _binding!!
 
-    @VisibleForTesting
     val productViewModel: ProductViewModel by viewModels {
         customViewModelFactory ?: ProductViewModelFactory(ProductRepository())
     }
@@ -65,15 +63,6 @@ class AddProductFragment() : Fragment() {
         uploadProfilePicture(uri)
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            //initBarcodeScanner()
-        } else {
-            toast("Se requiere permiso de cámara para escanear códigos de barras", LENGTH_SHORT)
-        }
-    }
 
     companion object {
         private const val CAMERA_PERMISSION_REQUEST_CODE = 100
@@ -114,35 +103,12 @@ class AddProductFragment() : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        binding.btnBarcodeScan.setOnClickListener {
-            requestCameraPermission()
-        }
-    }
-
-    private fun requestCameraPermission() {
-        when {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                Log.d("CameraPermission", "Permission already granted")
-                initBarcodeScanner()
-            }
-            shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA) -> {
-                toast("Se requiere permiso de cámara para escanear códigos de barras", LENGTH_SHORT)
-                requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
-            }
-            else -> {
-                requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
-            }
-        }
     }
 
 
-    fun saveProduct() {
+    private fun saveProduct() {
         if (validateInputs()) {
             val name = binding.edtNameProductAdd.text.toString()
-            val barcode = binding.edtBarcodeProductAdd.text.toString()
             val stock = binding.edtQuantityProductAdd.text.toString().toIntOrNull() ?: 0
             val weightValue = binding.edtWeightProductAdd.text.toString().toDoubleOrNull() ?: 0.0
             val priceValue = binding.edtPriceProductAdd.text.toString().toDoubleOrNull() ?: 0.0
@@ -162,7 +128,6 @@ class AddProductFragment() : Fragment() {
 
             val product = Product(
                 name = name,
-                barcode = barcode,
                 stock = stock,
                 weight = weightValue,
                 weightUnit = weightUnit,
@@ -214,11 +179,10 @@ class AddProductFragment() : Fragment() {
         return isValid
     }
 
-    fun clearForm() {
+    private fun clearForm() {
         defaultPictureUrl = "https://firebasestorage.googleapis.com/v0/b/d-stock-01.firebasestorage.app/o/default%2Flogo_dstock.png?alt=media&token=afc390aa-dc96-42a5-b96f-1f85c5effa83"
 
         binding.edtNameProductAdd.text?.clear()
-        binding.edtBarcodeProductAdd.text?.clear()
         binding.edtQuantityProductAdd.text?.clear()
         binding.edtWeightProductAdd.text?.clear()
         binding.edtPriceProductAdd.text?.clear()
@@ -448,7 +412,11 @@ class AddProductFragment() : Fragment() {
                 defaultPictureRef.downloadUrl
             }.addOnSuccessListener { downloadUri ->
                 defaultPictureUrl = downloadUri.toString()
-                Glide.with(requireContext()).load(uri).into(binding.imgProduct)
+                if (isAdded && context != null) {
+                    Glide.with(requireContext())
+                        .load(uri)
+                        .into(binding.imgProduct)
+                }
                 toast("Imagen subida exitosamente", LENGTH_SHORT)
             }.addOnFailureListener { e ->
                 Log.e("Upload", "Error específico: ${e.message}", e)
@@ -460,37 +428,6 @@ class AddProductFragment() : Fragment() {
         }
     }
 
-    @androidx.annotation.OptIn(ExperimentalGetImage::class)
-    private fun initBarcodeScanner() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-
-        cameraProviderFuture.addListener({
-            try {
-                val cameraProvider = cameraProviderFuture.get(20, TimeUnit.SECONDS)
-                cameraProvider.unbindAll()
-
-                val preview = Preview.Builder()
-                    .setTargetAspectRatio(AspectRatio.RATIO_16_9)
-                    .build()
-
-                val cameraSelector = CameraSelector.Builder()
-                    .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                    .build()
-
-                cameraProvider.bindToLifecycle(
-                    viewLifecycleOwner,
-                    cameraSelector,
-                    preview.also { it.surfaceProvider = binding.previewView.surfaceProvider }
-                )
-            } catch (e: TimeoutException) {
-                Log.e("CameraX", "Timeout al inicializar la cámara", e)
-                toast("La cámara tardó demasiado en inicializar", LENGTH_SHORT)
-            } catch (e: Exception) {
-                Log.e("CameraX", "Error al inicializar la cámara", e)
-                toast("Error al inicializar la cámara", LENGTH_SHORT)
-            }
-        }, ContextCompat.getMainExecutor(requireContext()))
-    }
 
     override fun onDestroyView() {
         try {

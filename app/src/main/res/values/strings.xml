@@ -45,6 +45,7 @@
     </string>
     <string name="email" font="@font/convergence">Email</string>
     <string name="password" font="@font/convergence">Contraseña</string>
+    <string name="login" font="@font/convergence">Iniciar Sesión</string>
     <string name="surname" font="@font/convergence">Apellido(s)</string>
     <string name="name" font="@font/convergence">Nombre(s)</string>
     <string name="phone" font="@font/convergence">Movil</string>
@@ -61,7 +62,7 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="navigation_drawer_home">Menú Principal</string>
     <string name="navigation_drawer_scan">Escaneo</string>
-    <string name="navigation_drawer_settings">Ajustes</string>
+    <string name="navigation_drawer_profile">Perfil</string>
     <string name="navigation_drawer_about">Acerca de nosotros</string>
     <string name="navigation_drawer_share">Compartir</string>
     <string name="navigation_drawer_logout">Cerrar sesión</string>
@@ -176,7 +177,6 @@
     <string name="look_product">Ver producto</string>
 
     <string name="name_provider">Nombre del proveedor</string>
-
     <string name="product_price_formats">%.1f</string>
     <string name="product_weight_formats">%.1f</string>
     <string name="product_quantity_formats">%.1$d</string>
@@ -199,11 +199,19 @@
 
     <string name="Orders">Pedidos</string>
 
+    <string name="Providers">Proveedores</string>
+
     <string name="State">Estado</string>
 
     <string name="Look_orders">Ver pedidos</string>
 
+    <string name="Look_providers">Ver proveedores</string>
+
+    <string name="Look_products">Ver productos</string>
+
     <string name="no_orders">No hay pedidos pendientes</string>
+
+    <string name="no_providers">No hay proveedores pendientes</string>
 
     <string name="no_data">Sin datos</string>
 

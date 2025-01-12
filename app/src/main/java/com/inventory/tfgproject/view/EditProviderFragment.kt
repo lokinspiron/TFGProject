@@ -185,9 +185,11 @@ class EditProviderFragment : Fragment() {
             .addOnSuccessListener {
                 pictureRef.downloadUrl.addOnSuccessListener { downloadUri ->
                     defaultPictureUrl = downloadUri.toString()
-                    Glide.with(requireContext())
-                        .load(uri)
-                        .into(binding.imgProvider)
+                    if (isAdded && context != null) {
+                        Glide.with(requireContext())
+                            .load(uri)
+                            .into(binding.imgProvider)
+                    }
                 }
             }
             .addOnFailureListener { exception ->

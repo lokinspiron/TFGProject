@@ -162,9 +162,11 @@ class AddProviderFragment : Fragment() {
                 defaultPictureRef.downloadUrl.addOnSuccessListener { downloadUri ->
                     defaultProviderUrl = downloadUri.toString()
 
-                    Glide.with(requireContext())
-                        .load(uri)
-                        .into(binding.imgProvider)
+                    if (isAdded && context != null) {
+                        Glide.with(requireContext())
+                            .load(uri)
+                            .into(binding.imgProvider)
+                    }
 
                     Log.d("Firebase", "Foto subida correctamente: $defaultProviderUrl")
                     toast("Foto de perfil subida con éxito", LENGTH_SHORT)

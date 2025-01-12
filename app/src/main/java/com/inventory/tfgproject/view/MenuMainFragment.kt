@@ -20,17 +20,25 @@ import com.inventory.tfgproject.adapter.ProductLowAdapter
 import com.inventory.tfgproject.repository.ProductRepository
 import com.inventory.tfgproject.modelFactory.ProductViewModelFactory
 import com.inventory.tfgproject.R
+import com.inventory.tfgproject.adapter.BaseListAdapter
+import com.inventory.tfgproject.adapter.ProvidersMenuAdapter
 import com.inventory.tfgproject.databinding.EmptyStateBinding
 import com.inventory.tfgproject.databinding.FragmentMenuMainBinding
+import com.inventory.tfgproject.model.OrderWithProduct
+import com.inventory.tfgproject.model.Product
+import com.inventory.tfgproject.model.Providers
+import com.inventory.tfgproject.modelFactory.ProviderViewModelFactory
+import com.inventory.tfgproject.repository.ProviderRepository
 import com.inventory.tfgproject.viewmodel.OrderViewModel
 import com.inventory.tfgproject.viewmodel.ProductViewModel
+import com.inventory.tfgproject.viewmodel.ProviderViewModel
 
 
 class MenuMainFragment : Fragment() {
     private lateinit var binding : FragmentMenuMainBinding
-    private lateinit var emptyStateBinding: EmptyStateBinding
-    private lateinit var orderAdapter: OrderAdapter
-    private lateinit var productLowAdapter : ProductLowAdapter
+    private lateinit var orderAdapter: BaseListAdapter<OrderWithProduct>
+    private lateinit var productLowAdapter: BaseListAdapter<Product>
+    private lateinit var providerMenuAdapter: BaseListAdapter<Providers>
 
     private val orderViewModel: OrderViewModel by viewModels{
         OrderViewModelFactory(OrderRepository())
@@ -38,6 +46,12 @@ class MenuMainFragment : Fragment() {
     private val productViewModel: ProductViewModel by viewModels{
         ProductViewModelFactory(ProductRepository())
     }
+    private val providerViewModel: ProviderViewModel by viewModels{
+        ProviderViewModelFactory(ProviderRepository())
+    }
+
+    private var bottomNav: BottomNavigationView? = null
+
 
     private var maxOrders = 5
 
@@ -49,58 +63,123 @@ class MenuMainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMenuMainBinding.inflate(inflater,container,false)
-        emptyStateBinding = EmptyStateBinding.bind(binding.root.findViewById(R.id.emptyStateContainer))
+        bottomNav = binding.root.findViewById(R.id.bnvMenu)
         initListeners()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupRecyclerView()
 
-        // Estado inicial de carga
+        handleOrdersVisibilityStates(isLoading = true, isEmpty = true)
         handleProductsVisibilityStates(isLoading = true, isEmpty = true)
+        handleProvidersVisibilityStates(isLoading = true, isEmpty = true)
 
-        // Observadores
-        observeLoadingStateProducts()
-        observeProducts()
         observeLoadingState()
-        observeOrders()
+        observeLoadingStateProducts()
+        observeLoadingStateProviders()
 
-        // Cargar datos
-        refreshOrders()
+        observeOrders()
+        observeProducts()
+        observeProviders()
+
+        refreshMenu()
+    }
+
+    private fun setupRecyclerView() {
+        orderAdapter = OrderAdapter(
+            emptyStateContainer = binding.emptyStateOrders.root,
+            recyclerView = binding.rvOrders,
+            loadingProgressBar = binding.loadingProgressBar,
+            maxItems = maxOrders
+        )
+        binding.rvOrders.apply{
+            adapter = orderAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
+
+        productLowAdapter = ProductLowAdapter(
+            emptyStateContainer = binding.emptyStateLowStock.root,
+            recyclerView = binding.rvLowStockProducts,
+            loadingProgressBar = binding.loadingProgressBarLowStock
+        )
+        binding.rvLowStockProducts.apply {
+            adapter = productLowAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
+
+        providerMenuAdapter = ProvidersMenuAdapter(
+            emptyStateContainer = binding.emptyStateProviders.root,
+            recyclerView = binding.rvProvidersMenu,
+            loadingProgressBar = binding.loadingProgressBarProviders
+        )
+        binding.rvProvidersMenu.apply{
+            adapter = providerMenuAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 
     private fun observeLoadingState() {
         orderViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            handleVisibilityStates(isLoading, orderViewModel.ordersWithProducts.value?.isEmpty() ?: true)
+            handleOrdersVisibilityStates(isLoading, orderViewModel.ordersWithProducts.value?.isEmpty() ?: true)
         }
 
     }
     private fun observeLoadingStateProducts() {
         productViewModel.isLoadingProducts.observe(viewLifecycleOwner) { isLoading ->
-            Log.d("MenuMainFragment", "Loading state changed: $isLoading")
-            val isEmpty = productViewModel.products.value?.filter { it.stock <= 5 }?.isEmpty() ?: true
+            val isEmpty = productViewModel.products.value?.none { it.stock <= 5 } ?: true
             handleProductsVisibilityStates(isLoading, isEmpty)
         }
     }
 
-    private fun handleProductsVisibilityStates(isLoading: Boolean, isEmpty: Boolean) {
-        Log.d("MenuMainFragment", "Handling visibility - Loading: $isLoading, Empty: $isEmpty")
+    private fun observeOrders() {
+        orderViewModel.ordersWithProducts.observe(viewLifecycleOwner) { orders ->
+            val filteredOrders = orders.filter { it.order.estado.lowercase() == "pendiente" }
+                .take(maxOrders)
+            orderAdapter.updateItems(filteredOrders)
+            handleOrdersVisibilityStates(
+                isLoading = false,
+                isEmpty = filteredOrders.isEmpty()
+            )
+        }
+    }
 
+    private fun observeProducts() {
+        productViewModel.products.observe(viewLifecycleOwner) { products ->
+            productLowAdapter.updateItems(products ?: emptyList()) {
+                val isLowStock = it.stock <= 5
+                isLowStock
+            }
+        }
+    }
+
+    private fun observeProviders() {
+        providerViewModel.providers.observe(viewLifecycleOwner) { providers ->
+            providerMenuAdapter.updateItems(providers)
+            handleProvidersVisibilityStates(
+                isLoading = false,
+                isEmpty = providers.isEmpty()
+            )
+        }
+    }
+
+    private fun observeLoadingStateProviders() {
+        providerViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            val isEmpty = providerViewModel.providers.value?.isEmpty() ?: true
+            handleProvidersVisibilityStates(isLoading, isEmpty)
+        }
+    }
+
+    private fun handleProductsVisibilityStates(isLoading: Boolean, isEmpty: Boolean) {
         binding.apply {
-            // Primero manejamos el loading
             loadingProgressBarLowStock.visibility = if (isLoading) View.VISIBLE else View.GONE
 
-            // El contenedor siempre visible
             lowStockContainer.visibility = View.VISIBLE
 
-            // Manejamos la visibilidad de la lista y el empty state
             if (!isLoading) {
-                // Si no está cargando, mostramos uno u otro
                 rvLowStockProducts.visibility = if (isEmpty) View.GONE else View.VISIBLE
                 emptyStateLowStock.root.visibility = if (isEmpty) View.VISIBLE else View.GONE
                 emptyStateLowStock.tvEmptyState.apply {
@@ -108,151 +187,85 @@ class MenuMainFragment : Fragment() {
                     visibility = if (isEmpty) View.VISIBLE else View.GONE
                 }
             } else {
-                // Durante la carga, ocultamos ambos
                 rvLowStockProducts.visibility = View.GONE
                 emptyStateLowStock.root.visibility = View.GONE
             }
         }
     }
 
-
-    private fun observeOrders() {
-        orderViewModel.ordersWithProducts.observe(viewLifecycleOwner) { orders ->
-            Log.d("MenuMainFragment", "Received orders: ${orders.size}")
-            val pendingOrders = orders.filter { it.order.estado?.lowercase() == "pendiente" }
-            orderAdapter.setOrders(pendingOrders)
-
-        }
-    }
-
-    private fun observeProducts() {
-        productViewModel.products.observe(viewLifecycleOwner) { products ->
-            Log.d("MenuMainFragment", "Products observer triggered with ${products?.size} products")
-
-            val lowStockProducts = products?.filter { it.stock <= 5 } ?: emptyList()
-            Log.d("MenuMainFragment", "Low stock products: ${lowStockProducts.size}")
-
-            productLowAdapter.updateProducts(lowStockProducts)
-
-            // Actualizamos el estado de visibilidad
-            handleProductsVisibilityStates(
-                isLoading = false,
-                isEmpty = lowStockProducts.isEmpty()
-            )
-        }
-    }
-
-
-    private fun updateVisibilities(isLoading: Boolean, hasPendingOrders: Boolean) {
-        binding.loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    private fun handleVisibilityStates(isLoading: Boolean, isEmpty: Boolean) {
-        binding.loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    private fun updateEmptyState(isEmpty: Boolean) {
+    private fun handleOrdersVisibilityStates(isLoading: Boolean, isEmpty: Boolean) {
         binding.apply {
-            val isLoading = orderViewModel.isLoading.value ?: false
+            loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
 
-            if (isLoading) {
-                loadingProgressBar.visibility = View.VISIBLE
-                root.findViewById<ConstraintLayout>(R.id.emptyStateContainer).visibility = View.GONE
+            if (!isLoading) {
+                rvOrders.visibility = if (isEmpty) View.GONE else View.VISIBLE
+                emptyStateOrders.root.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                emptyStateOrders.tvEmptyState.apply {
+                    text = "No hay pedidos pendientes"
+                    visibility = if (isEmpty) View.VISIBLE else View.GONE
+                }
+            } else {
                 rvOrders.visibility = View.GONE
-                return@apply
+                emptyStateOrders.root.visibility = View.GONE
             }
-
-            loadingProgressBar.visibility = View.GONE
-            root.findViewById<ConstraintLayout>(R.id.emptyStateContainer).visibility =
-                if (isEmpty) View.VISIBLE else View.GONE
-            rvOrders.visibility = if (isEmpty) View.GONE else View.VISIBLE
         }
     }
 
-    private fun setupRecyclerView() {
-        orderAdapter = OrderAdapter(
-            orders = mutableListOf(),
-            maxItems = maxOrders,
-            emptyStateBinding = emptyStateBinding,
-            recyclerView = binding.rvOrders
-        )
-        binding.rvOrders.apply {
-            adapter = orderAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
+    private fun handleProvidersVisibilityStates(isLoading: Boolean, isEmpty: Boolean) {
+        binding.apply {
+            loadingProgressBarProviders.visibility = if (isLoading) View.VISIBLE else View.GONE
 
-        val emptyStateLowStock = binding.emptyStateLowStock.root
-        productLowAdapter = ProductLowAdapter(
-            emptyStateContainer = emptyStateLowStock,
-            recyclerView = binding.rvLowStockProducts,
-            loadingProgressBar = binding.loadingProgressBarLowStock
-        )
+            providersContainer.visibility = View.VISIBLE
 
-        binding.rvLowStockProducts.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = productLowAdapter
+            if (!isLoading) {
+                rvProvidersMenu.visibility = if (isEmpty) View.GONE else View.VISIBLE
+                emptyStateProviders.root.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                emptyStateProviders.tvEmptyState.apply {
+                    text = "No hay proveedores disponibles"
+                    visibility = if (isEmpty) View.VISIBLE else View.GONE
+                }
+            } else {
+                rvProvidersMenu.visibility = View.GONE
+                emptyStateProviders.root.visibility = View.GONE
+            }
         }
     }
-
 
     private fun initListeners() {
-        val btnDrawerToggle= binding.root.findViewById<ImageButton>(R.id.btnDrawerToggle)
+        val btnDrawerToggle = binding.root.findViewById<ImageButton>(R.id.btnDrawerToggle)
         val drawerlt = binding.root.findViewById<DrawerLayout>(R.id.drawerlt)
         btnDrawerToggle.setOnClickListener {
             drawerlt.openDrawer(GravityCompat.START)
-        }
-
-        val bnvMenu = binding.root.findViewById<BottomNavigationView>(R.id.bnvMenu)
-        bnvMenu.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.btnHome -> {
-                    (activity as? MainMenu)?.replaceFragment(InventoryFragment())
-                    true
-                }
-                R.id.btnProviders -> {
-                    (activity as? MainMenu)?.replaceFragment(ProviderFragment())
-                    true
-                }
-                else -> false
-            }
         }
 
         binding.btnMoreOrders.setOnClickListener {
             (activity as? MainMenu)?.replaceFragment(OrdersFragment(), "Pedidos")
         }
 
-    }
-
-    private fun replaceFragment(fragment: Fragment, greetingMessage: String?=null)  {
-        val fragmentTag = fragment.javaClass.simpleName
-
-        val fragmentTransaction = childFragmentManager.beginTransaction()
-
-        val existingFragment = childFragmentManager.findFragmentByTag(fragmentTag)
-
-        if (existingFragment == null) {
-            fragmentTransaction.replace(R.id.fcvContent, fragment, fragmentTag)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
-        } else {
-            fragmentTransaction.show(existingFragment)
-            fragmentTransaction.commit()
+        binding.btnMoreProviders.setOnClickListener {
+            (activity as? MainMenu)?.replaceFragment(ProviderFragment(), "Proveedores")
         }
 
-        greetingMessage?.let {
-            binding.txtWave.text = it
+        binding.btnMoreProducts.setOnClickListener {
+            val fragment = InventoryMenuFragment().apply {
+                arguments = Bundle().apply {
+                    putInt("category_id", 0)
+                    putString("category_name", "Todo")
+                }
+            }
+            (activity as? MainMenu)?.replaceFragment(fragment, "Inventario")
         }
     }
 
-    private fun refreshOrders() {
-        Log.d("MenuMainFragment", "Refreshing orders")
+    private fun refreshMenu() {
         orderViewModel.loadOrders()
         productViewModel.loadProducts()
+        providerViewModel.loadProviders()
     }
 
     override fun onResume() {
         super.onResume()
-        refreshOrders()
+        refreshMenu()
     }
 
 }

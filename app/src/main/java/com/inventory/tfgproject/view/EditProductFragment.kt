@@ -474,14 +474,12 @@ class EditProductFragment : Fragment() {
                 defaultPictureRef.downloadUrl.addOnSuccessListener { downloadUri ->
                     defaultPictureUrl = downloadUri.toString()
 
-                    if (isAdded) {
+                    if (isAdded && context != null) {
                         Glide.with(requireContext())
                             .load(uri)
                             .into(binding.imgProduct)
-
-                        Log.d("Firebase", "Imagen subida correctamente: $defaultPictureUrl")
-                        toast("Imagen subida con éxito", LENGTH_SHORT)
                     }
+                    toast("Imagen subidad correctamente")
                 }
             }
             .addOnFailureListener { exception ->
